@@ -1,0 +1,36 @@
+﻿<div style="position:absolute; top:0; left:0; right:0; bottom:0; width:100%">
+    <div set-height-dock style="position:absolute; top:0; left:0; right:0; bottom:50px;">
+        <div ui-scroll-viewport ng-style="setDockData.Style">
+            <div ui-scroll="item in commentsDataSource" adapter="commentsAdapter" buffer-size="20">
+                <div style="margin: 0; border: 5px solid rgba(28, 30, 34, 0.00); border-left: 2px; border-right: 0">
+                    <section id="wrapperMain" style="display:table; width:calc(100% - 10px); margin-left:10px;">
+                        <div style="background-color:#2e3338; display: table-cell; min-width:50px; width:50px;">
+                            <h1 style="margin-left:25%; margin-right:25%; margin-top:5px; max-height:20px; ">{{item.UserName[0]}}</h1>
+                        </div>
+                        <div style="display: table-cell; vertical-align:top;">
+                            <section style="display:table; width:95%; margin-top:3px;  margin-left:5px;">
+                                <div style="display:table-row">
+                                    <div style="display:table-cell"><p><span style=" font-weight: bold;">{{item.UserName}} </span> <span style="margin-left:10px; opacity: 0.5;">{{item.Date}}</span></p>   </div>
+                                </div>
+                                <div style="border-style: none; resize: none; width: 100%;display:table-row;">
+                                    <p>
+                                        {{item.Content}}
+                                    </p>
+                                </div>
+                            </section>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div style=" width:100%; position:absolute; bottom:0">
+
+    <div style="margin-top: 10px; margin-left: 10px; margin-right: 10px; margin-bottom: 10px;">
+        <textarea style="width: 100%; border-style:none; max-height:150px; height:30px" msd-elastic ng-model="lowerViewModel.comment"></textarea>
+        <!--<button class="btn btn-success btn-xs" style="width:100px; margin-top:-12px;" ng-click="clicked()"><span style="font-size:large;">Odeslat</span></button>-->
+    </div>
+</div>
+

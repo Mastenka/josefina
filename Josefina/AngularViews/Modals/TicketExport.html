@@ -1,0 +1,44 @@
+﻿<div class="modal-header">
+    <h3 class="modal-title">
+        {{exportModal.header}}
+    </h3>
+</div>
+
+<form name="exportForm" ng-submit="submitForm()" novalidate>
+    <div class="modal-body">
+        <!-- NAME -->
+        <div class="form-group">
+            <div class="row" style="padding-top:5px">
+                <div class="col-md-6"><label>Jméno</label></div>
+                <div class="col-md-6">
+                    <input type="text" name="name" class="form-control" ng-model="exportModal.name" required>
+                    <span ng-show="exportForm.name.$error.required && exportForm.name.$dirty" class="help-block text-danger">Pole je nutné vyplnit</span>
+                </div>
+            </div>
+            <div class="row" style="padding-top:5px">
+                <div class="col-md-6">
+                    <label>Cena vstupenky</label>
+                </div>
+                <div class="col-md-6">
+                    <input type="text" ng-model="exportModal.price" name="price" class="form-control"
+                           ng-pattern="/^[0-9]{1,7}$/" required>
+                    <span ng-show="exportForm.price.$error.pattern && exportForm.price.$dirty" class="help-block text-danger">Cena musí být nezáporné celé číslo</span>
+                    <span ng-show="exportForm.price.$error.required && exportForm.price.$dirty" class="help-block text-danger">Pole je nutné vyplnit</span>
+                </div>
+            </div>
+            <div class="row" style="padding-top:5px">
+                <div class="col-md-6"><label>Celkový počet vstupenek</label></div>
+                <div class="col-md-6">
+                    <input type="text" ng-model="exportModal.capacity" name="capacity" class="form-control"
+                           ng-pattern="/^[0-9]{1,7}$/" required>
+                    <span ng-show="exportForm.capacity.$error.pattern && exportForm.capacity.$dirty" class="help-block text-danger">Počet musí být nezáporné celé číslo</span>
+                    <span ng-show="exportForm.capacity.$error.required && exportForm.capacity.$dirty" class="help-block text-danger">Pole je nutné vyplnit</span>
+                </div>
+            </div>         
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-primary" ng-disabled="exportForm.$invalid">{{exportModal.button}}</button>
+        <button class="btn btn-warning" ng-click="cancel()">Zpět</button>
+    </div>
+</form>

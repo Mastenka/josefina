@@ -1,0 +1,139 @@
+﻿<div class="col-lg-8">
+    <form class="form-horizontal" name="settingsBankProxyForm" novalidate>
+        <fieldset>
+            <h1 class="col-lg-offset-2">Bankovní spojení</h1>
+
+            <!--Číslo účtu-->
+            <div class="form-group">
+                <label for="accountNumber" class="col-lg-2 control-label">Číslo účtu</label>
+                <div class="col-lg-3">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <input type="text" name="accountNumber" class="form-control" ng-model="settingsBankModel.AccountNumber" disabled>
+                        </div>
+                        <div class="col-md-1">
+                            <h2 style="width:20px; margin-top:-1px;">/</h2>
+                        </div>
+                        <div class="col-md-4">
+                            <input type="text" class="form-control" ng-model="settingsBankModel.BankCode" disabled>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--IBAN-->
+            <div class="form-group">
+                <label for="iban" class="col-lg-2 control-label">IBAN</label>
+                <div class="col-lg-10">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <input type="text" name="iban" class="form-control" ng-model="settingsBankModel.IBAN" disabled>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--SWIFT/BIC-->
+            <div class="form-group">
+                <label for="bic" class="col-lg-2 control-label">SWIFT/BIC</label>
+                <div class="col-lg-10">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <input type="text" name="bic" class="form-control" ng-model="settingsBankModel.BIC" disabled>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--URL-->
+            <div class="form-group">
+                <label for="inputEmail" class="col-lg-2 control-label">Adresa pro prodej vstupenek</label>
+                <div class="col-lg-10">
+                    <input type="text" name="projectURL" class="form-control" style="min-width:720px" ng-model="settingsBankModel.ProjectURL" readonly>
+                </div>
+            </div>
+
+            <!--TOKEN-->
+            <div class="form-group">
+                <label for="inputEmail" class="col-lg-2 control-label">FIO API Token</label>
+                <div class="col-lg-10">
+                    <input type="text" ng-minlength="64" ng-maxlength="64" name="Token" style="min-width:720px" class="form-control" ng-model="settingsBankModel.Token" required>
+                    <span ng-show="settingsBankProxyForm.Token.$error.required && settingsBankProxyForm.Token.$dirty" class="help-block text-danger">Pole je nutné vyplnit</span>
+                    <span ng-show="settingsBankProxyForm.Token.$error.minlength && settingsBankProxyForm.Token.$dirty" class="help-block text-danger">Neplatný formát</span>
+                    <span ng-show="settingsBankProxyForm.Token.$error.maxlength && settingsBankProxyForm.Token.$dirty" class="help-block text-danger">Neplatný formát</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-lg-offset-2 col-lg-10">
+                    <div ng-show="showBankRegistration">
+                        <div class="row">
+                            <button class="btn btn-primary btn-success" ng-click="SubmitBankForm()">Registrovat</button>
+                        </div>
+                    </div>
+                    <div ng-show="showBankRegistrationInProgress">
+                        <div class="row">
+                            <h3 class="text-success">Probíhá komunikace s bankou.</h3>
+                        </div>
+                        <div class="row">
+                            <p class="text-success">Neobnovujte prosím stránku.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+    </form>
+</div>
+<div class="col-lg-4">
+    <form class="form-horizontal" name="updateTransactionsForm">
+        <fieldset>
+            <h1 class="col-lg-12">Aktulizace plateb</h1>
+
+            <div class="form-group col-lg-12">
+                <div class="radio">
+                    <label><input type="radio" name="updateTransactionsRadio" value="false" ng-model="updateTransactions.Selected">Od poslední aktulizace</label>
+                </div>
+                <div class="radio">
+                    <label><input type="radio" name="updateTransactionsRadio" value="true" ng-model="updateTransactions.Selected">Od zvoleného data</label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="loadFrom" class="col-lg-2 control-label">Datum od</label>
+                <div class="col-lg-10">
+                    <input type="text" class="form-control"
+                           ng-required="updateTransactions.Selected == 'true'"
+                           ng-show="true"
+                           ng-pattern="(0[1-9]|[12][0-9]|3[01])\.(0[1-9]|1[012])\.(19|20)\d\d"
+                           name="loadFrom"
+                           starting-day="1"
+                           current-text="Dnes"
+                           clear-text="Smazat"
+                           close-text="Potvrdit"
+                           ng-disabled="updateTransactions.Selected == 'false'"
+                           uib-datepicker-popup="dd.MM.yyyy"
+                           is-open="updateTransactions.loadFromOpen"
+                           ng-model="updateTransactions.loadFrom"
+                           ng-click="loadFromClick()" />
+                    <span ng-show="updateTransactionsForm.loadFrom.$error.pattern && updateTransactionsForm.loadFrom.$dirty" class="help-block text-danger">Akceptovaný formát: DD.MM.YYYY</span>
+                    <span ng-show="updateTransactionsForm.loadFrom.$error.required && updateTransactionsForm.loadFrom.$dirty" class="help-block text-danger">Pole je nutné vyplnit</span>
+                </div>
+            </div>
+
+
+            <div ng-show="showTransactionLoadBtn">
+                <div class="row">
+                    <button class="btn btn-primary btn-success" ng-click="UpdateTransactions()">Aktualizovat platby</button>
+                </div>
+            </div>
+            <div ng-show="showTransactionLoadMsg">
+                <div class="row">
+                    <h3 class="text-success">Probíhá komunikace s bankou.</h3>
+                </div>
+                <div class="row">
+                    <p class="text-success">Neobnovujte prosím stránku.</p>
+                </div>
+            </div>            
+        </fieldset>
+    </form>
+</div>

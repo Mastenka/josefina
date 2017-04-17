@@ -1,0 +1,107 @@
+﻿<div class="modal-header">
+    <h3 class="modal-title">
+        {{bankProxyModal.header}}
+    </h3>
+</div>
+
+<form name="bankProxyForm" ng-submit="submitForm()" novalidate>
+    <div class="modal-body">
+        <!-- NAME -->
+        <div class="form-group">
+            <div class="row" style="padding-top:5px">
+                <div class="col-md-3"><label>Bankovní spojení</label></div>
+                <div class="col-md-9">
+                    <div class="row">
+                        <div class="col-md-3">  
+                            <input type="text" name="preAccountNumber" class="form-control" ng-model="bankProxyModal.preAccountNumber" ng-pattern="/^[0-9]{1,6}$/">
+                            <span ng-show="bankProxyForm.preAccountNumber.$error.pattern && bankProxyForm.preAccountNumber.$dirty" class="help-block text-danger">Předčíslí musí být max. 6 číslic</span>
+                        </div>
+                        <div class="col-md-1">
+                            <h2 style ="width:20px; margin-top:-3px;">-</h2>
+                        </div>
+                        <div class="col-md-4">
+                            <input type="text" name="accountNumber" class="form-control" ng-model="bankProxyModal.accountNumber" ng-pattern="/^[0-9]{1,10}$/" required>
+                            <span ng-show="bankProxyForm.accountNumber.$error.pattern && bankProxyForm.accountNumber.$dirty" class="help-block text-danger">Číslo účtu musí být max. 10 číslic</span>
+                            <span ng-show="bankProxyForm.accountNumber.$error.required && bankProxyForm.accountNumber.$dirty" class="help-block text-danger">Pole je nutné vyplnit</span>
+                        </div>
+                        <div class="col-md-1">
+                            <h2 style="width:20px; margin-top:-1px;">/</h2>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="text" class="form-control" ng-model="bankProxyModal.bankCode" readonly>
+                        </div>
+                    </div>
+                  
+                </div>
+            </div>
+            <div class="row" style="padding-top:5px">
+                <div class="col-md-6">
+                    <label>Token</label>
+                </div>
+                <div class="col-md-6">
+                    <input type="text" ng-model="bankProxyModal.token" name="token" class="form-control"
+                           ng-pattern="/^.{64}$/" required>
+                    <span ng-show="bankProxyForm.token.$error.pattern && bankProxyForm.token.$dirty" class="help-block text-danger">FIO token musí obsahovat 64 znaků</span>
+                    <span ng-show="bankProxyForm.token.$error.required && bankProxyForm.token.$dirty" class="help-block text-danger">Pole je nutné vyplnit</span>
+                </div>
+            </div>
+            <div class="row" style="padding-top:5px">
+                <div class="col-md-6" style="vertical-align:central">
+                    <label>Platnost od</label>
+                </div>
+                <div class="col-md-6">
+                    <input type="text" class="form-control"
+                           ng-required="true"
+                           ng-show="true"
+                           ng-pattern="(0[1-9]|[12][0-9]|3[01])\.(0[1-9]|1[012])\.(19|20)\d\d"
+                           name="activeFrom"
+                           starting-day="1"
+                           current-text="Dnes"
+                           clear-text="Smazat"
+                           close-text="Potvrdit"
+                           uib-datepicker-popup="dd.MM.yyyy"
+                           is-open="bankProxyModal.activeFromOpen"
+                           ng-model="bankProxyModal.activeFrom"
+                           ng-click="activeFromClick()" />
+                    <span ng-show="bankProxyForm.activeFrom.$error.pattern && bankProxyForm.activeFrom.$dirty" class="help-block text-danger">Akceptovaný formát: DD.MM.YYYY</span>
+                    <span ng-show="bankProxyForm.activeFrom.$error.required && bankProxyForm.activeFrom.$dirty" class="help-block text-danger">Pole je nutné vyplnit</span>
+                </div>
+            </div>
+            <div class="row" style="padding-top:5px">
+                <div class="col-md-6" style="vertical-align:central">
+                    <label>Platnost do</label>
+                </div>
+                <div class="col-md-6">
+                    <input type="text" class="form-control"
+                           ng-required="true"
+                           ng-show="true"
+                           ng-pattern="(0[1-9]|[12][0-9]|3[01])\.(0[1-9]|1[012])\.(19|20)\d\d"
+                           name="activeTo"
+                           starting-day="1"
+                           current-text="Dnes"
+                           clear-text="Smazat"
+                           close-text="Potvrdit"
+                           uib-datepicker-popup="dd.MM.yyyy"
+                           is-open="bankProxyModal.activeToOpen"
+                           ng-model="bankProxyModal.activeTo"
+                           ng-click="activeToClick()" />
+                    <span ng-show="bankProxyForm.activeTo.$error.date  && bankProxyForm.activeTo.$dirty" class="help-block text-danger">Akceptovaný formát: DD.MM.YYYY</span>
+                    <span ng-show="bankProxyForm.activeTo.$error.required  && bankProxyForm.activeTo.$dirty" class="help-block text-danger">Pole je nutné vyplnit</span>
+                </div>
+            </div>
+        </div>
+        <span ng-show="bankProxyModal.showIntervalError" class="help-block text-danger">Platnost do musí být větší rovna platnosti od</span>
+
+
+        <!--<span ng-show="bankProxyForm.preAccountNumber.$error" class="help-block text-danger">{{bankProxyForm.preAccountNumber.$error}}</span>
+        <span ng-show="bankProxyForm.accountNumber.$error" class="help-block text-danger">{{bankProxyForm.accountNumber.$error}}</span>
+        <span ng-show="bankProxyForm.token.$error" class="help-block text-danger">{{bankProxyForm.token.$error}}</span>
+        <span ng-show="bankProxyForm.activeFrom.$error" class="help-block text-danger">{{bankProxyForm.activeFrom.$error}}</span>
+        <span ng-show="bankProxyForm.activeTo.$error" class="help-block text-danger">{{bankProxyForm.activeTo.$error}}</span>-->
+        
+    </div>
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-primary" ng-disabled="bankProxyForm.$invalid">{{bankProxyModal.button}}</button>
+        <button class="btn btn-warning" ng-click="cancel()">Zpět</button>
+    </div>
+</form>

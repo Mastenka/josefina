@@ -1,0 +1,153 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Web;
+
+namespace Josefina.Models.TicketsViewModel
+{
+    public class ShowTicketCategoriesCodeViewModel : ShowTicketCategoriesViewModel
+    {
+        [Required(ErrorMessageResourceType = typeof(Resources.GeneralResources), ErrorMessageResourceName = "ErrorRequiredField")]
+        [Display(Name = "Code")]
+        public string Code { get; set; }
+    }
+
+    public class ShowTicketCategoriesViewModel
+    {
+        [Required(ErrorMessageResourceType = typeof(Resources.GeneralResources), ErrorMessageResourceName = "ErrorRequiredField")]
+        [EmailAddress(ErrorMessageResourceType = typeof(Resources.AccountResources), ErrorMessageResourceName = "InvalidEmailError", ErrorMessage = null)]
+        [Display(Name = "Email")]
+        public string Email { get; set; }
+
+        public int ProjectID { get; set; }
+
+        public bool TicketsAvailable { get; set; }
+
+        public string ProjectName { get; set; }
+
+        public bool AfterNameSetting { get; set; }
+
+        public TicketOrderLocalization Localization { get; set; }
+
+        public List<TicketCategoryViewModel> TicketCategories { get; set; }
+    }
+
+    public class TicketOrderLocalization
+    {
+        public string TicketTypeBtn { get; set; }
+
+        public string CategoryHdr { get; set; }
+
+        public string FreeTicketsHdr { get; set; }
+
+        public string RegistrationStartHdr { get; set; }
+
+        public string EdnRegistrationHdr { get; set; }
+
+        public string TicketPriceHdr { get; set; }
+
+        public string TicketCountHdr { get; set; }
+
+        public string RegisterBtn { get; set; }
+
+        public string NoFreeTicketsMsg { get; set; }
+
+        public string Language { get; set; }
+
+        public string LanguageBtn { get; set; }
+
+        public string ChangeLangLink { get; set; }
+    }
+
+    public class TicketCategoryViewModel
+    {
+        public int TicketCategoryID { get; set; }
+
+        public string Header { get; set; }
+
+        public string Price { get; set; }
+
+        public int Capacity { get; set; }
+
+        public int AvailableCapacity { get; set; }
+
+        public string SoldFrom { get; set; }
+
+        public string SoldTo { get; set; }
+
+        public byte[] RowVersion { get; set; }
+
+        [RegularExpression("([0-9]+)", ErrorMessage = "Zadejte prosím kladné číslo")]
+        [Display(Name = "Počet vstupenek")]
+        [Required(ErrorMessageResourceType = typeof(Resources.GeneralResources), ErrorMessageResourceName = "ErrorRequiredField")]
+        [Range(0, int.MaxValue, ErrorMessage = "Zadejte prosím kladné číslo")]
+        public int Ordered { get; set; }
+
+        public TicketName[] Names { get; set; }
+    }
+
+    public class TicketName
+    {
+        [Required(ErrorMessageResourceType = typeof(Resources.GeneralResources), ErrorMessageResourceName = "ErrorRequiredField")]
+        public string Name { get; set; }
+    }
+
+    public class TicketCategoryOrderViewModel
+    {
+        public string Header { get; set; }
+
+        public int Ordered { get; set; }
+
+        public decimal TotalPrice { get; set; }
+    }
+
+    public class TicketOrderViewModel
+    {
+        public int ProjectID { get; set; } //HACK: Junktown 
+
+        public string ProjectName { get; set; }
+
+        public string AccountNumber { get; set; }
+
+        public string Email { get; set; }
+
+        public string ReservedUntil { get; set; }
+
+        public string TotalPrice { get; set; }
+
+        public long VariableSymbol { get; set; }
+
+        public List<TicketCategoryOrderViewModel> CategoryOrders { get; set; }
+
+        public string Note { get; set; }
+    }
+
+    public class TicketItemConfirmationViewModel
+    {
+        public string ProjectName { get; set; }
+
+        public string DateStart { get; set; }
+
+        public string Email { get; set; }
+
+        public string Location { get; set; }
+
+        public long VariableSymbol { get; set; }
+
+        public bool IsExport { get; set; }
+
+        public string Note { get; set; }
+    }
+
+    public class TicketOrderCanceledViewModel
+    {
+        public string ProjectName { get; set; }
+
+        public string ReserverdUntil { get; set; }
+
+        public string Email { get; set; }
+
+        public long VariableSymbol { get; set; }
+    }
+}

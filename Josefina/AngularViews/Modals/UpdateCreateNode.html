@@ -1,0 +1,20 @@
+﻿<div class="modal-header">
+    <h3 class="modal-title">
+        {{folderModal.header}}
+    </h3>
+</div>
+
+<form name="form.userForm" ng-submit="submitForm()" novalidate>
+    <div class="modal-body">
+        <!-- NAME -->
+        <div class="form-group">
+            <label>Jméno</label>
+            <input type="text" name="name" class="form-control" ng-model="folderModal.name" required>
+            <p ng-show="form.userForm.name.$invalid && !form.userForm.name.$pristine" class="help-block text-danger" id="errorLabel">Pole "Jméno" je nutné vyplnit</p>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-primary" ng-disabled="form.userForm.$invalid">{{folderModal.button}}</button>
+        <button class="btn btn-warning" ng-click="cancel()">Zpět</button>
+    </div>
+</form>

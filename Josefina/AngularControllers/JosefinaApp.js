@@ -1,0 +1,2 @@
+﻿var JosefinaApp = angular.module('JosefinaApp', ['ui.router', 'ui.layout', 'ui.scroll', 'jsTree.directive', 'ui.bootstrap', 'ui.bootstrap.typeahead',
+    'textAngular', 'monospaced.elastic', 'ui.grid', 'ui.grid.selection', 'ui.grid.autoResize', 'ui.grid.resizeColumns', 'ui.grid.exporter', 'ui.grid.edit']);

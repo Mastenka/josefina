@@ -1,0 +1,48 @@
+﻿<div class="modal-header">
+    <h3 class="modal-title">
+        {{taskModal.header}}
+    </h3>
+</div>
+
+<form name="form.userForm" ng-submit="submitForm()" novalidate>
+    <div class="modal-body">
+        <!-- NAME -->
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-6"><label>Jméno</label></div>
+                <div class="col-md-6">
+                    <input type="text" name="name" class="form-control" ng-model="taskModal.name" required>
+                    <p ng-show="form.userForm.name.$invalid && !form.userForm.name.$pristine" class="help-block text-danger" id="errorLabel">Pole "Jméno" je nutné vyplnit</p>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-md-6" style="vertical-align:central">
+                    <label>Deadline      </label>
+                    <input class="checkbox-inline" type="checkbox" ng-model="taskModal.enableDeadline" />
+                </div>
+                <div class="col-md-6">
+                    <input type="text" class="form-control"
+                           ng-required="taskModal.enableDeadline"
+                           ng-show="taskModal.enableDeadline"
+                           ng-pattern="(0[1-9]|[12][0-9]|3[01])\.(0[1-9]|1[012])\.(19|20)\d\d"
+                           name="deadline"
+                           starting-day="1"
+                           current-text="Dnes"
+                           clear-text="Smazat"
+                           close-text="Potvrdit"
+                           uib-datepicker-popup="dd.MM.yyyy"
+                           is-open="taskModal.deadlineOpen"
+                           ng-click="deadlineClick()"
+                           ng-model="taskModal.deadLine" />
+                    <p ng-show="form.userForm.deadline.$invalid && !form.userForm.deadline.$pristine" class="help-block text-danger" id="errorLabel1">Pole "Deadline" je nutné vyplnit</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-primary" ng-disabled="form.userForm.$invalid">{{taskModal.button}}</button>
+        <button class="btn btn-warning" ng-click="cancel()">Zpět</button>
+    </div>
+</form>

@@ -1,0 +1,81 @@
+﻿@model IEnumerable<Josefina.Entities.Project>
+@using GridMvc.Html;
+@using GridMvc.Sorting;
+@using Resources;
+
+@{
+    ViewBag.Title = ProjectResources.Projects;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div style="width: 640px; margin-left:auto; margin-right: auto;">
+    <h2>@Resources.ProjectResources.Projects</h2>
+
+    @Html.Grid(Model).Named("projectsGrid").Columns(columns =>
+           {
+               columns.Add(m => m.ProjectID, true);
+               columns.Add(m => m.Name).Titled(Resources.GeneralResources.Title).Sortable(true).SetWidth(80);
+               columns.Add(m => m.Starts).RenderValueAs(m => m.Starts.HasValue ? ((DateTime)m.Starts).ToShortDateString() : "").Titled(Resources.GeneralResources.DateStart).Sortable(true).SetWidth(80).SortInitialDirection(GridSortDirection.Descending);
+               columns.Add(m => m.Ends).RenderValueAs(m => m.Ends.HasValue ? ((DateTime)m.Ends).ToShortDateString() : "").Titled(Resources.GeneralResources.DateEnd).Sortable(true).SetWidth(80);
+           }).WithPaging(20)
+
+    <p class="text-danger" id="errorLabel" hidden="hidden">@Resources.ProjectResources.SelectProjectError</p>
+    <div class="row" style="margin-top:5px">
+        <div class="col-md-3">
+            <input type="button" value="@Resources.GeneralResources.Show" class="btn btn-default ok-button" onclick="showProject(0);" />
+        </div>
+        <div class="col-md-3">
+            <input type="button" value="@Resources.GeneralResources.Update" class="btn btn-default ok-button" onclick="showProject(1);" />
+        </div>
+        <div class="col-md-3">
+            <input type="button" value="@Resources.GeneralResources.Delete" class="btn btn-default ok-button" onclick="showProject(2);" />
+        </div>
+        <div class="col-md-3">
+            <input type="button" value="@Resources.GeneralResources.New" class="btn btn-default ok-button" onclick="@("window.location.href='" + @Url.Action("Create", "Projects") + "'");" />
+        </div>
+        <input hidden="hidden" id="selectedProjectID" value="" />
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        pageGrids.projectsGrid.onRowSelect(function (e) {
+            $("#errorLabel").hide(300);
+            document.getElementById("selectedProjectID").value = e.row.ProjectID;
+
+        });
+
+        pageGrids.projectsGrid
+    });
+    function showProject(i) {
+        var selectedID = document.getElementById("selectedProjectID").value;
+        if (selectedID == "") {
+            $("#errorLabel").show(500);
+        }
+        else {
+            var action;
+
+            var link = '@Url.Action("ACTION", "Projects", new { id = "-1" })';
+            link = link.replace("-1", selectedID);
+            if (i == 0) {
+                link = link.replace("ACTION", "Show");
+                link = link.replace("Projects", "Project");
+            }
+            else if (i == 1) {
+                link = link.replace("ACTION", "Edit");
+            }
+            else {
+                link = link.replace("ACTION", "Delete");
+            }
+            window.location.href = link;
+        }
+    };
+</script>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/Gridmvc")
+    @Styles.Render("~/Gridmvc")
+}
+
+
+

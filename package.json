@@ -1,0 +1,22 @@
+{
+  "name": "josefina",
+  "version": "1.0.0",
+  "description": "Josefina ticket management system",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mastenka/josefina.git"
+  },
+  "author": "Stefan Bittmann",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Mastenka/josefina/issues"
+  },
+  "homepage": "https://github.com/Mastenka/josefina#readme",
+  "dependencies": {
+    "jquery": "^3.2.1"
+  }
+}

@@ -1,0 +1,11 @@
+﻿@model DateTime?
+
+
+@{
+    var value = "";
+    if (Model.HasValue) {
+        value = String.Format("{0:d}", Model.Value.ToString("d.MM.yyyy"));
+    }
+}
+
+@Html.TextBox("", value, new { @class = "date" }) 

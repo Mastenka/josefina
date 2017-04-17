@@ -1,0 +1,92 @@
+﻿<div class="modal-header">
+    <h3 class="modal-title">
+        {{settingsModal.header}}
+    </h3>
+</div>
+
+<form name="settingsForm" ng-submit="submitForm()" novalidate>
+    <div class="modal-body">
+        <!-- NAME -->
+        <div class="form-group">
+
+            <div class="row" style="padding-top:5px">
+                <div class="col-md-6"><label>Jméno události:</label></div>
+                <div class="col-md-6">
+                    <input type="text" name="projectShowName" class="form-control" ng-model="settingsModal.projectShowName" required>
+                    <span ng-show="settingsForm.projectShowName.$error.required && settingsForm.projectShowName.$dirty" class="help-block text-danger">Pole je nutné vyplnit</span>
+                </div>
+            </div>
+
+            <div class="row" style="padding-top:5px">
+                <div class="col-md-6"><label>Adresa:</label></div>
+                <div class="col-md-6">
+                    <input type="text" name="adress" class="form-control" ng-model="settingsModal.adress" required>
+                    <span ng-show="settingsForm.adress.$error.required && settingsForm.adress.$dirty" class="help-block text-danger">Pole je nutné vyplnit</span>
+                </div>
+            </div>
+
+            <div class="row" style="padding-top:5px">
+                <div class="col-md-6"><label>Začátek:</label></div>
+                <div class="col-md-6">
+                    <input type="text" name="starts" class="form-control" ng-model="settingsModal.starts" required>
+                    <span ng-show="settingsForm.starts.$error.required && settingsForm.starts.$dirty" class="help-block text-danger">Pole je nutné vyplnit</span>
+                </div>
+            </div>
+
+            <div class="row" style="padding-top:5px">
+                <div class="col-md-6"><label>Max vstupenek/Email:</label></div>
+                <div class="col-md-6">
+                    <input type="text" name="maxTickets" class="form-control" ng-model="settingsModal.maxTickets" required>
+                    <span ng-show="settingsForm.maxTickets.$error.required && settingsForm.maxTickets.$dirty" class="help-block text-danger">Pole je nutné vyplnit</span>
+                </div>
+            </div>
+
+            <div class="row" style="padding-top:5px">
+                <div class="col-md-6"><label>Jméno na vstupence:</label></div>
+                <div class="col-md-6">
+                    <input type="text" name="namedTickets" class="form-control" ng-model="settingsModal.namedTickets" required>
+                    <span ng-show="settingsForm.namedTickets.$error.required && settingsForm.namedTickets.$dirty" class="help-block text-danger">Pole je nutné vyplnit</span>
+                </div>
+            </div>
+
+            <div class="row" style="padding-top:5px">
+                <div class="col-md-6"><label>Logo:</label></div>
+                <div class="col-md-6">
+                    <input type="text" name="name" class="form-control" ng-model="settingsModal.name" required>
+                    <span ng-show="settingsForm.name.$error.required && settingsForm.name.$dirty" class="help-block text-danger">Pole je nutné vyplnit</span>
+                </div>
+            </div>
+
+
+
+
+            <div class="row" style="padding-top:5px">
+                <div class="col-md-6">
+                    <label>Cena vstupenky</label>
+                </div>
+                <div class="col-md-6">
+                    <input type="text" ng-model="settingsModal.price" name="price" class="form-control"
+                           ng-pattern="/^[0-9]{1,7}$/" required>
+                    <span ng-show="settingsForm.price.$error.pattern && settingsForm.price.$dirty" class="help-block text-danger">Cena musí být nezáporné celé číslo</span>
+                    <span ng-show="settingsForm.price.$error.required && settingsForm.price.$dirty" class="help-block text-danger">Pole je nutné vyplnit</span>
+                </div>
+            </div>
+            <div class="row" style="padding-top:5px">
+                <div class="col-md-6"><label>Celkový počet vstupenek</label></div>
+                <div class="col-md-6">
+                    <input type="number" ng-model="settingsModal.capacity" name="capacity" class="form-control"
+                           ng-pattern="/^[0-6]$/" required>
+                    <span ng-show="settingsForm.capacity.$error.pattern && settingsForm.capacity.$dirty" class="help-block text-danger">Počet musí být nezáporné celé číslo</span>
+                    <span ng-show="settingsForm.capacity.$error.min && settingsForm.capacity.$dirty" class="help-block text-danger">Minimální počet je: 1</span>
+                    <span ng-show="settingsForm.capacity.$error.max && settingsForm.capacity.$dirty" class="help-block text-danger">Maximální počet je: 8</span>
+                    <span ng-show="settingsForm.capacity.$error.required && settingsForm.capacity.$dirty" class="help-block text-danger">Pole je nutné vyplnit</span>
+                </div>
+            </div>
+        </div>
+         <span ng-show="settingsModal.showIntervalError" class="help-block text-danger">Konec prodeje musí být roven, nebo větší než jeho začátek</span>
+    </div>
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-primary" ng-disabled="settingsForm.$invalid">{{settingsModal.button}}</button>
+        <button class="btn btn-warning" ng-click="cancel()">Zpět</button>
+    </div>
+</form>

@@ -1,0 +1,30 @@
+﻿@using Josefina.Models.AccountViewModel
+@model RegistrationConfirmationViewModel
+
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title">@Model.Header</h4>
+        </div>
+        <div class="modal-body">
+            @if (Model.IsOrgRegistered)
+            {
+                <div class="panel panel-default" style="margin: 10px 20px">
+                    <div class="panel-body">
+                        @Model.ConfirmationOrg
+                    </div>
+                </div>
+            }
+
+            <div class="panel panel-default" style="margin: 10px 20px">
+                <div class="panel-body">
+                    @Model.ConfirmationUser
+                </div>
+            </div>
+
+            <div class="alert alert-info" style="margin: 10px 20px">
+                @Model.ConfirmationMessage
+            </div>
+        </div>
+    </div>
+</div>

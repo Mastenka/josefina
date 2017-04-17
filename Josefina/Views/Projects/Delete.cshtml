@@ -1,0 +1,45 @@
+﻿@model Josefina.Entities.Project
+
+@{
+    ViewBag.Title = @Resources.GeneralResources.Delete;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div style="margin-left:auto; margin-right:auto;">
+    <h2>@Resources.ProjectResources.DeleteProjectHeader</h2>
+
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Starts)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Starts)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Ends)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Ends)
+        </dd>
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="@Resources.GeneralResources.Delete" class="btn btn-default" /> |
+            <input type="button" value="@Resources.GeneralResources.Back" class="btn btn-default" onclick="@("window.location.href='" + @Url.Action("Home", "Org") + "'");" />
+        </div>
+    }
+</div>

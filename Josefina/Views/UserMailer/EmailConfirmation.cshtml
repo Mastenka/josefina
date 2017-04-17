@@ -1,0 +1,23 @@
+﻿<div style="background-color: #2e3338;   border: 2px solid #000000; border-radius: 4px; min-height: 120px; width:480px; margin-left:50px;">
+
+    <h1 style="text-align:center; margin-top:50px; color: #c8c8c8; font-family: sans-serif;"><strong>Josefína</strong></h1>
+
+    <div style="margin: 70px  10px 10px 10px; background-color:#272b30; border: 1px solid #000000; border-radius: 4px; text-align:center; color: #c8c8c8; min-height: 60px;">
+        <h3 style="font-family: sans-serif; text-align: center; margin: 10px">
+            Děkujeme za Vaší registraci
+        </h3>
+    </div>
+    <div style="margin: 30px  10px 10px 10px; background-color:#272b30; border: 1px solid #000000; border-radius: 4px; text-align:center; color: #c8c8c8; min-height: 80px;">
+        <p style="font-family: sans-serif; text-align: center; margin: 10px">
+            Pro úspěšné dokončení Vaší registrace prosím potvrďtě svoji emailovou adresu kliknutím na níže přiložený odkaz.
+        </p><p>
+
+        </p>
+    </div>
+    <div style="margin: 20px  10px 30px 10px; background-color:#272b30; border: 1px solid #e96506; border-radius: 4px; text-align:center; color: #c8c8c8; min-height: 30px;">
+        
+        <a style="font:25px; font-family: sans-serif; text-align: center; font-style:oblique; margin: 20px 10px 10px 10px"
+           href="@Url.Action("EmailConfirmation", "Account", new { id = ViewBag.ConfirmationID },
+               Request.Url.Scheme)">Pro potvrzení emailu prosím klikněte na tento odkaz</a>
+    </div>
+</div>

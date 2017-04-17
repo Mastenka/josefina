@@ -1,0 +1,20 @@
+﻿@using Josefina.Models.SharedViewModel
+@model  MessageViewModel
+
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title">@Model.Header</h4>
+        </div>
+        <div class="modal-body">
+            <p>@Model.Body</p>
+        </div>
+
+        @if (Model.Redirection)
+        {
+            <div class="modal-footer">
+                <input type="button" value=@Model.RedirectionButtonText class="btn btn-default ok-button" onclick="@("window.location.href='" + @Url.Action(Model.RedirectAction, Model.RedirectController) + "'");" />
+            </div>
+        }
+    </div>
+</div>

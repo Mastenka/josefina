@@ -1,0 +1,66 @@
+﻿<div style="width:99%">
+    <form class="form-horizontal" name="exportForm" novalidate>
+        <div class="col-lg-4">
+            <fieldset>
+                <h1 class="col-lg-offset-2">Export vstupenek</h1>
+
+                <!--Email-->
+                <div class="form-group">
+                    <label for="email" class="col-lg-2 control-label">Jméno</label>
+                    <div class="col-lg-10">
+                        <input type="email" name="email" class="form-control" ng-model="exportModel.Name" disabled>
+                    </div>
+                </div>
+
+                <!--Cena-->
+                <div class="form-group">
+                    <label for="totalPrice" class="col-lg-2 control-label">Cena vstupenky</label>
+                    <div class="col-lg-10">
+                        <input type="text" name="totalPrice" class="form-control" ng-model="exportModel.Price" disabled>
+                    </div>
+                </div>
+
+                <!--Kapacita-->
+                <div class="form-group">
+                    <label for="totalPaid" class="col-lg-2 control-label">Celkový počet vstupenek</label>
+                    <div class="col-lg-10">
+                        <input type="text" name="totalPaid" class="form-control" ng-model="exportModel.Capacity" disabled>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+
+        <div class="col-lg-8">
+            <!--Vstupenky-->
+            <h2 class="col-lg-2">Vstupenky</h2>
+
+            <div class="row" style="padding-top:20px">
+                <div class="col-lg-12">
+                    <div ui-i18n="cz">
+                        <div ui-grid="ticketExportItemsGridOptions" ui-grid-edit class="grid"></div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <div ng-show="showExportUpdateBtn">
+                        <div class="row">
+                            <button type="submit" class="btn btn-primary btn-success" ng-click="submitExportUpdate()">Uložit změny</button>
+                        </div>
+                    </div>
+                    <div ng-show="showExportUpdateMsg">
+                        <div class="row">
+                            <h3 class="text-success">Probíhá zpracování požadavku.</h3>
+                        </div>
+                        <div class="row">
+                            <p class="text-success">Neobnovujte prosím stránku.</p>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+
+        </div>
+    </form>
+</div>

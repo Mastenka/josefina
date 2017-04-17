@@ -1,0 +1,25 @@
+﻿@using Microsoft.AspNet.Identity
+@using Josefina.Controllers;
+
+@if (Request.IsAuthenticated)
+{
+    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+    {
+        @Html.AntiForgeryToken()
+
+
+        <ul class="nav navbar-nav navbar-right">
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">@Resources.GeneralResources.Menu<span class="caret"></span></a>
+                <ul class="dropdown-menu" role="menu">
+                    <li>@Html.ActionLink(Resources.OrgResources.SendInvitation, "SendInvitation", "Org")</li>
+                    <li>@Html.ActionLink(Resources.ProjectResources.Projects, "Home", "Org")</li>
+                </ul>
+            </li>
+            <li>
+                @Html.ActionLink(User.Identity.GetUserName(), "Manage", "Account", routeValues: null, htmlAttributes: new { title = Resources.GeneralResources.Manage })
+            </li>
+            <li><a href="javascript:document.getElementById('logoutForm').submit()">@Resources.GeneralResources.LogOff</a></li>
+        </ul>
+    }
+}

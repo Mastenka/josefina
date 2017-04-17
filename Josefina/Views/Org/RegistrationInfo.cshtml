@@ -1,0 +1,22 @@
+﻿@{
+
+    Culture = UICulture = "cs";
+}
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">@ViewBag.Title</h3>
+        </div>
+        <div class="panel-body">
+            <div>
+                @Resources.GeneralResources.RegistrationInfo
+                @Resources.GeneralResources.RegistrationInfo2
+                @Resources.GeneralResources.RegistrationInfo3
+            </div>
+            </br>
+            <div>
+                @Resources.GeneralResources.RegistrationInfoReminder
+            </div>
+            <input type="button" class="btn btn-default" value="@Resources.GeneralResources.Register" onclick="@("window.location.href='" + @Url.Action("Register", "Org") + "'");" />
+        </div>
+    </div>
+

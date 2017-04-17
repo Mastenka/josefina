@@ -1,0 +1,54 @@
+﻿@model Josefina.Models.TicketsViewModel.TicketItemConfirmationViewModel
+<h1>@Model.ProjectName</h1>
+<div class="container">
+
+    <div class="row" style="margin-top: 5px">
+        <div class="col-md-2">
+            <text style="font-size:16px;">Začátek: </text>
+        </div>
+        <div class="col-md-10">
+            <h1 style="font-size:18px;">@Model.DateStart</h1>
+        </div>
+    </div>
+
+
+    <div class="row" style="margin-top: 5px">
+        <div class="col-md-2">
+            <text style="font-size:16px;">Místo: </text>
+        </div>
+        <div class="col-md-10">
+            <h1 style="font-size:18px;">@Model.Location</h1>
+        </div>
+    </div>
+
+    @if (Model.Note != null && Model.Note != "")
+    {
+        <div class="row" style="margin-top: 5px">
+            <div class="col-md-2">
+                <text style="font-size:16px;">Zpráva od pořadatele: </text>
+            </div>
+            <div class="col-md-10">
+                <h1 style="font-size:18px;">@Model.Note</h1>
+            </div>
+        </div>
+    }
+ 
+
+    @if (Model.IsExport)
+    {
+        <div class="row">
+            <h3>Vaše vstupenka je úspěšně evidována v rezervačním systému. A zároveň je přiložena v příloze tohoto emailu.</h3>
+        </div>
+    }
+    else
+    {
+        <div class="row">
+            <h3>Vaše platba byla přijata a vstupenky byly úspěšně zaplaceny.</h3>
+        </div>
+    }
+
+    <div class="row">
+        <div class="page-header"></div>
+        <p>Vstupenky není nutné tisknout stačí je pouze ukázat na mobilu pro načtení QR kódu.</p>
+    </div>
+</div>

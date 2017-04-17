@@ -1,0 +1,115 @@
+﻿<div class="modal-header">
+    <h3 class="modal-title">
+        {{categoryModal.header}}
+    </h3>
+</div>
+
+<form name="categoryForm" ng-submit="submitForm()" novalidate>
+    <div class="modal-body">
+        <!-- NAME -->
+        <div class="form-group">
+            <div class="row" style="padding-top:5px">
+                <div class="col-md-6"><label>Název kategorie</label></div>
+                <div class="col-md-6">
+                    <input type="text" name="name" class="form-control" ng-model="categoryModal.name" required>
+                    <span ng-show="categoryForm.name.$error.required && categoryForm.name.$dirty" class="help-block text-danger">Pole je nutné vyplnit</span>
+                </div>
+
+            </div>
+            <div class="row" style="padding-top:5px">
+                <div class="col-md-6">
+                    <label>Cena vstupenky</label>
+                </div>
+                <div class="col-md-6">
+                    <input type="text" ng-model="categoryModal.price" name="price" class="form-control"
+                           ng-pattern="/^[0-9]{1,7}$/" required>
+                    <span ng-show="categoryForm.price.$error.pattern && categoryForm.price.$dirty" class="help-block text-danger">Cena musí být nezáporné celé číslo</span>
+                    <span ng-show="categoryForm.price.$error.required && categoryForm.price.$dirty" class="help-block text-danger">Pole je nutné vyplnit</span>
+                </div>
+            </div>
+            <div class="row" style="padding-top:5px">
+                <div class="col-md-6"><label>Celkový počet vstupenek</label></div>
+                <div class="col-md-6">
+                    <input type="text" ng-model="categoryModal.capacity" name="capacity" class="form-control"
+                           ng-pattern="/^[0-9]{1,7}$/" required>
+                    <span ng-show="categoryForm.capacity.$error.pattern && categoryForm.capacity.$dirty" class="help-block text-danger">Počet musí být nezáporné celé číslo</span>
+                    <span ng-show="categoryForm.capacity.$error.required && categoryForm.capacity.$dirty" class="help-block text-danger">Pole je nutné vyplnit</span>
+                </div>
+            </div>
+            <div class="row" style="padding-top:5px">
+                <div class="col-md-6" style="vertical-align:central">
+                    <label>Začátek prodeje</label>
+                </div>
+                <div class="col-md-6">
+                    <input type="text" class="form-control"
+                           ng-required="true"
+                           ng-show="true"
+                           ng-pattern="(0[1-9]|[12][0-9]|3[01])\.(0[1-9]|1[012])\.(19|20)\d\d"
+                           name="soldFrom"
+                           starting-day="1"
+                           current-text="Dnes"
+                           clear-text="Smazat"
+                           close-text="Potvrdit"
+                           uib-datepicker-popup="dd.MM.yyyy"
+                           is-open="categoryModal.soldFromOpen"
+                           ng-model="categoryModal.soldFrom"
+                           ng-click="soldFromClick()" />
+                    <span ng-show="categoryForm.soldFrom.$error.date && categoryForm.soldFrom.$dirty" class="help-block text-danger">Akceptovaný formát: DD.MM.YYYY</span>
+                    <span ng-show="categoryForm.soldFrom.$error.required && categoryForm.soldFrom.$dirty" class="help-block text-danger">Pole je nutné vyplnit</span>
+                </div>
+            </div>
+            <div class="row" style="padding-top:5px">
+                <div class="col-md-6" style="vertical-align:central">
+                    <label>Konec prodeje</label>
+                </div>
+                <div class="col-md-6">
+                    <input type="text" class="form-control"
+                           ng-required="true"
+                           ng-show="true"
+                           ng-pattern="(0[1-9]|[12][0-9]|3[01])\.(0[1-9]|1[012])\.(19|20)\d\d"
+                           name="soldTo"
+                           starting-day="1"
+                           current-text="Dnes"
+                           clear-text="Smazat"
+                           close-text="Potvrdit"
+                           uib-datepicker-popup="dd.MM.yyyy"
+                           is-open="categoryModal.soldToOpen"
+                           ng-model="categoryModal.soldTo"
+                           ng-click="soldToClick()" />
+                    <span ng-show="categoryForm.soldTo.$error.date  && categoryForm.soldTo.$dirty" class="help-block text-danger">Akceptovaný formát: DD.MM.YYYY</span>
+                    <span ng-show="categoryForm.soldTo.$error.required  && categoryForm.soldTo.$dirty" class="help-block text-danger">Pole je nutné vyplnit</span>
+                </div>
+            </div>
+            <div class="row" style="padding-top:5px">
+                <div class="col-md-6" style="vertical-align:central">
+                    <label>Vyzadovan kod</label>
+                </div>
+                <div class="col-md-6">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="CodeRequired" class="form-control" ng-model="categoryModal.codeRequired">
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="row" style="padding-top:5px" ng-show="categoryModal.codeRequired">
+                <div class="col-md-6" style="vertical-align:central">
+                    <label>Kod</label>
+                </div>
+                <div class="col-md-6">
+                    <div class="checkbox">
+                        <label>
+                            <input type="text" name="Code" class="form-control" ng-model="categoryModal.code" ng-required="categoryModal.codeRequired">
+                            <span ng-show="categoryForm.Code.$error.required" class="help-block text-danger">Pole je nutné vyplnit</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+         <span ng-show="categoryModal.showIntervalError" class="help-block text-danger">Konec prodeje musí být roven, nebo větší než jeho začátek</span>
+    </div>
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-primary" ng-disabled="categoryForm.$invalid">{{categoryModal.button}}</button>
+        <button class="btn btn-warning" ng-click="cancel()">Zpět</button>
+    </div>
+</form>

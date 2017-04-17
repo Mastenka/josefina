@@ -1,0 +1,143 @@
+﻿@model Josefina.Models.TicketsViewModel.ShowTicketCategoriesViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    Culture = UICulture = "cs";
+}
+
+<div class="row">
+    <div class="page-header col-lg-offset-1 col-lg-12">
+        <h1>@Model.ProjectName</h1>
+        <div class="col-lg-4">
+            @if (Model.ProjectID == 3) //Localization.TicketTypeBtn
+            {   //Junktown Shit
+                <input type="button" class="btn btn-default" value="Místa na kod" onclick="@("window.location.href='" + @Url.Action("CreateCodeReservation", "Tickets") + "'");" />
+            }
+            else
+            {   //Normalni, slusni lidi
+                <input type="button" class="btn btn-default" value="Vstupenky na kod" onclick="@("window.location.href='" + @Url.Action("CreateCodeReservation", "Tickets") + "'");" />
+            }
+        </div>
+        <div class="col-lg-offset-4 col-lg-4">
+            <a href="@Model.Localization.ChangeLangLink" class="btn btn-default">Default</a>
+        </div>
+    </div>
+</div>
+
+@if (Model.TicketsAvailable)
+{
+    using (Html.BeginForm("CreateReservation", "Tickets", FormMethod.Post, new { @class = "form-horizontal register-form", role = "form" }))
+    {
+        @Html.AntiForgeryToken()
+        <div class="col-lg-offset-1 col-lg-10">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        @if (Model.ProjectID == 3)
+                        {   //Junktown Shit
+                            <th style="text-align: center;">Kategorie</th>
+                                <th style="text-align: center;">Dostupná místa</th>
+                                <th style="text-align: center;">Začátek registrace</th>
+                                <th style="text-align: center;">Konec registrace</th>
+                                <th style="text-align: center;">Celková výše stanového členského příspěvku</th>
+                                <th style="text-align: center;">Počet</th>
+                        }
+                        else
+                        {   //Normalni, slusni lidi
+                            <th style="text-align: center;">Kategorie</th>
+                                <th style="text-align: center;">Dostupných vstupenek</th>
+                                <th style="text-align: center;">Začátek prodeje</th>
+                                <th style="text-align: center;">Konec prodeje</th>
+                                <th style="text-align: center;">Cena</th>
+                                <th style="text-align: center;">Počet vstupenek</th>
+                        }
+                    </tr>
+                </thead>
+                <tbody style="vertical-align:central;">
+                    @for (int i = 0; i < Model.TicketCategories.Count(); i++)
+                    {
+                        <tr style="vertical-align:central;">
+                            <td style="text-align: center;">@Model.TicketCategories[i].Header</td>
+                            <td style="text-align: center;">@Model.TicketCategories[i].AvailableCapacity/@Model.TicketCategories[i].Capacity</td>
+
+                            <td style="text-align: center;">@Model.TicketCategories[i].SoldFrom</td>
+                            <td style="text-align: center;">@Model.TicketCategories[i].SoldTo</td>
+
+                            <td style="text-align: center;">@Model.TicketCategories[i].Price</td>
+                            <td style="max-width:100px">
+                                @if (Model.TicketCategories[i].AvailableCapacity > 0)
+                                {
+                                    @Html.TextBoxFor(m => Model.TicketCategories[i].Ordered, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(m => Model.TicketCategories[i].Ordered, "", new { @class = "text-danger" })
+                                }
+                            </td>
+                        </tr>
+                            @Html.HiddenFor(m => Model.TicketCategories[i].TicketCategoryID)
+                            @Html.HiddenFor(m => Model.TicketCategories[i].Header)
+                            @Html.HiddenFor(m => Model.TicketCategories[i].AvailableCapacity)
+                            @Html.HiddenFor(m => Model.TicketCategories[i].Capacity)
+                            @Html.HiddenFor(m => Model.TicketCategories[i].Price)
+                            @Html.HiddenFor(m => Model.TicketCategories[i].SoldFrom)
+                            @Html.HiddenFor(m => Model.TicketCategories[i].SoldTo)
+                            @Html.HiddenFor(m => Model.TicketCategories[i].RowVersion)
+
+
+                    }
+                </tbody>
+            </table>
+            <div class="col-md-offset-4 col-md-4">
+                @Html.ValidationMessage("ErrorSum", "", new { @class = "text-danger" })
+            </div>
+            <div class="row">
+                @Html.HiddenFor(m => Model.ProjectID)
+                @Html.HiddenFor(m => Model.ProjectName)
+                @Html.HiddenFor(m => Model.TicketsAvailable)
+
+            </div>
+            <div class="row">
+                <div class="col-md-offset-9 col-md-3">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-offset-10 col-md-2">
+                    <div class="form-group">
+                        <div class="col-md-10">
+                            @if (Model.ProjectID == 3)
+                            {   //Junktown Shit
+                                <input type="submit" class="btn btn-success" value="Registrovat" /> //Localization.RegisterBtn
+
+                            }
+                            else
+                            {   //Normalni, slusni lidi
+                                <input type="submit" class="btn btn-success" value="Objednat" />
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+}
+
+else
+{
+    <div class="row col-lg-offset-1">
+        <h2 class="text-danger">Momentálně nejsou dostupná žádná volná místa.</h2> @*Localization.NoFreeTicketsMsg*@
+    </div>
+}
+
+
+@section Scripts
+{
+    @Scripts.Render("~/bundles/jqueryval")
+}

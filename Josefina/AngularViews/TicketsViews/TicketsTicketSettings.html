@@ -1,0 +1,134 @@
+﻿<div style="width:99%">
+    <form class="form-horizontal" name="settingsTicketsForm" novalidate>
+        <fieldset>
+            <h1 class="col-lg-offset-2">Vstupenky</h1>
+
+            <!--JménoCZ-->
+            <div class="form-group">
+                <label for="inputEmail" class="col-lg-2 control-label">Jméno události CZ</label>
+                <div class="col-lg-10">
+                    <input type="text" name="ProjectNameCZ" class="form-control" ng-model="settingsTicketsModel.ProjectNameCZ" required>
+                    <span ng-show="settingsTicketsForm.ProjectNameCZ.$error.required && settingsTicketsForm.ProjectNameCZ.$dirty" class="help-block text-danger">Pole je nutné vyplnit</span>
+                </div>
+            </div>
+
+            <!--JménoEN-->
+            <div class="form-group">
+                <label for="inputEmail" class="col-lg-2 control-label">Jméno události EN</label>
+                <div class="col-lg-10">
+                    <input type="text" name="ProjectNameEN" class="form-control" ng-model="settingsTicketsModel.ProjectNameEN" required>
+                    <span ng-show="settingsTicketsForm.ProjectNameEN.$error.required && settingsTicketsForm.ProjectNameEN.$dirty" class="help-block text-danger">Pole je nutné vyplnit</span>
+                </div>
+            </div>
+
+            <!--AdresaCZ-->
+            <div class="form-group">
+                <label for="inputEmail" class="col-lg-2 control-label">Adresa CZ</label>
+                <div class="col-lg-10">
+                    <input type="text" name="LocationCZ" class="form-control" ng-model="settingsTicketsModel.LocationCZ" required>
+                    <span ng-show="settingsTicketsForm.LocationCZ.$error.required && settingsTicketsForm.LocationCZ.$dirty" class="help-block text-danger">Pole je nutné vyplnit</span>
+                </div>
+            </div>
+
+            <!--AdresaEN-->
+            <div class="form-group">
+                <label for="inputEmail" class="col-lg-2 control-label">Adresa EN</label>
+                <div class="col-lg-10">
+                    <input type="text" name="LocationEN" class="form-control" ng-model="settingsTicketsModel.LocationEN" required>
+                    <span ng-show="settingsTicketsForm.LocationEN.$error.required && settingsTicketsForm.LocationEN.$dirty" class="help-block text-danger">Pole je nutné vyplnit</span>
+                </div>
+            </div>
+
+            <!--ZačátekCZ-->
+            <div class="form-group">
+                <label for="inputEmail" class="col-lg-2 control-label">Začátek CZ</label>
+                <div class="col-lg-10">
+                    <input type="text" name="StartsCZ" class="form-control" ng-model="settingsTicketsModel.StartsCZ" required>
+                    <span ng-show="settingsTicketsForm.StartsCZ.$error.required && settingsTicketsForm.StartsCZ.$dirty" class="help-block text-danger">Pole je nutné vyplnit</span>
+                </div>
+            </div>
+
+            <!--ZačátekEN-->
+            <div class="form-group">
+                <label for="inputEmail" class="col-lg-2 control-label">Začátek EN</label>
+                <div class="col-lg-10">
+                    <input type="text" name="starts" class="form-control" ng-model="settingsTicketsModel.StartsEN" required>
+                    <span ng-show="settingsTicketsForm.StartsEN.$error.required && settingsTicketsForm.StartsEN.$dirty" class="help-block text-danger">Pole je nutné vyplnit</span>
+                </div>
+            </div>
+
+            <!--Max vstupenek/Email-->
+            <div class="form-group">
+                <label for="inputEmail" class="col-lg-2 control-label">Max vstupenek/Email</label>
+                <div class="col-lg-10">
+                    <input type="number" ng-model="settingsTicketsModel.MaxTicketsPerMail" name="MaxTicketsPerMail" class="form-control"
+                           min="1" max="8" required>
+                    <span ng-show="settingsTicketsForm.MaxTicketsPerMail.$error.pattern && settingsTicketsForm.MaxTicketsPerMail.$dirty" class="help-block text-danger">Počet musí být v rozmezí 1-8</span>
+                    <span ng-show="settingsTicketsForm.MaxTicketsPerMail.$error.max && settingsTicketsForm.MaxTicketsPerMail.$dirty" class="help-block text-danger">Počet musí být menší než 8</span>
+                    <span ng-show="settingsTicketsForm.MaxTicketsPerMail.$error.min && settingsTicketsForm.MaxTicketsPerMail.$dirty" class="help-block text-danger">Počet musí být větší než 1</span>
+                    <span ng-show="settingsTicketsForm.MaxTicketsPerMail.$error.required && settingsTicketsForm.MaxTicketsPerMail.$dirty" class="help-block text-danger">Pole je nutné vyplnit</span>
+                </div>
+            </div>
+
+            <!--Jméno na vstupence-->
+            <div class="form-group">
+                <label for="inputEmail" class="col-lg-2 control-label">Vstupenka na jméno</label>
+                <div class="col-lg-10">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="NamedTickets" ng-model="settingsTicketsModel.NamedTickets">
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!--LogoURL-->
+            <div class="form-group">
+                <label for="file" class="col-lg-2 control-label">URL adresa obrázku</label>
+                <div class="col-lg-10">
+                    <input type="text" name="note" class="form-control" ng-model="settingsTicketsModel.LogoURL">
+                </div>
+            </div>
+
+            <!--Poznámka-Vstupenka-->
+            <div class="form-group">
+                <label for="noteCZ" class="col-lg-2 control-label">Poznámka-Vstupenka CZ</label>
+                <div class="col-lg-10">
+                    <textarea  rows="10" cols="40" name="NoteTicketCZ" class="form-control" ng-model="settingsTicketsModel.NoteTicketCZ"></textarea>
+                </div>
+            </div>
+
+            <!--Poznámka-Vstupenka-->
+            <div class="form-group">
+                <label for="noteEN" class="col-lg-2 control-label">Poznámka-Vstupenka EN</label>
+                <div class="col-lg-10">
+                    <textarea rows="10" cols="40" name="NoteTicketEN" class="form-control" ng-model="settingsTicketsModel.NoteTicketEN"></textarea>
+                </div>
+            </div>
+
+            <!--Poznámka-Vstupenka-->
+            <div class="form-group">
+                <label for="noteCZ" class="col-lg-2 control-label">Poznámka-Objednávka CZ</label>
+                <div class="col-lg-10">
+                    <textarea rows="10" cols="40" name="NoteOrderCZ" class="form-control" ng-model="settingsTicketsModel.NoteOrderCZ"></textarea>
+                </div>
+            </div>
+
+            <!--Poznámka-Vstupenka-->
+            <div class="form-group">
+                <label for="noteEN" class="col-lg-2 control-label">Poznámka-Objednávka EN</label>
+                <div class="col-lg-10">
+                    <textarea rows="10" cols="40" name="NoteOrderEN" class="form-control" ng-model="settingsTicketsModel.NoteOrderEN"></textarea>
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <div class="col-lg-10 col-lg-offset-2">
+                    <button type="submit" class="btn btn-primary btn-success" ng-click="submitTicketsForm()">Uložit</button>
+                    <button class="btn btn-default btn-warning" ng-click="cancelTicketsForm()">Zrušit</button>
+                </div>
+            </div>
+        </fieldset>
+    </form>
+</div>
