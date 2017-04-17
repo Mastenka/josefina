@@ -1367,6 +1367,8 @@
     <Content Include="Views\Tickets\CreateCodeReservation.cshtml" />
     <Content Include="Views\Tickets\CreateCodeReservationLocalized.cshtml" />
     <Content Include="Views\Tickets\CreateReservationLocalized.cshtml" />
+    <Content Include="Views\Tickets\NamedTicketsLocalized.cshtml" />
+    <Content Include="Views\Tickets\TicketOrderLocalized.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="AngularViews\RightViews\" />

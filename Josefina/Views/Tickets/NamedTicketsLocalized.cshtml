@@ -1,0 +1,106 @@
+﻿@model Josefina.Models.TicketsViewModel.ShowTicketCategoriesViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    Culture = UICulture = "cs";
+}
+
+<div class="page-header"><h1>@Model.ProjectName</h1></div>
+
+<h4>@Model.Localization.NameViewHdr1</h4>
+<h5>@Model.Localization.NameViewHdr2</h5>
+
+@if (Model.TicketsAvailable)
+{
+    using (Html.BeginForm("CreateReservation", "Tickets", FormMethod.Post, new { @class = "form-horizontal register-form", role = "form" }))
+    {
+        @Html.AntiForgeryToken()
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th style="text-align: center;">@Model.Localization.CategoryHdr</th>
+                    <th style="text-align: center;">@Model.Localization.ParticipantNameHdr</th>
+                </tr>
+            </thead>
+            <tbody style="vertical-align:central;">
+                @for (int i = 0; i < Model.TicketCategories.Count(); i++)
+                {
+                    if (Model.TicketCategories[i].Ordered > 0)
+                    {
+
+                        for (int j = 0; j < Model.TicketCategories[i].Ordered; j++)
+                            {
+                            <tr style="vertical-align:central;">
+                                <td style="text-align: center;">
+                                    @Model.TicketCategories[i].Header
+                                </td>
+                                <td style="text-align: center; align-content:center;">
+                                    @Html.TextBoxFor(m => Model.TicketCategories[i].Names[j].Name, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(m => Model.TicketCategories[i].Names[j].Name, "", new { @class = "text-danger" })
+                                </td>
+                            </tr>
+                        }
+                    }
+
+                    @Html.HiddenFor(m => Model.TicketCategories[i].TicketCategoryID)
+                    @Html.HiddenFor(m => Model.TicketCategories[i].Header)
+                    @Html.HiddenFor(m => Model.TicketCategories[i].AvailableCapacity)
+                    @Html.HiddenFor(m => Model.TicketCategories[i].Capacity)
+                    @Html.HiddenFor(m => Model.TicketCategories[i].Price)
+                    @Html.HiddenFor(m => Model.TicketCategories[i].SoldFrom)
+                    @Html.HiddenFor(m => Model.TicketCategories[i].SoldTo)
+                    @Html.HiddenFor(m => Model.TicketCategories[i].RowVersion)
+                    @Html.HiddenFor(m => Model.TicketCategories[i].Ordered)
+                }
+
+
+                <div class="col-md-offset-4 col-md-4">
+                    @Html.ValidationMessage("ErrorSum", "", new { @class = "text-danger" })
+                </div>
+                <div class="row">
+                    @Html.HiddenFor(m => Model.ProjectID)
+                    @Html.HiddenFor(m => Model.ProjectName)
+                    @Html.HiddenFor(m => Model.TicketsAvailable)
+                    @Html.HiddenFor(m => Model.Email)
+                    @Html.HiddenFor(m => Model.AfterNameSetting)
+                </div>
+            </tbody>
+        </table>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <div class="col-md-offset-7 col-md-4">
+                        <input type="submit" class="btn btn-success" value="Objednat" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+}
+else
+{
+    <h2 class="text-danger">@Model.Localization.NoFreeTicketsMsg</h2>
+}
+
+@Html.HiddenFor(m => Model.Localization.CategoryHdr)
+@Html.HiddenFor(m => Model.Localization.ChangeLangLink)
+@Html.HiddenFor(m => Model.Localization.EdnRegistrationHdr)
+@Html.HiddenFor(m => Model.Localization.FreeTicketsHdr)
+@Html.HiddenFor(m => Model.Localization.Language)
+@Html.HiddenFor(m => Model.Localization.LanguageBtn)
+@Html.HiddenFor(m => Model.Localization.NameViewHdr1)
+@Html.HiddenFor(m => Model.Localization.NameViewHdr2)
+@Html.HiddenFor(m => Model.Localization.NoFreeTicketsMsg)
+@Html.HiddenFor(m => Model.Localization.ParticipantNameHdr)
+@Html.HiddenFor(m => Model.Localization.RegisterBtn)
+@Html.HiddenFor(m => Model.Localization.RegistrationStartHdr)
+@Html.HiddenFor(m => Model.Localization.TicketCountHdr)
+@Html.HiddenFor(m => Model.Localization.TicketPriceHdr)
+@Html.HiddenFor(m => Model.Localization.TicketTypeBtn)
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

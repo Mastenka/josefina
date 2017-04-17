@@ -113,8 +113,24 @@
 }
 else
 {
-    <h2 class="text-danger">Momentálně nejsou dostupná žádná volná místa.</h2>
+    <h2 class="text-danger">@Model.Localization.NoFreeTicketsMsg</h2>
 }
+
+@Html.HiddenFor(m => Model.Localization.CategoryHdr)
+@Html.HiddenFor(m => Model.Localization.ChangeLangLink)
+@Html.HiddenFor(m => Model.Localization.EdnRegistrationHdr)
+@Html.HiddenFor(m => Model.Localization.FreeTicketsHdr)
+@Html.HiddenFor(m => Model.Localization.Language)
+@Html.HiddenFor(m => Model.Localization.LanguageBtn)
+@Html.HiddenFor(m => Model.Localization.NameViewHdr1)
+@Html.HiddenFor(m => Model.Localization.NameViewHdr2)
+@Html.HiddenFor(m => Model.Localization.NoFreeTicketsMsg)
+@Html.HiddenFor(m => Model.Localization.ParticipantNameHdr)
+@Html.HiddenFor(m => Model.Localization.RegisterBtn)
+@Html.HiddenFor(m => Model.Localization.RegistrationStartHdr)
+@Html.HiddenFor(m => Model.Localization.TicketCountHdr)
+@Html.HiddenFor(m => Model.Localization.TicketPriceHdr)
+@Html.HiddenFor(m => Model.Localization.TicketTypeBtn)
 
 @section Scripts
 {

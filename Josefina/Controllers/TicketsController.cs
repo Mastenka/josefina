@@ -120,15 +120,18 @@ namespace Josefina.Controllers
         [HttpPost]
         public ActionResult CreateReservation(ShowTicketCategoriesViewModel submitedModel)
         {
+            string viewName = "~/Views/Tickets/CreateReservationLocalized.cshtml";
+            SetLocalization(submitedModel, submitedModel.ProjectID, false);
+
             if (!IsModelValid(submitedModel))
             {
-                return View(submitedModel);
+                return View(viewName, submitedModel);
             }
 
             using (ApplicationDbContext context = new ApplicationDbContext())
             {
 
-                var result = CreateReservationFromAction(submitedModel, context);
+                var result = CreateReservationFromAction(submitedModel, context, viewName);
                 return result;
             }
         }
@@ -136,19 +139,22 @@ namespace Josefina.Controllers
         [HttpPost]
         public ActionResult CreateCodeReservation(ShowTicketCategoriesCodeViewModel submitedModel)
         {
+            string viewName = "~/Views/Tickets/CreateCodeReservationLocalized.cshtml";
+            SetLocalization(submitedModel, submitedModel.ProjectID, true);
+
             if (!IsModelValid(submitedModel))
             {
-                return View(submitedModel);
+                return View(viewName, submitedModel);
             }
 
             using (ApplicationDbContext context = new ApplicationDbContext())
             {
                 if (!ValidateTicketCode(submitedModel, context))
                 {
-                    return View(submitedModel);
+                    return View(viewName, submitedModel);
                 }
 
-                var result = CreateReservationFromAction(submitedModel, context);
+                var result = CreateReservationFromAction(submitedModel, context, viewName);
                 return result;
             }
         }
@@ -194,7 +200,7 @@ namespace Josefina.Controllers
             return true;
         }
 
-        private ActionResult CreateReservationFromAction(ShowTicketCategoriesViewModel submitedModel, ApplicationDbContext context)
+        private ActionResult CreateReservationFromAction(ShowTicketCategoriesViewModel submitedModel, ApplicationDbContext context, string viewName)
         {
             using (DbContextTransaction transaction = context.Database.BeginTransaction())
             {
@@ -208,7 +214,7 @@ namespace Josefina.Controllers
                 if (ExceededMaxTickets(project, submitedModel, context))
                 {
                     ModelState.AddModelError("ErrorSum", "Překročen maximální počet vstupenek na email: " + project.TicketSetting.MaxTicketsPerEmail);
-                    return View(submitedModel);
+                    return View(viewName, submitedModel);
                 }
 
                 if (project.TicketSetting.NamedTickets)
@@ -224,7 +230,7 @@ namespace Josefina.Controllers
                         }
 
                         submitedModel.AfterNameSetting = true;
-                        return View("~/Views/Tickets/NamedTickets.cshtml", submitedModel);
+                        return View("~/Views/Tickets/NamedTicketsLocalized.cshtml", submitedModel);
                     }
                 }
 
@@ -337,7 +343,7 @@ namespace Josefina.Controllers
                 {
                     transaction.Rollback();
                     ModelState.AddModelError("ErrorSum", "Dané množství vstupenek není možné objednat");
-                    return View(submitedModel);
+                    return View(viewName, submitedModel);
                 }
             }
         }
@@ -459,7 +465,6 @@ namespace Josefina.Controllers
             TicketOrderLocalization ticketOrderLocalization = new TicketOrderLocalization();
             if (isEnglish)
             {
-                ticketOrderLocalization.CategoryHdr = "Categories";
                 if (isJunkTown)
                 {
                     ticketOrderLocalization.FreeTicketsHdr = "Available capacity";
@@ -483,12 +488,14 @@ namespace Josefina.Controllers
                     ticketOrderLocalization.TicketTypeBtn = isCode ? "Public tickets" : "Private tickets";
                 }
 
+                ticketOrderLocalization.ParticipantNameHdr = "Civic name";
+                ticketOrderLocalization.CategoryHdr = "Categories";
                 ticketOrderLocalization.LanguageBtn = "Czech";
+                ticketOrderLocalization.NameViewHdr1 = "For the successful completion of the registration organizer demands that you must fill in the civic names of individual visitors.";
+                ticketOrderLocalization.NameViewHdr2 = "Please fill in the civic names of the visitors. These civic names will be checked when tickets will be checked on entry.";
             }
             else
-            {
-                ticketOrderLocalization.CategoryHdr = "Kategorie";
-                ticketOrderLocalization.NoFreeTicketsMsg = "Momentálně nejsou dostupná žádná volná místa.";
+            {                
                 if (isJunkTown)
                 {
                     ticketOrderLocalization.FreeTicketsHdr = "Dostupná místa";
@@ -509,7 +516,13 @@ namespace Josefina.Controllers
                     ticketOrderLocalization.RegisterBtn = "Objednat";
                     ticketOrderLocalization.TicketTypeBtn = isCode ? "Veřejné vstupenky" : "Soukromé vstupenky";
                 }
+
+                ticketOrderLocalization.ParticipantNameHdr = "Občanské jméno";
+                ticketOrderLocalization.CategoryHdr = "Kategorie";
+                ticketOrderLocalization.NoFreeTicketsMsg = "Momentálně nejsou dostupná žádná volná místa.";
                 ticketOrderLocalization.LanguageBtn = "English";
+                ticketOrderLocalization.NameViewHdr1 = "Pro úspěšné dokončení registrace vyžaduje pořadatel vyplnění občanských jmen jednotlivých návštěvníků.";
+                ticketOrderLocalization.NameViewHdr2 = "Vyplňtě prosím jednotlivá občasnká jména návštěvníků. Uvedená jména budou kontrolována při kontrole vstupenek.";
             }
 
             ticketOrderLocalization.ChangeLangLink = string.Format("http://{0}/tickets/ChangeLanguage/{1}", Request.Url.Authority, projectId);

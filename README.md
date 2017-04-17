@@ -1,4 +1,4 @@
-# josefina
+# Josefina
 
 Josefina is free to use Ticket and Project Management system. 
 

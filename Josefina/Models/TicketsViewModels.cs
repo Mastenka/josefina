@@ -58,6 +58,12 @@ namespace Josefina.Models.TicketsViewModel
         public string LanguageBtn { get; set; }
 
         public string ChangeLangLink { get; set; }
+
+        public string ParticipantNameHdr { get; set; }
+
+        public string NameViewHdr1 { get; set; }
+
+        public string NameViewHdr2 { get; set; }
     }
 
     public class TicketCategoryViewModel
