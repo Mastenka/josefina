@@ -1289,7 +1289,13 @@ namespace Josefina.Controllers
 
                     foreach (var projectId in projectIDs)
                     {
-                        Project project = context.Projects.Single(p => p.ProjectID == projectId);
+                        Project project = context.Projects.SingleOrDefault(p => p.ProjectID == projectId);
+
+                        if (project == null)
+                        {
+                            context.TicketOrders.RemoveRange(ticketOrdersToCancel.Where(to => to.ProjectID == projectId));
+                            continue;
+                        }
 
                         context.Entry(project).Reference(p => p.BankProxy).Load();
                         context.Entry(project.BankProxy).Reference(bp => bp.FioBankProxy).Load();
