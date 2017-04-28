@@ -418,7 +418,20 @@ namespace Josefina.Controllers
 
         public ActionResult OrderConfirmation(TicketOrderViewModel ticketOrderViewModel)
         {
-            return View("~/Views/Tickets/TicketOrder.cshtml", ticketOrderViewModel);
+            ticketOrderViewModel.CategoryOrders = new List<TicketCategoryOrderViewModel>();
+            using (ApplicationDbContext context = new ApplicationDbContext())
+            {
+                var ticketOrder = context.TicketOrders.Single(to => to.VariableSymbol == ticketOrderViewModel.VariableSymbol && to.ProjectID == ticketOrderViewModel.ProjectID);
+
+                var results = context.TicketCategoryOrders.Where(to => to.TicketOrderID == ticketOrder.TicketOrderID).Include(tco => tco.TicketCategory);
+                foreach (var result in results)
+                {
+                    ticketOrderViewModel.CategoryOrders.Add(new TicketCategoryOrderViewModel() { Header = result.TicketCategory.HeaderCZ, Ordered = result.Count, TotalPrice = result.Count * result.TicketCategory.Price });
+                }
+            }
+
+            SetLocalization(ticketOrderViewModel);
+            return View("~/Views/Tickets/TicketOrderLocalized.cshtml", ticketOrderViewModel);
         }
 
         private bool ExceededMaxTickets(Project project, ShowTicketCategoriesViewModel submitedModel, ApplicationDbContext context)
@@ -495,7 +508,7 @@ namespace Josefina.Controllers
                 ticketOrderLocalization.NameViewHdr2 = "Please fill in the civic names of the visitors. These civic names will be checked when tickets will be checked on entry.";
             }
             else
-            {                
+            {
                 if (isJunkTown)
                 {
                     ticketOrderLocalization.FreeTicketsHdr = "Dostupná místa";
@@ -527,6 +540,76 @@ namespace Josefina.Controllers
 
             ticketOrderLocalization.ChangeLangLink = string.Format("http://{0}/tickets/ChangeLanguage/{1}", Request.Url.Authority, projectId);
             viewModel.Localization = ticketOrderLocalization;
+        }
+
+        private void SetLocalization(TicketOrderViewModel viewModel)
+        {
+            //TODO: Set cookie, create button to set cookie/localization response bla bla           
+            bool isEnglish = false;
+            bool isJunkTown = viewModel.ProjectID == 3;
+            var cookie = Request.Cookies[LocalizationCookie];
+
+            if (cookie != null)
+            {
+                if (cookie.Value == "en")
+                {
+                    isEnglish = true;
+                }
+            }
+
+            TicketFinalOrderLocalization ticketFinalOrderLocalization = new TicketFinalOrderLocalization();
+            if (isEnglish)
+            {
+                if (isJunkTown)
+                {
+                    ticketFinalOrderLocalization.FinalizedHdr = "Reservation completed";
+                    ticketFinalOrderLocalization.OrderedTicketsHdr = "Reserved places on Junktown 2017 festival";
+                    ticketFinalOrderLocalization.TicketCountHdr = "Reserved places";
+                    ticketFinalOrderLocalization.TicketTotalPriceHdr = "Total membership fee";
+                    ticketFinalOrderLocalization.ToYourEmail2 = " we've sent you a copy of reservation.";
+                }
+                else
+                {
+                    ticketFinalOrderLocalization.FinalizedHdr = "Order completed";
+                    ticketFinalOrderLocalization.OrderedTicketsHdr = "Ordered tickets";
+                    ticketFinalOrderLocalization.TicketCountHdr = "Ordered tickets";
+                    ticketFinalOrderLocalization.TicketTotalPriceHdr = "Total price";
+                    ticketFinalOrderLocalization.ToYourEmail2 = " we've sent you a copy of order.";
+                }
+                ticketFinalOrderLocalization.ToYourEmail1 = "To your email:";
+                ticketFinalOrderLocalization.CategoryHdr = "Category";
+                ticketFinalOrderLocalization.AccountNumberHdr = "Bank account number: ";
+                ticketFinalOrderLocalization.VSHeader = "Variable symbol:";
+                ticketFinalOrderLocalization.KSHeader = "Constant symbol:";
+                ticketFinalOrderLocalization.DueDateHdr = "Due date:";
+            }
+            else
+            {
+                if (isJunkTown)
+                {
+                    ticketFinalOrderLocalization.FinalizedHdr = "Rezervace dokončena";
+                    ticketFinalOrderLocalization.OrderedTicketsHdr = "Rezervovaná místa na spolkovém festivalu Junktown 2017";
+                    ticketFinalOrderLocalization.TicketCountHdr = "Rezervovaných míst";
+                    ticketFinalOrderLocalization.TicketTotalPriceHdr = "Celková výše stanoveného členského příspěvku";
+                    ticketFinalOrderLocalization.ToYourEmail2 = " Vám byla odeslána kopie vytvořené rezervace.";
+                }
+                else
+                {
+                    ticketFinalOrderLocalization.FinalizedHdr = "Objednávka dokončena";
+                    ticketFinalOrderLocalization.OrderedTicketsHdr = "Objednané vstupenky";
+                    ticketFinalOrderLocalization.TicketCountHdr = "Objednaných vstupenek";
+                    ticketFinalOrderLocalization.TicketTotalPriceHdr = "Celková cena";
+                    ticketFinalOrderLocalization.ToYourEmail2 = " Vám byla odeslána kopie vytvořené objednávky.";
+                }
+                ticketFinalOrderLocalization.ToYourEmail1 = "Na Váš email:";
+                ticketFinalOrderLocalization.CategoryHdr = "Kategorie";
+                ticketFinalOrderLocalization.AccountNumberHdr = "Číslo účtu:";
+                ticketFinalOrderLocalization.VSHeader = "Variabilní symbol:";
+                ticketFinalOrderLocalization.KSHeader = "Konstantní symbol:";
+                ticketFinalOrderLocalization.DueDateHdr = "Datum splatnosti:";
+            }
+
+            viewModel.Localization = ticketFinalOrderLocalization;
         }
     }
 }

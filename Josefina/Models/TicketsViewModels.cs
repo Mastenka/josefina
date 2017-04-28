@@ -127,6 +127,33 @@ namespace Josefina.Models.TicketsViewModel
         public List<TicketCategoryOrderViewModel> CategoryOrders { get; set; }
 
         public string Note { get; set; }
+
+        public TicketFinalOrderLocalization Localization { get; set; }
+    }
+
+    public class TicketFinalOrderLocalization
+    {
+        public string FinalizedHdr { get; set; }
+
+        public string OrderedTicketsHdr { get; set; }
+
+        public string CategoryHdr { get; set; }
+
+        public string TicketCountHdr { get; set; }
+
+        public string TicketTotalPriceHdr { get; set; }
+
+        public string AccountNumberHdr { get; set; }
+
+        public string VSHeader { get; set; }
+
+        public string KSHeader { get; set; }
+
+        public string DueDateHdr { get; set; }
+
+        public string ToYourEmail1 { get; set; }
+
+        public string ToYourEmail2 { get; set; }
     }
 
     public class TicketItemConfirmationViewModel

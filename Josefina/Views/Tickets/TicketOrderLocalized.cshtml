@@ -10,43 +10,19 @@
 <div class="container">
     <div class="row">
         <div class="page-header">
-            @if (Model.ProjectID == 3)
-            {   //Junktown Shit
-                <h1>Rezervace dokončena</h1>
-            }
-            else
-            {   //Normalni, slusni lidi
-                <h1>Objednávka dokončena</h1>
-            }
+                <h1>@Model.Localization.FinalizedHdr</h1>
         </div>
 
-        @if (Model.ProjectID == 3)
-        {   //Junktown Shit
-            <h3>Rezervovaná místa na spolkovém festivalu Junktown 2017</h3>
-        }
-        else
-        {   //Normalni, slusni lidi
-            <h3>Objednané vstupenky</h3>
-        }
-
+        <h3>@Model.Localization.OrderedTicketsHdr</h3>
     </div>
     <div class="row">
         <div class="col-md-6">
             <table class="table">
                 <thead>
                     <tr>
-                        @if (Model.ProjectID == 3)
-                        {   //Junktown Shit
-                            <th style="text-align: center;">Kategorie</th>
-                            <th style="text-align: center;">Rezervovaných míst</th>
-                            <th style="text-align: center;">Celková výše stanoveného členského příspěvku</th>
-                        }
-                        else
-                        {   //Normalni, slusni lidi
-                            <th style="text-align: center;">Kategorie</th>
-                            <th style="text-align: center;">Objednaných vstupenek</th>
-                            <th style="text-align: center;">Celková cena</th>
-                        }
+                        <th style="text-align: center;">@Model.Localization.CategoryHdr</th>
+                        <th style="text-align: center;">@Model.Localization.OrderedTicketsHdr</th>
+                        <th style="text-align: center;">@Model.Localization.TicketTotalPriceHdr</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -73,12 +49,12 @@
                         <text style="font-size:16px;">Číslo účtu:</text>
                     </div>
                     <div class="col-md-10">
-                        <text style="font-size:18px;">@Model.AccountNumber</text>
+                        <text style="font-size:18px;">@Model.Localization.AccountNumberHdr</text>
                     </div>
                 </div>
                 <div class="row" style="margin-top: 5px">
                     <div class="col-md-2">
-                        <text style="font-size:16px;">Variabilní symbol:</text>
+                        <text style="font-size:16px;">@Model.Localization.VSHeader</text>
                     </div>
                     <div class="col-md-10">
                         <text style="font-size:18px;">@Model.VariableSymbol</text>
@@ -88,7 +64,7 @@
                 {   //Junktown Shit
                     <div class="row" style="margin-top: 5px">
                         <div class="col-md-2">
-                            <text style="font-size:16px;">Konstantní symbol:</text>
+                            <text style="font-size:16px;">@Model.Localization.KSHeader</text>
                         </div>
                         <div class="col-md-10">
                             <text style="font-size:18px;">4714</text>
@@ -97,14 +73,7 @@
                 }
                 <div class="row" style="margin-top: 5px">
                     <div class="col-md-2">
-                        @if (Model.ProjectID == 3)
-                        {   //Junktown Shit
-                            <label style="font-size:16px;">Celková výše stanoveného členského příspěvku:</label>
-                        }
-                        else
-                        {   //Normalni, slusni lidi
-                            <label style="font-size:16px;">Celková částka:</label>
-                        }
+                        <label style="font-size:16px;">@Model.Localization.TicketTotalPriceHdr + ":"</label>
                     </div>
                     <div class="col-md-10">
                         <text style="font-size:18px;">@Model.TotalPrice</text>
@@ -112,7 +81,7 @@
                 </div>
                 <div class="row" style="margin-top: 5px">
                     <div class="col-md-2">
-                        <text style="font-size:16px;">Datum splatnost:</text>
+                        <text style="font-size:16px;">@Model.Localization.DueDateHdr</text>
                     </div>
                     <div class="col-md-10">
                         <text style="font-size:18px;">@Model.ReservedUntil</text>
@@ -132,14 +101,7 @@
 
     <div class="row">
         <h3>Kontaktní údáje</h3>
-        @if (Model.ProjectID == 3)
-        {  //Junktown Shit
-            <label font-size:16px;>Na email: <span style="font-size:20px; text-decoration:underline">@Model.Email</span> Vám byla odeslána kopie vytvořené rezervace.</label>
-        }
-        else
-        {   //Normalni, slusni lidi
-            <label font-size:16px;>Na email: <span style="font-size:20px; text-decoration:underline">@Model.Email</span> Vám byla odeslána kopie vytvořené objednávky.</label>
-        }
+        <label font-size:16px;>@Model.Localization.ToYourEmail1<span style="font-size:20px; text-decoration:underline">@Model.Email</span>@Model.Localization.ToYourEmail2</label>
     </div>
     <div class="row">
         <div class="page-header"></div>
