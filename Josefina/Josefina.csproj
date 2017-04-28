@@ -1303,12 +1303,7 @@
     <Content Include="Scripts\angular-cookies.min.js.map" />
     <Content Include="Scripts\angular-aria.min.js.map" />
     <Content Include="Scripts\angular-animate.min.js.map" />
-    <Content Include="Notes.txt" />
-    <Content Include="QA - Peter.txt" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="TODO- Mid.txt" />
-    <Content Include="TODO- Long.txt" />
-    <Content Include="TODO- Short.txt" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
