@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/Mastenka/josefina#readme",
   "dependencies": {
-    "jquery": "^3.2.1"
+    "jquery": "^3.2.1",
+    "yarn": "^0.24.5"
   }
 }
