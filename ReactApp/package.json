@@ -1,5 +1,7 @@
 {
   "dependencies": {
-    "create-react-native-app": "^0.0.6"
+    "adb": "^0.2.0",
+    "create-react-native-app": "^0.0.6",
+    "react-native-cli": "^2.0.1"
   }
 }
