@@ -1306,7 +1306,7 @@ namespace Josefina.Controllers
 
                             updatedTokens.Add(project.BankProxy.FioBankProxy.Token);
 
-                            var result = FIOTransactionLoader.GetFIOTransactions(project, context);
+                            var result = FIOTransactionLoader.GetFIOTransactions(project, context, DateTime.Now.AddDays(-1));
                             project.BankProxy.FioBankProxy.LastUpdate = DateTime.Now;
 
                             if (result.Error)
