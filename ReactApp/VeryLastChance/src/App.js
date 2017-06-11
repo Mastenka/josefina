@@ -12,9 +12,9 @@ import {
   Alert
 } from 'react-native';
 import { StackNavigator } from 'react-navigation';
-import Camera from 'react-native-camera';
 import ScannerScreen from './components/ScannerScreen';
 import ManualSearchScreen from './components/ManualSearchScreen';
+import TicketsStorage from './storage/TicketsStorage'; //HACK
 
 class HomeScreen extends React.Component {
 
@@ -52,6 +52,12 @@ class HomeScreen extends React.Component {
           onPress={this._btnUpload}
           title="Upload"
         />
+
+        <Button
+          onPress={this._btnTest}
+          title="Test"
+        />
+
       </View>
     );
   }
@@ -63,6 +69,14 @@ class HomeScreen extends React.Component {
   _btnUpload(event) {
     Alert.alert("_btnUpload");
   }
+
+  // Hack
+  _btnTest(event) {
+    Alert.alert(TicketsStorage.getTickets());
+  }
+  // HACK
+
+
 }
 
 var styles = StyleSheet.create({
