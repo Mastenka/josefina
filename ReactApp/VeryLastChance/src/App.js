@@ -8,75 +8,79 @@ import {
   Text,
   View,
   Button,
+  TextInput,
+  Alert
 } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 import Camera from 'react-native-camera';
+import ScannerScreen from './components/ScannerScreen';
+import ManualSearchScreen from './components/ManualSearchScreen';
 
 class HomeScreen extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.state = { text: 'Useless Placeholder' };
+  }
+
   static navigationOptions = {
-    title: 'Welcome',
+    title: 'Josefina tickets',
   };
+
   render() {
     const { navigate } = this.props.navigation;
     return (
-      <View>
-        <Text>Hello, Chat App!</Text>
+      <View style={styles.container}>
+        {/*<TextInput
+          style={{borderColor: 'gray', borderWidth: 1, }}
+          onChange Text={(text) => this.setState({ text })}
+          value={this.state.text}
+        />*/}
         <Button
-          onPress={() => navigate('Chat')}
-          title="Chat with Lucy"
+          onPress={() => navigate('Scanner')}
+          title="QR Scanner"
+        />
+        <Button
+          onPress={() => navigate('ManualSearch')}
+          title="Manual search"
+        />
+        <Button
+          onPress={this._btnDownload}
+          title="Download"
+        />
+        <Button
+          onPress={this._btnUpload}
+          title="Upload"
         />
       </View>
     );
   }
-}
 
-class BadInstagramCloneApp extends Component {
-  render() {
-    return (
-      <View style={styles.container}>
-        <Camera
-          ref={(cam) => {
-            this.camera = cam;
-          }}
-          style={styles.preview}
-          aspect={Camera.constants.Aspect.fill}>
-          <Text style={styles.capture} onPress={this.takePicture.bind(this)}>[CAPTURE]</Text>
-        </Camera>
-      </View>
-    );
+  _btnDownload(event) {
+    Alert.alert("_btnDownload");
   }
 
-  takePicture() {
-    const options = {};
-    //options.location = ...
-    this.camera.capture({metadata: options})
-      .then((data) => console.log(data))
-      .catch(err => console.error(err));
+  _btnUpload(event) {
+    Alert.alert("_btnUpload");
   }
 }
 
-const styles = StyleSheet.create({
+var styles = StyleSheet.create({
   container: {
-    flex: 1,
-    flexDirection: 'row',
+    paddingTop: 30,
+    paddingBottom: 10,
+    flexDirection: 'column'
   },
-  preview: {
-    flex: 1,
-    justifyContent: 'flex-end',
-    alignItems: 'center'
-  },
-  capture: {
-    flex: 0,
-    backgroundColor: '#fff',
-    borderRadius: 5,
-    color: '#000',
-    padding: 10,
-    margin: 40
+  textCenter: {
+    textAlign: 'center',
+
   }
 });
+
 const VeryLastChance = StackNavigator({
   Home: { screen: HomeScreen },
-  Chat: { screen: BadInstagramCloneApp },
+  Scanner: { screen: ScannerScreen },
+  ManualSearch: { screen: ManualSearchScreen },
 });
 
 AppRegistry.registerComponent('VeryLastChance', () => VeryLastChance);
