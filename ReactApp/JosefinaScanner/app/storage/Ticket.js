@@ -1,5 +1,6 @@
 export default class Ticket {
-    constructor(qrCode, code, name, email, vs, payed) {
+    constructor(id, qrCode, code, name, email, vs, payed) {
+        this.id = id;
         this.qrCode = qrCode;
         this.code = code;
         this.name = name;

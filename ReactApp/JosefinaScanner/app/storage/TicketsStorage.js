@@ -19,6 +19,17 @@ class TicketsStorage {
         // return "Ahoj";
         return _tickets;
     };
+
+    getTicketByQRCode = (qrCode) => {
+        var ticket = _tickets.filter((ticket) => ticket.qrCode === qrCode);
+
+        if (ticket.length === 1) {
+            var nevim = ticket[0];
+            return nevim;
+        } else {
+            return undefined;
+        }
+    };
 }
 
 export default new TicketsStorage();
