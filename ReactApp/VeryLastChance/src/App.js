@@ -72,10 +72,12 @@ class HomeScreen extends React.Component {
 
   // Hack
   _btnTest(event) {
-    Alert.alert(TicketsStorage.getTickets());
+
+    var neco = TicketsStorage.getTickets();
+
+    Alert.alert(JSON.stringify(neco[0]));
   }
   // HACK
-
 
 }
 

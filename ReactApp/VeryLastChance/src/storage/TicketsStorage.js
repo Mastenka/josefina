@@ -1,22 +1,24 @@
-// import Ticket from './Ticket'
+import { Alert } from 'react-native';
 
-// let _tickets = [];
+import Ticket from './Ticket';
 
-export default class TicketsStorage {
+let _tickets = [];
 
+class TicketsStorage {
 
-    // componentDidMount(){
-    //     this._loadTickets();
-    // };
+    constructor() {
+        this._loadTickets();
+    };
 
-    // _loadTickets(){
-    //     _tickets = [new Ticket("QR1", "CODE1", "name1", "email1", 1, true), new Ticket("QR2", "CODE2", "name2", "email2", 2, false)]
-    // }
+    _loadTickets() {
+        _tickets = [new Ticket("QR1", "CODE1", "name1", "email1", 1, true), new Ticket("QR2", "CODE2", "name2", "email2", 2, false)];
+        // Alert.alert('asd');
+    }
 
-categoryView = () => {
-        return "Ahoj";
-        // return _tickets;
+    getTickets = () => {
+        // return "Ahoj";
+        return _tickets;
     };
 }
 
-
+export default new TicketsStorage();
