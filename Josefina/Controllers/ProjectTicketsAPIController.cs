@@ -5,24 +5,15 @@ using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
 using Josefina.DAL;
 using Josefina.Entities;
-using Josefina.Models;
-using Josefina.Models.TicketsViewModel;
-using Newtonsoft.Json.Linq;
 using System.Security.Claims;
-using Microsoft.AspNet.SignalR;
 using Josefina.ApiModels.Tickets;
 using Josefina.Helpers;
-using System.Threading.Tasks;
-using System.Web;
 using System.IO;
-using Newtonsoft.Json;
 using System.Drawing;
-using System.Drawing.Imaging;
 using Josefina.Mailers;
 
 namespace Josefina.Controllers
