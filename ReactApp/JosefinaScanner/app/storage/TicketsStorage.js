@@ -3,6 +3,7 @@ import { Alert } from 'react-native';
 import Ticket from './Ticket';
 
 let _tickets = [];
+let _ticketIdsToBeUpdated = [];
 
 class TicketsStorage {
 
@@ -11,12 +12,10 @@ class TicketsStorage {
     };
 
     _loadTickets() {
-        _tickets = [new Ticket("QR1", "CODE1", "name1", "email1", 1, true), new Ticket("QR2", "CODE2", "name2", "email2", 2, false)];
-        // Alert.alert('asd');
+        _tickets = [new Ticket("1","QR1", "CODE1", "name1", "email1", 1, true), new Ticket("2", "QR2", "CODE2", "name2", "email2", 2, false)];
     }
 
     getTickets = () => {
-        // return "Ahoj";
         return _tickets;
     };
 
@@ -30,6 +29,16 @@ class TicketsStorage {
             return undefined;
         }
     };
+
+    checkTicket = (ticketToCheck) => {
+        _tickets.forEach(function(ticket) {
+            if(ticket.id === ticketToCheck.id){
+                ticket.checked = true;
+            }
+        }, this);
+
+        _ticketIdsToBeUpdated.push(ticketToCheck.id);
+    }
 }
 
 export default new TicketsStorage();

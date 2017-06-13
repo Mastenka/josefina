@@ -1259,7 +1259,7 @@ var _ScannerScreen = require(460                         ); // 460 = ./component
 
 var _ScannerScreen2 = babelHelpers.interopRequireDefault(_ScannerScreen);
 
-var _ManualSearchScreen = require(489                              ); // 489 = ./components/ManualSearchScreen
+var _ManualSearchScreen = require(465                              ); // 465 = ./components/ManualSearchScreen
 
 var _ManualSearchScreen2 = babelHelpers.interopRequireDefault(_ManualSearchScreen);
 
@@ -55465,35 +55465,126 @@ var ScannerScreen = function (_Component) {
 
     function ScannerScreen() {
         babelHelpers.classCallCheck(this, ScannerScreen);
-        return babelHelpers.possibleConstructorReturn(this, (ScannerScreen.__proto__ || Object.getPrototypeOf(ScannerScreen)).apply(this, arguments));
+
+        var _this = babelHelpers.possibleConstructorReturn(this, (ScannerScreen.__proto__ || Object.getPrototypeOf(ScannerScreen)).call(this));
+
+        _this.state = {
+            cameraVisible: true, ticketToCheck: {}
+        };
+        return _this;
     }
 
     babelHelpers.createClass(ScannerScreen, [{
         key: 'render',
         value: function render() {
-            return _react2.default.createElement(_TicketConfirmation2.default, {
-                __source: {
-                    fileName: _jsxFileName,
-                    lineNumber: 27
-                }
+            var _this2 = this;
+
+            var cameraVisible = this.state.cameraVisible;
+
+            if (cameraVisible) {
+                return _react2.default.createElement(
+                    _reactNative.View,
+                    { style: styles.container, __source: {
+                            fileName: _jsxFileName,
+                            lineNumber: 35
+                        }
+                    },
+                    _react2.default.createElement(
+                        _reactNativeCamera2.default,
+                        {
+                            ref: function ref(cam) {
+                                _this2.camera = cam;
+                            },
+                            style: styles.preview,
+                            aspect: _reactNativeCamera2.default.constants.Aspect.fill, __source: {
+                                fileName: _jsxFileName,
+                                lineNumber: 36
+                            }
+                        },
+                        _react2.default.createElement(
+                            _reactNative.Text,
+                            { style: styles.capture, onPress: this._btnTest.bind(this), __source: {
+                                    fileName: _jsxFileName,
+                                    lineNumber: 42
+                                }
+                            },
+                            '[CAPTURE]'
+                        )
+                    )
+                );
+            } else {
+                return _react2.default.createElement(
+                    _reactNative.View,
+                    { style: styles.container, __source: {
+                            fileName: _jsxFileName,
+                            lineNumber: 48
+                        }
+                    },
+                    _react2.default.createElement(_TicketConfirmation2.default, {
+                        modalClosed: this._modalClosed.bind(this),
+                        ticket: this.state.ticketToCheck,
+                        __source: {
+                            fileName: _jsxFileName,
+                            lineNumber: 49
+                        }
+                    })
+                );
+            }
+        }
+    }, {
+        key: '_modalClosed',
+        value: function _modalClosed(checkTicket) {
+            if (checkTicket) {
+                var ticketToCheck = this.state.ticketToCheck;
+                this._checkTicket(ticketToCheck);
+            }
+
+            this.setState(function () {
+                return { cameraVisible: true, ticketToCheck: {} };
             });
+        }
+    }, {
+        key: '_checkTicket',
+        value: function _checkTicket(ticket) {
+            _TicketsStorage2.default.checkTicket(ticket);
         }
     }, {
         key: '_onBarCodeRead',
         value: function _onBarCodeRead(event) {
-            _reactNative.Alert.alert(event.data);
+            var ticket = _TicketsStorage2.default.getTicketByQRCode(event.data);
+
+            if (ticket !== undefined) {
+                if (ticket.checked) {
+                    this._ticketAlreadyCheckedAlert();
+                } else {
+                    this._showModalTicket(ticket);
+                }
+            } else {
+                this._ticketNotFoundAlert();
+            }
+        }
+    }, {
+        key: '_showModalTicket',
+        value: function _showModalTicket(ticket) {
+            this.setState(function (previousState) {
+                return { cameraVisible: !previousState.cameraVisible, ticketToCheck: ticket };
+            });
+        }
+    }, {
+        key: '_ticketNotFoundAlert',
+        value: function _ticketNotFoundAlert() {
+            _reactNative.Alert.alert('Error', 'Ticket not found! :(', [{ text: 'OK' }], { cancelable: false });
+        }
+    }, {
+        key: '_ticketAlreadyCheckedAlert',
+        value: function _ticketAlreadyCheckedAlert() {
+            _reactNative.Alert.alert('Error', 'Ticket already checked!', [{ text: 'OK' }], { cancelable: false });
         }
     }, {
         key: '_btnTest',
         value: function _btnTest(event) {
-            _reactNative.Alert.alert('Alert Title', 'My Alert Msg', [{ text: 'Ask me later', onPress: function onPress() {
-                    return console.log('Ask me later pressed');
-                } }, { text: 'Cancel', onPress: function onPress() {
-                    return console.log('Cancel Pressed');
-                }, style: 'cancel' }, { text: 'OK', onPress: function onPress() {
-                    return console.log('OK Pressed');
-                } }], { cancelable: false });
-            var mock = { data: 'QR1' };
+            var mock = { data: 'QR2' };
+            this._onBarCodeRead(mock);
         }
     }]);
     return ScannerScreen;
@@ -55832,9 +55923,12 @@ var _Ticket = require(463       ); // 463 = ./Ticket
 var _Ticket2 = babelHelpers.interopRequireDefault(_Ticket);
 
 var _tickets = [];
+var _ticketIdsToBeUpdated = [];
 
 var TicketsStorage = function () {
     function TicketsStorage() {
+        var _this = this;
+
         babelHelpers.classCallCheck(this, TicketsStorage);
 
         this.getTickets = function () {
@@ -55854,13 +55948,23 @@ var TicketsStorage = function () {
             }
         };
 
+        this.checkTicket = function (ticketToCheck) {
+            _tickets.forEach(function (ticket) {
+                if (ticket.id === ticketToCheck.id) {
+                    ticket.checked = true;
+                }
+            }, _this);
+
+            _ticketIdsToBeUpdated.push(ticketToCheck.id);
+        };
+
         this._loadTickets();
     }
 
     babelHelpers.createClass(TicketsStorage, [{
         key: '_loadTickets',
         value: function _loadTickets() {
-            _tickets = [new _Ticket2.default("QR1", "CODE1", "name1", "email1", 1, true), new _Ticket2.default("QR2", "CODE2", "name2", "email2", 2, false)];
+            _tickets = [new _Ticket2.default("1", "QR1", "CODE1", "name1", "email1", 1, true), new _Ticket2.default("2", "QR2", "CODE2", "name2", "email2", 2, false)];
         }
     }]);
     return TicketsStorage;
@@ -55872,7 +55976,7 @@ __d(/* JosefinaScanner/app/storage/Ticket.js */function(global, require, module,
     value: true
 });
 
-var Ticket = function Ticket(id, qrCode, code, name, email, vs, payed) {
+var Ticket = function Ticket(id, qrCode, code, name, email, vs, checked) {
     babelHelpers.classCallCheck(this, Ticket);
 
     this.id = id;
@@ -55881,13 +55985,13 @@ var Ticket = function Ticket(id, qrCode, code, name, email, vs, payed) {
     this.name = name;
     this.email = email;
     this.vs = vs;
-    this.payed = payed;
+    this.checked = checked;
 };
 
 exports.default = Ticket;
 }, 463, null, "JosefinaScanner/app/storage/Ticket.js");
 __d(/* JosefinaScanner/app/components/TicketConfirmation.js */function(global, require, module, exports) {Object.defineProperty(exports, "__esModule", {
-  value: true
+    value: true
 });
 var _jsxFileName = 'c:\\CODE\\git\\josefina\\ReactApp\\JosefinaScanner\\app\\components\\TicketConfirmation.js';
 
@@ -55897,2205 +56001,193 @@ var _react2 = babelHelpers.interopRequireDefault(_react);
 
 var _reactNative = require(27            ); // 27 = react-native
 
-var _reactNativeModal = require(465                 ); // 465 = react-native-modal
-
-var _reactNativeModal2 = babelHelpers.interopRequireDefault(_reactNativeModal);
-
 var TicketConfirmation = function (_Component) {
-  babelHelpers.inherits(TicketConfirmation, _Component);
+    babelHelpers.inherits(TicketConfirmation, _Component);
 
-  function TicketConfirmation() {
-    var _ref;
+    function TicketConfirmation() {
+        var _ref;
 
-    var _temp, _this, _ret;
+        var _temp, _this, _ret;
 
-    babelHelpers.classCallCheck(this, TicketConfirmation);
+        babelHelpers.classCallCheck(this, TicketConfirmation);
 
-    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-      args[_key] = arguments[_key];
+        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+            args[_key] = arguments[_key];
+        }
+
+        return _ret = (_temp = (_this = babelHelpers.possibleConstructorReturn(this, (_ref = TicketConfirmation.__proto__ || Object.getPrototypeOf(TicketConfirmation)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
+            modalVisible: true
+        }, _temp), babelHelpers.possibleConstructorReturn(_this, _ret);
     }
 
-    return _ret = (_temp = (_this = babelHelpers.possibleConstructorReturn(this, (_ref = TicketConfirmation.__proto__ || Object.getPrototypeOf(TicketConfirmation)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
-      isModalVisible: false
-    }, _this._showModal = function () {
-      return _this.setState({ isModalVisible: true });
-    }, _this._hideModal = function () {
-      return _this.setState({ isModalVisible: false });
-    }, _temp), babelHelpers.possibleConstructorReturn(_this, _ret);
-  }
+    babelHelpers.createClass(TicketConfirmation, [{
+        key: 'render',
+        value: function render() {
+            var _this2 = this;
 
-  babelHelpers.createClass(TicketConfirmation, [{
-    key: 'render',
-    value: function render() {
-      return _react2.default.createElement(
-        _reactNative.View,
-        { style: { flex: 1 }, __source: {
-            fileName: _jsxFileName,
-            lineNumber: 16
-          }
-        },
-        _react2.default.createElement(
-          _reactNative.TouchableOpacity,
-          { onPress: this._showModal, __source: {
-              fileName: _jsxFileName,
-              lineNumber: 17
-            }
-          },
-          _react2.default.createElement(
-            _reactNative.Text,
-            {
-              __source: {
-                fileName: _jsxFileName,
-                lineNumber: 18
-              }
-            },
-            'Show Modal'
-          )
-        ),
-        _react2.default.createElement(
-          _reactNativeModal2.default,
-          { isVisible: this.state.isModalVisible, __source: {
-              fileName: _jsxFileName,
-              lineNumber: 20
-            }
-          },
-          _react2.default.createElement(
-            _reactNative.View,
-            { style: { flex: 1 }, __source: {
-                fileName: _jsxFileName,
-                lineNumber: 21
-              }
-            },
-            _react2.default.createElement(
-              _reactNative.Text,
-              {
-                __source: {
-                  fileName: _jsxFileName,
-                  lineNumber: 22
-                }
-              },
-              'Hello!'
-            )
-          )
-        )
-      );
-    }
-  }]);
-  return TicketConfirmation;
+            return _react2.default.createElement(
+                _reactNative.View,
+                { style: styles.container, __source: {
+                        fileName: _jsxFileName,
+                        lineNumber: 24
+                    }
+                },
+                _react2.default.createElement(
+                    _reactNative.Modal,
+                    {
+                        animationType: "slide",
+                        transparent: false,
+                        onRequestClose: function onRequestClose() {
+                            _this2.props.modalClosed(false);
+                        }, __source: {
+                            fileName: _jsxFileName,
+                            lineNumber: 25
+                        }
+                    },
+                    _react2.default.createElement(
+                        _reactNative.View,
+                        { style: styles.container, __source: {
+                                fileName: _jsxFileName,
+                                lineNumber: 29
+                            }
+                        },
+                        _react2.default.createElement(
+                            _reactNative.View,
+                            {
+                                __source: {
+                                    fileName: _jsxFileName,
+                                    lineNumber: 30
+                                }
+                            },
+                            _react2.default.createElement(
+                                _reactNative.Text,
+                                {
+                                    __source: {
+                                        fileName: _jsxFileName,
+                                        lineNumber: 31
+                                    }
+                                },
+                                'Email'
+                            ),
+                            _react2.default.createElement(
+                                _reactNative.Text,
+                                {
+                                    __source: {
+                                        fileName: _jsxFileName,
+                                        lineNumber: 32
+                                    }
+                                },
+                                this.props.ticket.email
+                            ),
+                            _react2.default.createElement(
+                                _reactNative.Text,
+                                {
+                                    __source: {
+                                        fileName: _jsxFileName,
+                                        lineNumber: 33
+                                    }
+                                },
+                                'Name'
+                            ),
+                            _react2.default.createElement(
+                                _reactNative.Text,
+                                {
+                                    __source: {
+                                        fileName: _jsxFileName,
+                                        lineNumber: 34
+                                    }
+                                },
+                                this.props.ticket.name
+                            ),
+                            _react2.default.createElement(
+                                _reactNative.Text,
+                                {
+                                    __source: {
+                                        fileName: _jsxFileName,
+                                        lineNumber: 35
+                                    }
+                                },
+                                'Code'
+                            ),
+                            _react2.default.createElement(
+                                _reactNative.Text,
+                                {
+                                    __source: {
+                                        fileName: _jsxFileName,
+                                        lineNumber: 36
+                                    }
+                                },
+                                this.props.ticket.code
+                            ),
+                            _react2.default.createElement(
+                                _reactNative.Text,
+                                {
+                                    __source: {
+                                        fileName: _jsxFileName,
+                                        lineNumber: 37
+                                    }
+                                },
+                                'VS'
+                            ),
+                            _react2.default.createElement(
+                                _reactNative.Text,
+                                {
+                                    __source: {
+                                        fileName: _jsxFileName,
+                                        lineNumber: 38
+                                    }
+                                },
+                                this.props.ticket.vs
+                            )
+                        ),
+                        _react2.default.createElement(_reactNative.Button, { title: 'Check', onPress: this._onCheck.bind(this), __source: {
+                                fileName: _jsxFileName,
+                                lineNumber: 40
+                            }
+                        }),
+                        _react2.default.createElement(_reactNative.Button, { title: 'Back', onPress: this._onBack.bind(this), __source: {
+                                fileName: _jsxFileName,
+                                lineNumber: 41
+                            }
+                        })
+                    )
+                )
+            );
+        }
+    }, {
+        key: '_onBack',
+        value: function _onBack(event) {
+            this.props.modalClosed(false);
+        }
+    }, {
+        key: '_onCheck',
+        value: function _onCheck(event) {
+            this.props.modalClosed(true);
+        }
+    }]);
+    return TicketConfirmation;
 }(_react.Component);
 
 exports.default = TicketConfirmation;
-}, 464, null, "JosefinaScanner/app/components/TicketConfirmation.js");
-__d(/* react-native-modal/src/index.js */function(global, require, module, exports) {Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.ReactNativeModal = undefined;
-var _jsxFileName = 'c:\\CODE\\git\\josefina\\ReactApp\\JosefinaScanner\\node_modules\\react-native-modal\\src\\index.js';
 
-var _react = require(13     ); // 13 = react
 
-var _react2 = babelHelpers.interopRequireDefault(_react);
-
-var _reactNative = require(27            ); // 27 = react-native
-
-var _propTypes = require(20          ); // 20 = prop-types
-
-var _propTypes2 = babelHelpers.interopRequireDefault(_propTypes);
-
-var _reactNativeAnimatable = require(466                      ); // 466 = react-native-animatable
-
-var _animations = require(487           ); // 487 = ./animations
-
-var ANIMATION_DEFINITIONS = babelHelpers.interopRequireWildcard(_animations);
-
-var _indexStyle = require(488               ); // 488 = ./index.style.js
-
-var _indexStyle2 = babelHelpers.interopRequireDefault(_indexStyle);
-
-(0, _reactNativeAnimatable.initializeRegistryWithDefinitions)(ANIMATION_DEFINITIONS);
-
-var ReactNativeModal = exports.ReactNativeModal = function (_Component) {
-  babelHelpers.inherits(ReactNativeModal, _Component);
-
-  function ReactNativeModal() {
-    var _ref,
-        _this2 = this;
-
-    var _temp, _this, _ret;
-
-    babelHelpers.classCallCheck(this, ReactNativeModal);
-
-    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-      args[_key] = arguments[_key];
-    }
-
-    return _ret = (_temp = (_this = babelHelpers.possibleConstructorReturn(this, (_ref = ReactNativeModal.__proto__ || Object.getPrototypeOf(ReactNativeModal)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
-      isVisible: false,
-      deviceWidth: _reactNative.Dimensions.get('window').width,
-      deviceHeight: _reactNative.Dimensions.get('window').height
-    }, _this._open = function () {
-      _this.backdropRef.transitionTo({ opacity: _this.props.backdropOpacity }, _this.props.backdropTransitionInTiming);
-      _this.contentRef[_this.props.animationIn](_this.props.animationInTiming).then(function () {
-        _this.props.onModalShow();
-      });
-    }, _this._close = function _callee() {
-      return regeneratorRuntime.async(function _callee$(_context) {
-        while (1) {
-          switch (_context.prev = _context.next) {
-            case 0:
-              _this.backdropRef.transitionTo({ opacity: 0 }, _this.props.backdropTransitionOutTiming);
-              _this.contentRef[_this.props.animationOut](_this.props.animationOutTiming).then(function () {
-                _this.setState({ isVisible: false });
-                _this.props.onModalHide();
-              });
-
-            case 2:
-            case 'end':
-              return _context.stop();
-          }
-        }
-      }, null, _this2);
-    }, _this._closeOnBack = function () {
-      if (_this.props.hideOnBack) {
-        _this._close();
-      }
-
-      _this.props.onBackButtonPress();
-    }, _this._handleLayout = function (event) {
-      var deviceWidth = _reactNative.Dimensions.get('window').width;
-      var deviceHeight = _reactNative.Dimensions.get('window').height;
-      if (deviceWidth !== _this.state.deviceWidth || deviceHeight !== _this.state.deviceHeight) {
-        _this.setState({ deviceWidth: deviceWidth, deviceHeight: deviceHeight });
-      }
-    }, _temp), babelHelpers.possibleConstructorReturn(_this, _ret);
-  }
-
-  babelHelpers.createClass(ReactNativeModal, [{
-    key: 'componentWillReceiveProps',
-    value: function componentWillReceiveProps(nextProps) {
-      if (!this.state.isVisible && nextProps.isVisible) {
-        this.setState({ isVisible: true });
-      }
-    }
-  }, {
-    key: 'componentWillMount',
-    value: function componentWillMount() {
-      if (this.props.isVisible) {
-        this.setState({ isVisible: true });
-      }
-    }
-  }, {
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      if (this.state.isVisible) {
-        this._open();
-      }
-    }
-  }, {
-    key: 'componentDidUpdate',
-    value: function componentDidUpdate(prevProps, prevState) {
-      if (this.state.isVisible && !prevState.isVisible) {
-        this._open();
-      } else if (!this.props.isVisible && prevProps.isVisible) {
-        this._close();
-      }
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      var _this3 = this;
-
-      var _props = this.props,
-          animationIn = _props.animationIn,
-          animationInTiming = _props.animationInTiming,
-          animationOut = _props.animationOut,
-          animationOutTiming = _props.animationOutTiming,
-          backdropColor = _props.backdropColor,
-          backdropOpacity = _props.backdropOpacity,
-          backdropTransitionInTiming = _props.backdropTransitionInTiming,
-          backdropTransitionOutTiming = _props.backdropTransitionOutTiming,
-          children = _props.children,
-          isVisible = _props.isVisible,
-          onModalShow = _props.onModalShow,
-          onModalHide = _props.onModalHide,
-          style = _props.style,
-          otherProps = babelHelpers.objectWithoutProperties(_props, ['animationIn', 'animationInTiming', 'animationOut', 'animationOutTiming', 'backdropColor', 'backdropOpacity', 'backdropTransitionInTiming', 'backdropTransitionOutTiming', 'children', 'isVisible', 'onModalShow', 'onModalHide', 'style']);
-      var _state = this.state,
-          deviceWidth = _state.deviceWidth,
-          deviceHeight = _state.deviceHeight;
-
-      return _react2.default.createElement(
-        _reactNative.Modal,
-        babelHelpers.extends({
-          transparent: true,
-          animationType: 'none',
-          visible: this.state.isVisible,
-          onRequestClose: this._closeOnBack
-        }, otherProps, {
-          __source: {
-            fileName: _jsxFileName,
-            lineNumber: 140
-          }
-        }),
-        _react2.default.createElement(_reactNativeAnimatable.View, {
-          onLayout: this._handleLayout,
-          ref: function ref(_ref2) {
-            return _this3.backdropRef = _ref2;
-          },
-          style: [_indexStyle2.default.backdrop, { backgroundColor: backdropColor, width: deviceWidth, height: deviceHeight }],
-          __source: {
-            fileName: _jsxFileName,
-            lineNumber: 147
-          }
-        }),
-        _react2.default.createElement(
-          _reactNativeAnimatable.View,
-          babelHelpers.extends({
-            ref: function ref(_ref3) {
-              return _this3.contentRef = _ref3;
-            },
-            style: [{ margin: deviceWidth * 0.05 }, _indexStyle2.default.content, style]
-          }, otherProps, {
-            __source: {
-              fileName: _jsxFileName,
-              lineNumber: 155
-            }
-          }),
-          children
-        )
-      );
-    }
-  }]);
-  return ReactNativeModal;
-}(_react.Component);
-
-ReactNativeModal.propTypes = {
-  animationIn: _propTypes2.default.string,
-  animationInTiming: _propTypes2.default.number,
-  animationOut: _propTypes2.default.string,
-  animationOutTiming: _propTypes2.default.number,
-  backdropColor: _propTypes2.default.string,
-  backdropOpacity: _propTypes2.default.number,
-  backdropTransitionInTiming: _propTypes2.default.number,
-  backdropTransitionOutTiming: _propTypes2.default.number,
-  children: _propTypes2.default.node.isRequired,
-  isVisible: _propTypes2.default.bool.isRequired,
-  onModalShow: _propTypes2.default.func,
-  onModalHide: _propTypes2.default.func,
-  hideOnBack: _propTypes2.default.bool,
-  onBackButtonPress: _propTypes2.default.func,
-  style: _propTypes2.default.any
-};
-ReactNativeModal.defaultProps = {
-  animationIn: 'slideInUp',
-  animationInTiming: 300,
-  animationOut: 'slideOutDown',
-  animationOutTiming: 300,
-  backdropColor: 'black',
-  backdropOpacity: 0.70,
-  backdropTransitionInTiming: 300,
-  backdropTransitionOutTiming: 300,
-  onModalShow: function onModalShow() {
-    return null;
-  },
-  onModalHide: function onModalHide() {
-    return null;
-  },
-  isVisible: false,
-  hideOnBack: true,
-  onBackButtonPress: function onBackButtonPress() {
-    return null;
-  }
-};
-exports.default = ReactNativeModal;
-}, 465, null, "react-native-modal/src/index.js");
-__d(/* react-native-animatable/index.js */function(global, require, module, exports) {Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.initializeRegistryWithDefinitions = exports.registerAnimation = exports.createAnimation = exports.Image = exports.Text = exports.View = exports.createAnimatableComponent = undefined;
-
-var _createAnimation = require(467                ); // 467 = ./createAnimation
-
-Object.defineProperty(exports, 'createAnimation', {
-  enumerable: true,
-  get: function get() {
-    return babelHelpers.interopRequireDefault(_createAnimation).default;
-  }
-});
-
-var _registry = require(469         ); // 469 = ./registry
-
-Object.defineProperty(exports, 'registerAnimation', {
-  enumerable: true,
-  get: function get() {
-    return _registry.registerAnimation;
-  }
-});
-Object.defineProperty(exports, 'initializeRegistryWithDefinitions', {
-  enumerable: true,
-  get: function get() {
-    return _registry.initializeRegistryWithDefinitions;
-  }
-});
-
-var _reactNative = require(27            ); // 27 = react-native
-
-var _createAnimatableComponent = require(470                          ); // 470 = ./createAnimatableComponent
-
-var _createAnimatableComponent2 = babelHelpers.interopRequireDefault(_createAnimatableComponent);
-
-var _definitions = require(475            ); // 475 = ./definitions
-
-var ANIMATION_DEFINITIONS = babelHelpers.interopRequireWildcard(_definitions);
-
-
-(0, _registry.initializeRegistryWithDefinitions)(ANIMATION_DEFINITIONS);
-
-var createAnimatableComponent = exports.createAnimatableComponent = _createAnimatableComponent2.default;
-var View = exports.View = (0, _createAnimatableComponent2.default)(_reactNative.View);
-var Text = exports.Text = (0, _createAnimatableComponent2.default)(_reactNative.Text);
-var Image = exports.Image = (0, _createAnimatableComponent2.default)(_reactNative.Image);
-}, 466, null, "react-native-animatable/index.js");
-__d(/* react-native-animatable/createAnimation.js */function(global, require, module, exports) {Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = createAnimation;
-
-var _flattenStyle = require(468             ); // 468 = ./flattenStyle
-
-var _flattenStyle2 = babelHelpers.interopRequireDefault(_flattenStyle);
-
-function compareNumbers(a, b) {
-  return a - b;
-}
-
-function notNull(value) {
-  return value !== null;
-}
-
-function parsePosition(value) {
-  if (value === 'from') {
-    return 0;
-  } else if (value === 'to') {
-    return 1;
-  }
-  var parsed = parseFloat(value, 10);
-  if (isNaN(parsed) || parsed < 0 || parsed > 1) {
-    return null;
-  }
-  return parsed;
-}
-
-var cache = {};
-
-function createAnimation(definition) {
-  var cacheKey = JSON.stringify(definition);
-  if (cache[cacheKey]) {
-    return cache[cacheKey];
-  }
-
-  var positions = Object.keys(definition).map(parsePosition).filter(notNull);
-  positions.sort(compareNumbers);
-
-  if (positions.length < 2) {
-    throw new Error('Animation definitions must have at least two values.');
-  }
-
-  var compiled = {};
-  if (definition.easing) {
-    compiled.easing = definition.easing;
-  }
-  if (definition.style) {
-    compiled.style = definition.style;
-  }
-
-  var _loop = function _loop(i) {
-    var position = positions[i];
-    var keyframe = definition[position];
-    if (!keyframe) {
-      if (position === 0) {
-        keyframe = definition.from;
-      } else if (position === 1) {
-        keyframe = definition.to;
-      }
-    }
-    if (!keyframe) {
-      throw new Error('Missing animation keyframe, this should not happen');
-    }
-
-    keyframe = (0, _flattenStyle2.default)(keyframe);
-    Object.keys(keyframe).forEach(function (key) {
-      if (!(key in compiled)) {
-        compiled[key] = {
-          inputRange: [],
-          outputRange: []
-        };
-      }
-      compiled[key].inputRange.push(position);
-      compiled[key].outputRange.push(keyframe[key]);
-    });
-  };
-
-  for (var i = 0; i < positions.length; i += 1) {
-    _loop(i);
-  }
-
-  cache[cacheKey] = compiled;
-
-  return compiled;
-}
-}, 467, null, "react-native-animatable/createAnimation.js");
-__d(/* react-native-animatable/flattenStyle.js */function(global, require, module, exports) {Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = flattenStyle;
-
-var _reactNative = require(27            ); // 27 = react-native
-
-function flattenStyle(style) {
-  var flatStyle = babelHelpers.extends({}, _reactNative.StyleSheet.flatten(style));
-  if (flatStyle.transform) {
-    flatStyle.transform.forEach(function (transform) {
-      var key = Object.keys(transform)[0];
-      flatStyle[key] = transform[key];
-    });
-    delete flatStyle.transform;
-  }
-  return flatStyle;
-}
-}, 468, null, "react-native-animatable/flattenStyle.js");
-__d(/* react-native-animatable/registry.js */function(global, require, module, exports) {Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.registerAnimation = registerAnimation;
-exports.getAnimationByName = getAnimationByName;
-exports.getAnimationNames = getAnimationNames;
-exports.initializeRegistryWithDefinitions = initializeRegistryWithDefinitions;
-
-var _createAnimation = require(467                ); // 467 = ./createAnimation
-
-var _createAnimation2 = babelHelpers.interopRequireDefault(_createAnimation);
-
-var animationRegistry = {};
-
-function registerAnimation(animationName, animation) {
-  animationRegistry[animationName] = animation;
-}
-
-function getAnimationByName(animationName) {
-  return animationRegistry[animationName];
-}
-
-function getAnimationNames() {
-  return Object.keys(animationRegistry);
-}
-
-function initializeRegistryWithDefinitions(definitions) {
-  Object.keys(definitions).forEach(function (animationName) {
-    registerAnimation(animationName, (0, _createAnimation2.default)(definitions[animationName]));
-  });
-}
-}, 469, null, "react-native-animatable/registry.js");
-__d(/* react-native-animatable/createAnimatableComponent.js */function(global, require, module, exports) {Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-var _jsxFileName = 'c:\\CODE\\git\\josefina\\ReactApp\\JosefinaScanner\\node_modules\\react-native-animatable\\createAnimatableComponent.js';
-exports.default = createAnimatableComponent;
-
-var _react = require(13     ); // 13 = react
-
-var _react2 = babelHelpers.interopRequireDefault(_react);
-
-var _reactNative = require(27            ); // 27 = react-native
-
-var _wrapStyleTransforms = require(471                    ); // 471 = ./wrapStyleTransforms
-
-var _wrapStyleTransforms2 = babelHelpers.interopRequireDefault(_wrapStyleTransforms);
-
-var _getStyleValues = require(472               ); // 472 = ./getStyleValues
-
-var _getStyleValues2 = babelHelpers.interopRequireDefault(_getStyleValues);
-
-var _flattenStyle = require(468             ); // 468 = ./flattenStyle
-
-var _flattenStyle2 = babelHelpers.interopRequireDefault(_flattenStyle);
-
-var _createAnimation = require(467                ); // 467 = ./createAnimation
-
-var _createAnimation2 = babelHelpers.interopRequireDefault(_createAnimation);
-
-var _registry = require(469         ); // 469 = ./registry
-
-var _easing = require(474       ); // 474 = ./easing
-
-var _easing2 = babelHelpers.interopRequireDefault(_easing);
-
-var INTERPOLATION_STYLE_PROPERTIES = ['rotate', 'rotateX', 'rotateY', 'rotateZ', 'skewX', 'skewY', 'transformMatrix', 'backgroundColor', 'borderColor', 'borderTopColor', 'borderRightColor', 'borderBottomColor', 'borderLeftColor', 'shadowColor', 'color', 'textDecorationColor', 'tintColor'];
-
-var ZERO_CLAMPED_STYLE_PROPERTIES = ['width', 'height'];
-
-function omit(keys, source) {
-  var filtered = {};
-  Object.keys(source).forEach(function (key) {
-    if (keys.indexOf(key) === -1) {
-      filtered[key] = source[key];
-    }
-  });
-  return filtered;
-}
-
-function deepEquals(a, b) {
-  return a === b || JSON.stringify(a) === JSON.stringify(b);
-}
-
-function getAnimationTarget(iteration, direction) {
-  switch (direction) {
-    case 'reverse':
-      return 0;
-    case 'alternate':
-      return iteration % 2 ? 0 : 1;
-    case 'alternate-reverse':
-      return iteration % 2 ? 1 : 0;
-    case 'normal':
-    default:
-      return 1;
-  }
-}
-
-function getAnimationOrigin(iteration, direction) {
-  return getAnimationTarget(iteration, direction) ? 0 : 1;
-}
-
-function getCompiledAnimation(animation) {
-  if (typeof animation === 'string') {
-    var compiledAnimation = (0, _registry.getAnimationByName)(animation);
-    if (!compiledAnimation) {
-      throw new Error('No animation registred by the name of ' + animation);
-    }
-    return compiledAnimation;
-  }
-  return (0, _createAnimation2.default)(animation);
-}
-
-function makeInterpolatedStyle(compiledAnimation, animationValue) {
-  var style = {};
-  Object.keys(compiledAnimation).forEach(function (key) {
-    if (key === 'style') {
-      babelHelpers.extends(style, compiledAnimation.style);
-    } else if (key !== 'easing') {
-      style[key] = animationValue.interpolate(compiledAnimation[key]);
-    }
-  });
-  return (0, _wrapStyleTransforms2.default)(style);
-}
-
-function transitionToValue(transitionValue, toValue, duration, easing) {
-  var useNativeDriver = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : false;
-  var delay = arguments[5];
-
-  if (duration || easing || delay) {
-    _reactNative.Animated.timing(transitionValue, {
-      toValue: toValue,
-      delay: delay,
-      duration: duration || 1000,
-      easing: typeof easing === 'function' ? easing : _easing2.default[easing || 'ease'],
-      useNativeDriver: useNativeDriver
-    }).start();
-  } else {
-    _reactNative.Animated.spring(transitionValue, { toValue: toValue, useNativeDriver: useNativeDriver }).start();
-  }
-}
-
-function createAnimatableComponent(WrappedComponent) {
-  var _class, _temp, _initialiseProps;
-
-  var wrappedComponentName = WrappedComponent.displayName || WrappedComponent.name || 'Component';
-
-  var Animatable = _reactNative.Animated.createAnimatedComponent(WrappedComponent);
-
-  return _temp = _class = function (_Component) {
-    babelHelpers.inherits(AnimatableComponent, _Component);
-
-    function AnimatableComponent(props) {
-      babelHelpers.classCallCheck(this, AnimatableComponent);
-
-      var _this = babelHelpers.possibleConstructorReturn(this, (AnimatableComponent.__proto__ || Object.getPrototypeOf(AnimatableComponent)).call(this, props));
-
-      _initialiseProps.call(_this);
-
-      var animationValue = new _reactNative.Animated.Value(getAnimationOrigin(0, _this.props.direction));
-      var animationStyle = {};
-      var compiledAnimation = {};
-      if (props.animation) {
-        compiledAnimation = getCompiledAnimation(props.animation);
-        animationStyle = makeInterpolatedStyle(compiledAnimation, animationValue);
-      }
-      _this.state = {
-        animationValue: animationValue,
-        animationStyle: animationStyle,
-        compiledAnimation: compiledAnimation,
-        transitionStyle: {},
-        transitionValues: {},
-        currentTransitionValues: {}
-      };
-
-      if (props.transition) {
-        _this.state = babelHelpers.extends({}, _this.state, _this.initializeTransitionState(props.transition));
-      }
-      _this.delayTimer = null;
-
-      (0, _registry.getAnimationNames)().forEach(function (animationName) {
-        if (!(animationName in _this)) {
-          _this[animationName] = _this.animate.bind(_this, animationName);
-        }
-      });
-      return _this;
-    }
-
-    babelHelpers.createClass(AnimatableComponent, [{
-      key: 'initializeTransitionState',
-      value: function initializeTransitionState(transitionKeys) {
-        var transitionValues = {};
-        var styleValues = {};
-
-        var currentTransitionValues = (0, _getStyleValues2.default)(transitionKeys, this.props.style);
-        Object.keys(currentTransitionValues).forEach(function (key) {
-          var value = currentTransitionValues[key];
-          if (INTERPOLATION_STYLE_PROPERTIES.indexOf(key) !== -1) {
-            transitionValues[key] = new _reactNative.Animated.Value(0);
-            styleValues[key] = value;
-          } else {
-            var animationValue = new _reactNative.Animated.Value(value);
-            transitionValues[key] = animationValue;
-            styleValues[key] = animationValue;
-          }
-        });
-
-        return {
-          currentTransitionValues: currentTransitionValues,
-          transitionStyle: styleValues,
-          transitionValues: transitionValues
-        };
-      }
-    }, {
-      key: 'getTransitionState',
-      value: function getTransitionState(keys) {
-        var _this2 = this;
-
-        var transitionKeys = typeof keys === 'string' ? [keys] : keys;
-        var _state = this.state,
-            transitionValues = _state.transitionValues,
-            currentTransitionValues = _state.currentTransitionValues,
-            transitionStyle = _state.transitionStyle;
-
-        var missingKeys = transitionKeys.filter(function (key) {
-          return !_this2.state.transitionValues[key];
-        });
-        if (missingKeys.length) {
-          var transitionState = this.initializeTransitionState(missingKeys);
-          transitionValues = babelHelpers.extends({}, transitionValues, transitionState.transitionValues);
-          currentTransitionValues = babelHelpers.extends({}, currentTransitionValues, transitionState.currentTransitionValues);
-          transitionStyle = babelHelpers.extends({}, transitionStyle, transitionState.transitionStyle);
-        }
-        return { transitionValues: transitionValues, currentTransitionValues: currentTransitionValues, transitionStyle: transitionStyle };
-      }
-    }, {
-      key: 'setNativeProps',
-      value: function setNativeProps(nativeProps) {
-        if (this.ref) {
-          this.ref.setNativeProps(nativeProps);
-        }
-      }
-    }, {
-      key: 'componentDidMount',
-      value: function componentDidMount() {
-        var _this3 = this;
-
-        var _props = this.props,
-            animation = _props.animation,
-            duration = _props.duration,
-            delay = _props.delay,
-            onAnimationBegin = _props.onAnimationBegin,
-            onAnimationEnd = _props.onAnimationEnd;
-
-        if (animation) {
-          var startAnimation = function startAnimation() {
-            onAnimationBegin();
-            _this3.startAnimation(duration, 0, onAnimationEnd);
-            _this3.delayTimer = null;
-          };
-          if (delay) {
-            this.delayTimer = setTimeout(startAnimation, delay);
-          } else {
-            startAnimation();
-          }
-        }
-      }
-    }, {
-      key: 'componentWillReceiveProps',
-      value: function componentWillReceiveProps(props) {
-        var animation = props.animation,
-            delay = props.delay,
-            duration = props.duration,
-            easing = props.easing,
-            transition = props.transition,
-            onAnimationBegin = props.onAnimationBegin,
-            onAnimationEnd = props.onAnimationEnd;
-
-
-        if (transition) {
-          var values = (0, _getStyleValues2.default)(transition, props.style);
-          this.transitionTo(values, duration, easing, delay);
-        } else if (!deepEquals(animation, this.props.animation)) {
-          if (animation) {
-            if (this.delayTimer) {
-              this.setAnimation(animation);
-            } else {
-              onAnimationBegin();
-              this.animate(animation, duration).then(onAnimationEnd);
-            }
-          } else {
-            this.stopAnimation();
-          }
-        }
-      }
-    }, {
-      key: 'componentWillUnmount',
-      value: function componentWillUnmount() {
-        if (this.delayTimer) {
-          clearTimeout(this.delayTimer);
-        }
-      }
-    }, {
-      key: 'setAnimation',
-      value: function setAnimation(animation, callback) {
-        var compiledAnimation = getCompiledAnimation(animation);
-        var animationStyle = makeInterpolatedStyle(compiledAnimation, this.state.animationValue);
-        this.setState({ animationStyle: animationStyle, compiledAnimation: compiledAnimation }, callback);
-      }
-    }, {
-      key: 'animate',
-      value: function animate(animation, duration) {
-        var _this4 = this;
-
-        return new Promise(function (resolve) {
-          _this4.setAnimation(animation, function () {
-            _this4.startAnimation(duration, 0, resolve);
-          });
-        });
-      }
-    }, {
-      key: 'stopAnimation',
-      value: function stopAnimation() {
-        this.setState({
-          scheduledAnimation: false,
-          animationStyle: {}
-        });
-        this.state.animationValue.stopAnimation();
-        if (this.delayTimer) {
-          clearTimeout(this.delayTimer);
-          this.delayTimer = null;
-        }
-      }
-    }, {
-      key: 'startAnimation',
-      value: function startAnimation(duration, iteration, callback) {
-        var _this5 = this;
-
-        var _state2 = this.state,
-            animationValue = _state2.animationValue,
-            compiledAnimation = _state2.compiledAnimation;
-        var _props2 = this.props,
-            direction = _props2.direction,
-            iterationCount = _props2.iterationCount,
-            useNativeDriver = _props2.useNativeDriver;
-
-        var easing = this.props.easing || compiledAnimation.easing || 'ease';
-        var currentIteration = iteration || 0;
-        var fromValue = getAnimationOrigin(currentIteration, direction);
-        var toValue = getAnimationTarget(currentIteration, direction);
-        animationValue.setValue(fromValue);
-
-        if (typeof easing === 'string') {
-          easing = _easing2.default[easing];
-        }
-
-        var reversed = direction === 'reverse' || direction === 'alternate' && !toValue || direction === 'alternate-reverse' && !toValue;
-        if (reversed) {
-          easing = _reactNative.Easing.out(easing);
-        }
-
-        _reactNative.Animated.timing(animationValue, {
-          toValue: toValue,
-          easing: easing,
-          isInteraction: iterationCount <= 1,
-          duration: duration || this.props.duration || 1000,
-          useNativeDriver: useNativeDriver
-        }).start(function (endState) {
-          currentIteration += 1;
-          if (endState.finished && _this5.props.animation && (iterationCount === 'infinite' || currentIteration < iterationCount)) {
-            _this5.startAnimation(duration, currentIteration, callback);
-          } else if (callback) {
-            callback(endState);
-          }
-        });
-      }
-    }, {
-      key: 'transition',
-      value: function transition(fromValues, toValues, duration, easing) {
-        var _this6 = this;
-
-        var fromValuesFlat = (0, _flattenStyle2.default)(fromValues);
-        var toValuesFlat = (0, _flattenStyle2.default)(toValues);
-        var transitionKeys = Object.keys(toValuesFlat);
-
-        var _getTransitionState = this.getTransitionState(transitionKeys),
-            transitionValues = _getTransitionState.transitionValues,
-            currentTransitionValues = _getTransitionState.currentTransitionValues,
-            transitionStyle = _getTransitionState.transitionStyle;
-
-        transitionKeys.forEach(function (property) {
-          var fromValue = fromValuesFlat[property];
-          var toValue = toValuesFlat[property];
-          var transitionValue = transitionValues[property];
-          if (!transitionValue) {
-            transitionValue = new _reactNative.Animated.Value(0);
-          }
-          var needsInterpolation = INTERPOLATION_STYLE_PROPERTIES.indexOf(property) !== -1;
-          var needsZeroClamping = ZERO_CLAMPED_STYLE_PROPERTIES.indexOf(property) !== -1;
-          if (needsInterpolation) {
-            transitionValue.setValue(0);
-            transitionStyle[property] = transitionValue.interpolate({
-              inputRange: [0, 1],
-              outputRange: [fromValue, toValue]
-            });
-            currentTransitionValues[property] = toValue;
-            toValuesFlat[property] = 1;
-          } else {
-            if (needsZeroClamping) {
-              transitionStyle[property] = transitionValue.interpolate({
-                inputRange: [0, 1],
-                outputRange: [0, 1],
-                extrapolateLeft: 'clamp'
-              });
-              currentTransitionValues[property] = toValue;
-            } else {
-              transitionStyle[property] = transitionValue;
-            }
-            transitionValue.setValue(fromValue);
-          }
-        });
-        this.setState({ transitionValues: transitionValues, transitionStyle: transitionStyle, currentTransitionValues: currentTransitionValues }, function () {
-          _this6.transitionToValues(toValuesFlat, duration || _this6.props.duration, easing, _this6.props.delay);
-        });
-      }
-    }, {
-      key: 'transitionTo',
-      value: function transitionTo(toValues, duration, easing, delay) {
-        var _this7 = this;
-
-        var currentTransitionValues = this.state.currentTransitionValues;
-
-        var toValuesFlat = (0, _flattenStyle2.default)(toValues);
-        var transitions = {
-          from: {},
-          to: {}
-        };
-
-        Object.keys(toValuesFlat).forEach(function (property) {
-          var toValue = toValuesFlat[property];
-          var needsInterpolation = INTERPOLATION_STYLE_PROPERTIES.indexOf(property) !== -1;
-          var needsZeroClamping = ZERO_CLAMPED_STYLE_PROPERTIES.indexOf(property) !== -1;
-          var transitionStyle = _this7.state.transitionStyle[property];
-          var transitionValue = _this7.state.transitionValues[property];
-          if (!needsInterpolation && !needsZeroClamping && transitionStyle && transitionStyle === transitionValue) {
-            transitionToValue(transitionValue, toValue, duration, easing, _this7.props.useNativeDriver, delay);
-          } else {
-            var currentTransitionValue = currentTransitionValues[property];
-            if (typeof currentTransitionValue === 'undefined' && _this7.props.style) {
-              var style = (0, _getStyleValues2.default)(property, _this7.props.style);
-              currentTransitionValue = style[property];
-            }
-            transitions.from[property] = currentTransitionValue;
-            transitions.to[property] = toValue;
-          }
-        });
-
-        if (Object.keys(transitions.from).length) {
-          this.transition(transitions.from, transitions.to, duration, easing);
-        }
-      }
-    }, {
-      key: 'transitionToValues',
-      value: function transitionToValues(toValues, duration, easing, delay) {
-        var _this8 = this;
-
-        Object.keys(toValues).forEach(function (property) {
-          var transitionValue = _this8.state.transitionValues[property];
-          var toValue = toValues[property];
-          transitionToValue(transitionValue, toValue, duration, easing, _this8.props.useNativeDriver, delay);
-        });
-      }
-    }, {
-      key: 'render',
-      value: function render() {
-        var _props3 = this.props,
-            style = _props3.style,
-            animation = _props3.animation,
-            transition = _props3.transition;
-
-        if (animation && transition) {
-          throw new Error('You cannot combine animation and transition props');
-        }
-        var restProps = omit(Object.keys(AnimatableComponent.propTypes), this.props);
-
-        return _react2.default.createElement(Animatable, babelHelpers.extends({
-          ref: this.handleRef,
-          style: [style, this.state.animationStyle, (0, _wrapStyleTransforms2.default)(this.state.transitionStyle)]
-        }, restProps, {
-          __source: {
-            fileName: _jsxFileName,
-            lineNumber: 543
-          }
-        }));
-      }
-    }]);
-    return AnimatableComponent;
-  }(_react.Component), _class.displayName = 'withAnimatable(' + wrappedComponentName + ')', _class.propTypes = {
-    animation: _react.PropTypes.oneOfType([_react.PropTypes.string, _react.PropTypes.object]),
-    duration: _react.PropTypes.number,
-    direction: _react.PropTypes.oneOf(['normal', 'reverse', 'alternate', 'alternate-reverse']),
-    delay: _react.PropTypes.number,
-    easing: _react.PropTypes.oneOfType([_react.PropTypes.oneOf(Object.keys(_easing2.default)), _react.PropTypes.func]),
-    iterationCount: function iterationCount(props, propName) {
-      var val = props[propName];
-      if (val !== 'infinite' && !(typeof val === 'number' && val >= 1)) {
-        return new Error('iterationCount must be a positive number or "infinite"');
-      }
-      return null;
+var styles = _reactNative.StyleSheet.create({
+    container: {
+        paddingTop: 130,
+        paddingBottom: 30,
+        paddingRight: 30,
+        paddingLeft: 30,
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+        flex: 1,
+        borderWidth: 12
     },
+    textCenter: {
+        textAlign: 'center'
 
-    onAnimationBegin: _react.PropTypes.func,
-    onAnimationEnd: _react.PropTypes.func,
-    style: _react.PropTypes.oneOfType([_react.PropTypes.number, _react.PropTypes.array, _react.PropTypes.object]),
-    transition: _react.PropTypes.oneOfType([_react.PropTypes.string, _react.PropTypes.arrayOf(_react.PropTypes.string)]),
-    useNativeDriver: _react.PropTypes.bool
-  }, _class.defaultProps = {
-    animation: undefined,
-    delay: 0,
-    direction: 'normal',
-    duration: undefined,
-    easing: undefined,
-    iterationCount: 1,
-    onAnimationBegin: function onAnimationBegin() {},
-    onAnimationEnd: function onAnimationEnd() {},
-
-    style: undefined,
-    transition: undefined,
-    useNativeDriver: false
-  }, _initialiseProps = function _initialiseProps() {
-    var _this9 = this;
-
-    this.ref = null;
-
-    this.handleRef = function (ref) {
-      _this9.ref = ref;
-    };
-  }, _temp;
-}
-}, 470, null, "react-native-animatable/createAnimatableComponent.js");
-__d(/* react-native-animatable/wrapStyleTransforms.js */function(global, require, module, exports) {Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = wrapStyleTransforms;
-
-var TRANSFORM_STYLE_PROPERTIES = ['perspective', 'rotate', 'rotateX', 'rotateY', 'rotateZ', 'scale', 'scaleX', 'scaleY', 'skewX', 'skewY', 'translateX', 'translateY'];
-
-function wrapStyleTransforms(style) {
-  var wrapped = {};
-  Object.keys(style).forEach(function (key) {
-    if (TRANSFORM_STYLE_PROPERTIES.indexOf(key) !== -1) {
-      if (!wrapped.transform) {
-        wrapped.transform = [];
-      }
-      wrapped.transform.push(babelHelpers.defineProperty({}, key, style[key]));
-    } else {
-      wrapped[key] = style[key];
     }
-  });
-  return wrapped;
-}
-}, 471, null, "react-native-animatable/wrapStyleTransforms.js");
-__d(/* react-native-animatable/getStyleValues.js */function(global, require, module, exports) {Object.defineProperty(exports, "__esModule", {
-  value: true
 });
-exports.default = getStyleValues;
-
-var _flattenStyle = require(468             ); // 468 = ./flattenStyle
-
-var _flattenStyle2 = babelHelpers.interopRequireDefault(_flattenStyle);
-
-var _getDefaultStyleValue = require(473                     ); // 473 = ./getDefaultStyleValue
-
-var _getDefaultStyleValue2 = babelHelpers.interopRequireDefault(_getDefaultStyleValue);
-
-function getStyleValues(keys, style) {
-  var values = {};
-  var flatStyle = (0, _flattenStyle2.default)(style);
-
-  (typeof keys === 'string' ? [keys] : keys).forEach(function (key) {
-    values[key] = key in flatStyle ? flatStyle[key] : (0, _getDefaultStyleValue2.default)(key, flatStyle);
-  });
-  return values;
-}
-}, 472, null, "react-native-animatable/getStyleValues.js");
-__d(/* react-native-animatable/getDefaultStyleValue.js */function(global, require, module, exports) {Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = getDefaultStyleValue;
-
-
-var DIRECTIONAL_FALLBACKS = {
-  Top: ['Vertical', ''],
-  Bottom: ['Vertical', ''],
-  Vertical: [''],
-  Left: ['Horizontal', ''],
-  Right: ['Horizontal', ''],
-  Horizontal: ['']
-};
-
-var DIRECTIONAL_SUFFICES = Object.keys(DIRECTIONAL_FALLBACKS);
-
-function getDefaultStyleValue(key, flatStyle) {
-  if (key === 'backgroundColor') {
-    return 'rgba(0,0,0,0)';
-  }
-  if (key === 'color' || key.indexOf('Color') !== -1) {
-    return 'rgba(0,0,0,1)';
-  }
-  if (key.indexOf('rotate') === 0 || key.indexOf('skew') === 0) {
-    return '0deg';
-  }
-  if (key === 'opacity' || key.indexOf('scale') === 0) {
-    return 1;
-  }
-  if (key === 'fontSize') {
-    return 14;
-  }
-  if (key.indexOf('margin') === 0 || key.indexOf('padding') === 0) {
-    for (var suffix, i = 0; i < DIRECTIONAL_SUFFICES.length; i++) {
-      suffix = DIRECTIONAL_SUFFICES[i];
-      if (key.substr(-suffix.length) === suffix) {
-        var prefix = key.substr(0, key.length - suffix.length);
-        var fallbacks = DIRECTIONAL_FALLBACKS[suffix];
-        for (var fallback, j = 0; j < fallbacks.length; j++) {
-          fallback = prefix + fallbacks[j];
-          if (fallback in flatStyle) {
-            return flatStyle[fallback];
-          }
-        }
-        break;
-      }
-    }
-  }
-  return 0;
-}
-}, 473, null, "react-native-animatable/getDefaultStyleValue.js");
-__d(/* react-native-animatable/easing.js */function(global, require, module, exports) {Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _reactNative = require(27            ); // 27 = react-native
-
-var EASING_FUNCTIONS = {
-
-  linear: _reactNative.Easing.linear,
-  ease: _reactNative.Easing.bezier(0.25, 0.1, 0.25, 1),
-  'ease-in': _reactNative.Easing.bezier(0.42, 0, 1, 1),
-  'ease-out': _reactNative.Easing.bezier(0, 0, 0.58, 1),
-  'ease-in-out': _reactNative.Easing.bezier(0.42, 0, 0.58, 1),
-
-  'ease-in-cubic': _reactNative.Easing.bezier(0.55, 0.055, 0.675, 0.19),
-  'ease-out-cubic': _reactNative.Easing.bezier(0.215, 0.61, 0.355, 1.0),
-  'ease-in-out-cubic': _reactNative.Easing.bezier(0.645, 0.045, 0.355, 1.0),
-
-  'ease-in-circ': _reactNative.Easing.bezier(0.6, 0.04, 0.98, 0.335),
-  'ease-out-circ': _reactNative.Easing.bezier(0.075, 0.82, 0.165, 1.0),
-  'ease-in-out-circ': _reactNative.Easing.bezier(0.785, 0.135, 0.15, 0.86),
-
-  'ease-in-expo': _reactNative.Easing.bezier(0.95, 0.05, 0.795, 0.035),
-  'ease-out-expo': _reactNative.Easing.bezier(0.19, 1.0, 0.22, 1.0),
-  'ease-in-out-expo': _reactNative.Easing.bezier(1.0, 0.0, 0.0, 1.0),
-
-  'ease-in-quad': _reactNative.Easing.bezier(0.55, 0.085, 0.68, 0.53),
-  'ease-out-quad': _reactNative.Easing.bezier(0.25, 0.46, 0.45, 0.94),
-  'ease-in-out-quad': _reactNative.Easing.bezier(0.455, 0.03, 0.515, 0.955),
-
-  'ease-in-quart': _reactNative.Easing.bezier(0.895, 0.03, 0.685, 0.22),
-  'ease-out-quart': _reactNative.Easing.bezier(0.165, 0.84, 0.44, 1.0),
-  'ease-in-out-quart': _reactNative.Easing.bezier(0.77, 0.0, 0.175, 1.0),
-
-  'ease-in-quint': _reactNative.Easing.bezier(0.755, 0.05, 0.855, 0.06),
-  'ease-out-quint': _reactNative.Easing.bezier(0.23, 1.0, 0.32, 1.0),
-  'ease-in-out-quint': _reactNative.Easing.bezier(0.86, 0.0, 0.07, 1.0),
-
-  'ease-in-sine': _reactNative.Easing.bezier(0.47, 0.0, 0.745, 0.715),
-  'ease-out-sine': _reactNative.Easing.bezier(0.39, 0.575, 0.565, 1.0),
-  'ease-in-out-sine': _reactNative.Easing.bezier(0.445, 0.05, 0.55, 0.95),
-
-  'ease-in-back': _reactNative.Easing.bezier(0.6, -0.28, 0.735, 0.045),
-  'ease-out-back': _reactNative.Easing.bezier(0.175, 0.885, 0.32, 1.275),
-  'ease-in-out-back': _reactNative.Easing.bezier(0.68, -0.55, 0.265, 1.55)
-};
-
-exports.default = EASING_FUNCTIONS;
-}, 474, null, "react-native-animatable/easing.js");
-__d(/* react-native-animatable/definitions/index.js */function(global, require, module, exports) {Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _attentionSeekers = require(476                  ); // 476 = ./attention-seekers
-
-Object.keys(_attentionSeekers).forEach(function (key) {
-  if (key === "default" || key === "__esModule") return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function get() {
-      return _attentionSeekers[key];
-    }
-  });
-});
-
-var _bouncingEntrances = require(477                   ); // 477 = ./bouncing-entrances
-
-Object.keys(_bouncingEntrances).forEach(function (key) {
-  if (key === "default" || key === "__esModule") return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function get() {
-      return _bouncingEntrances[key];
-    }
-  });
-});
-
-var _bouncingExits = require(478               ); // 478 = ./bouncing-exits
-
-Object.keys(_bouncingExits).forEach(function (key) {
-  if (key === "default" || key === "__esModule") return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function get() {
-      return _bouncingExits[key];
-    }
-  });
-});
-
-var _fadingEntrances = require(479                 ); // 479 = ./fading-entrances
-
-Object.keys(_fadingEntrances).forEach(function (key) {
-  if (key === "default" || key === "__esModule") return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function get() {
-      return _fadingEntrances[key];
-    }
-  });
-});
-
-var _fadingExits = require(480             ); // 480 = ./fading-exits
-
-Object.keys(_fadingExits).forEach(function (key) {
-  if (key === "default" || key === "__esModule") return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function get() {
-      return _fadingExits[key];
-    }
-  });
-});
-
-var _flippers = require(481         ); // 481 = ./flippers
-
-Object.keys(_flippers).forEach(function (key) {
-  if (key === "default" || key === "__esModule") return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function get() {
-      return _flippers[key];
-    }
-  });
-});
-
-var _lightspeed = require(482           ); // 482 = ./lightspeed
-
-Object.keys(_lightspeed).forEach(function (key) {
-  if (key === "default" || key === "__esModule") return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function get() {
-      return _lightspeed[key];
-    }
-  });
-});
-
-var _slidingEntrances = require(483                  ); // 483 = ./sliding-entrances
-
-Object.keys(_slidingEntrances).forEach(function (key) {
-  if (key === "default" || key === "__esModule") return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function get() {
-      return _slidingEntrances[key];
-    }
-  });
-});
-
-var _slidingExits = require(484              ); // 484 = ./sliding-exits
-
-Object.keys(_slidingExits).forEach(function (key) {
-  if (key === "default" || key === "__esModule") return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function get() {
-      return _slidingExits[key];
-    }
-  });
-});
-
-var _zoomingEntrances = require(485                  ); // 485 = ./zooming-entrances
-
-Object.keys(_zoomingEntrances).forEach(function (key) {
-  if (key === "default" || key === "__esModule") return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function get() {
-      return _zoomingEntrances[key];
-    }
-  });
-});
-
-var _zoomingExits = require(486              ); // 486 = ./zooming-exits
-
-Object.keys(_zoomingExits).forEach(function (key) {
-  if (key === "default" || key === "__esModule") return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function get() {
-      return _zoomingExits[key];
-    }
-  });
-});
-}, 475, null, "react-native-animatable/definitions/index.js");
-__d(/* react-native-animatable/definitions/attention-seekers.js */function(global, require, module, exports) {Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-var bounce = exports.bounce = {
-  0: {
-    translateY: 0
-  },
-  0.2: {
-    translateY: 0
-  },
-  0.4: {
-    translateY: -30
-  },
-  0.43: {
-    translateY: -30
-  },
-  0.53: {
-    translateY: 0
-  },
-  0.7: {
-    translateY: -15
-  },
-  0.8: {
-    translateY: 0
-  },
-  0.9: {
-    translateY: -4
-  },
-  1: {
-    translateY: 0
-  }
-};
-
-var flash = exports.flash = {
-  0: {
-    opacity: 1
-  },
-  0.25: {
-    opacity: 0
-  },
-  0.5: {
-    opacity: 1
-  },
-  0.75: {
-    opacity: 0
-  },
-  1: {
-    opacity: 1
-  }
-};
-
-var jello = exports.jello = {
-  0: {
-    skewX: '0deg',
-    skewY: '0deg'
-  },
-  0.111: {
-    skewX: '0deg',
-    skewY: '0deg'
-  },
-  0.222: {
-    skewX: '-12.5deg',
-    skewY: '-12.5deg'
-  },
-  0.333: {
-    skewX: '6.25deg',
-    skewY: '6.25deg'
-  },
-  0.444: {
-    skewX: '-3.125deg',
-    skewY: '-3.125deg'
-  },
-  0.555: {
-    skewX: '1.5625deg',
-    skewY: '1.5625deg'
-  },
-  0.666: {
-    skewX: '-0.78125deg',
-    skewY: '-0.78125deg'
-  },
-  0.777: {
-    skewX: '0.390625deg',
-    skewY: '0.390625deg'
-  },
-  0.888: {
-    skewX: '-0.1953125deg',
-    skewY: '-0.1953125deg'
-  },
-  1: {
-    skewX: '0deg',
-    skewY: '0deg'
-  }
-};
-
-var pulse = exports.pulse = {
-  0: {
-    scale: 1
-  },
-  0.5: {
-    scale: 1.05
-  },
-  1: {
-    scale: 1
-  }
-};
-
-var rotate = exports.rotate = {
-  0: {
-    rotate: '0deg'
-  },
-  0.25: {
-    rotate: '90deg'
-  },
-  0.5: {
-    rotate: '180deg'
-  },
-  0.75: {
-    rotate: '270deg'
-  },
-  1: {
-    rotate: '360deg'
-  }
-};
-
-var shake = exports.shake = {
-  0: {
-    translateX: 0
-  },
-  0.1: {
-    translateX: -10
-  },
-  0.2: {
-    translateX: 10
-  },
-  0.3: {
-    translateX: -10
-  },
-  0.4: {
-    translateX: 10
-  },
-  0.5: {
-    translateX: -10
-  },
-  0.6: {
-    translateX: 10
-  },
-  0.7: {
-    translateX: -10
-  },
-  0.8: {
-    translateX: 10
-  },
-  0.9: {
-    translateX: -10
-  },
-  1: {
-    translateX: 0
-  }
-};
-
-var swing = exports.swing = {
-  0: {
-    rotate: '0deg'
-  },
-  0.2: {
-    rotate: '15deg'
-  },
-  0.4: {
-    rotate: '-10deg'
-  },
-  0.6: {
-    rotate: '5deg'
-  },
-  0.8: {
-    rotate: '-5deg'
-  },
-  1: {
-    rotate: '0deg'
-  }
-};
-
-var rubberBand = exports.rubberBand = {
-  0: {
-    scaleX: 1,
-    scaleY: 1
-  },
-  0.3: {
-    scaleX: 1.25,
-    scaleY: 0.75
-  },
-  0.4: {
-    scaleX: 0.75,
-    scaleY: 1.25
-  },
-  0.5: {
-    scaleX: 1.15,
-    scaleY: 0.85
-  },
-  0.65: {
-    scaleX: 0.95,
-    scaleY: 1.05
-  },
-  0.75: {
-    scaleX: 1.05,
-    scaleY: 0.95
-  },
-  1: {
-    scaleX: 1,
-    scaleY: 1
-  }
-};
-
-var tada = exports.tada = {
-  0: {
-    scale: 1,
-    rotate: '0deg'
-  },
-  0.1: {
-    scale: 0.9,
-    rotate: '-3deg'
-  },
-  0.2: {
-    scale: 0.9,
-    rotate: '-3deg'
-  },
-  0.3: {
-    scale: 1.1,
-    rotate: '-3deg'
-  },
-  0.4: {
-    rotate: '3deg'
-  },
-  0.5: {
-    rotate: '-3deg'
-  },
-  0.6: {
-    rotate: '3deg'
-  },
-  0.7: {
-    rotate: '-3deg'
-  },
-  0.8: {
-    rotate: '3deg'
-  },
-  0.9: {
-    scale: 1.1,
-    rotate: '3deg'
-  },
-  1: {
-    scale: 1,
-    rotate: '0deg'
-  }
-};
-
-var wobble = exports.wobble = {
-  0: {
-    translateX: 0,
-    rotate: '0deg'
-  },
-  0.15: {
-    translateX: -25,
-    rotate: '-5deg'
-  },
-  0.3: {
-    translateX: 20,
-    rotate: '3deg'
-  },
-  0.45: {
-    translateX: -15,
-    rotate: '-3deg'
-  },
-  0.6: {
-    translateX: 10,
-    rotate: '2deg'
-  },
-  0.75: {
-    translateX: -5,
-    rotate: '-1deg'
-  },
-  1: {
-    translateX: 0,
-    rotate: '0deg'
-  }
-};
-}, 476, null, "react-native-animatable/definitions/attention-seekers.js");
-__d(/* react-native-animatable/definitions/bouncing-entrances.js */function(global, require, module, exports) {Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-var bounceIn = exports.bounceIn = {
-  0: {
-    opacity: 0,
-    scale: 0.3
-  },
-  0.2: {
-    scale: 1.1
-  },
-  0.4: {
-    scale: 0.9
-  },
-  0.6: {
-    opacity: 1,
-    scale: 1.03
-  },
-  0.8: {
-    scale: 0.97
-  },
-  1: {
-    opacity: 1,
-    scale: 1
-  }
-};
-
-var bounceInUp = exports.bounceInUp = {
-  0: {
-    opacity: 0,
-    translateY: 800
-  },
-  0.6: {
-    opacity: 1,
-    translateY: -25
-  },
-  0.75: {
-    translateY: 10
-  },
-  0.9: {
-    translateY: -5
-  },
-  1: {
-    translateY: 0
-  }
-};
-
-var bounceInDown = exports.bounceInDown = {
-  0: {
-    opacity: 0,
-    translateY: -800
-  },
-  0.6: {
-    opacity: 1,
-    translateY: 25
-  },
-  0.75: {
-    translateY: -10
-  },
-  0.9: {
-    translateY: 5
-  },
-  1: {
-    translateY: 0
-  }
-};
-
-var bounceInRight = exports.bounceInRight = {
-  0: {
-    opacity: 0,
-    translateX: 600
-  },
-  0.6: {
-    opacity: 1,
-    translateX: -20
-  },
-  0.75: {
-    translateX: 8
-  },
-  0.9: {
-    translateX: -4
-  },
-  1: {
-    translateX: 0
-  }
-};
-
-var bounceInLeft = exports.bounceInLeft = {
-  0: {
-    opacity: 0,
-    translateX: -600
-  },
-  0.6: {
-    opacity: 1,
-    translateX: 20
-  },
-  0.75: {
-    translateX: -8
-  },
-  0.9: {
-    translateX: 4
-  },
-  1: {
-    translateX: 0
-  }
-};
-}, 477, null, "react-native-animatable/definitions/bouncing-entrances.js");
-__d(/* react-native-animatable/definitions/bouncing-exits.js */function(global, require, module, exports) {Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-var bounceOut = exports.bounceOut = {
-  0: {
-    opacity: 1,
-    scale: 1
-  },
-  0.2: {
-    scale: 0.9
-  },
-  0.5: {
-    opacity: 1,
-    scale: 1.11
-  },
-  0.55: {
-    scale: 1.11
-  },
-  1: {
-    opacity: 0,
-    scale: 0.3
-  }
-};
-
-var bounceOutUp = exports.bounceOutUp = {
-  0: {
-    opacity: 1,
-    translateY: 0
-  },
-  0.2: {
-    opacity: 1,
-    translateY: -10
-  },
-  0.4: {
-    translateY: 20
-  },
-  0.45: {
-    translateY: 20
-  },
-  0.55: {
-    opacity: 1
-  },
-  1: {
-    opacity: 0,
-    translateY: -800
-  }
-};
-
-var bounceOutDown = exports.bounceOutDown = {
-  0: {
-    opacity: 1,
-    translateY: 0
-  },
-  0.2: {
-    opacity: 1,
-    translateY: 10
-  },
-  0.4: {
-    translateY: -20
-  },
-  0.45: {
-    translateY: -20
-  },
-  0.55: {
-    opacity: 1
-  },
-  1: {
-    opacity: 0,
-    translateY: 800
-  }
-};
-
-var bounceOutRight = exports.bounceOutRight = {
-  0: {
-    opacity: 1,
-    translateX: 0
-  },
-  0.2: {
-    opacity: 1,
-    translateX: 10
-  },
-  0.4: {
-    translateX: -20
-  },
-  0.45: {
-    translateX: -20
-  },
-  0.55: {
-    opacity: 1
-  },
-  1: {
-    opacity: 0,
-    translateX: 600
-  }
-};
-
-var bounceOutLeft = exports.bounceOutLeft = {
-  0: {
-    opacity: 1,
-    translateX: 0
-  },
-  0.2: {
-    opacity: 1,
-    translateX: -10
-  },
-  0.4: {
-    translateX: 20
-  },
-  0.45: {
-    translateX: 20
-  },
-  0.55: {
-    opacity: 1
-  },
-  1: {
-    opacity: 0,
-    translateX: -600
-  }
-};
-}, 478, null, "react-native-animatable/definitions/bouncing-exits.js");
-__d(/* react-native-animatable/definitions/fading-entrances.js */function(global, require, module, exports) {Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-function makeFadeInTranslation(translationType, fromValue) {
-  return {
-    from: babelHelpers.defineProperty({
-      opacity: 0
-    }, translationType, fromValue),
-    to: babelHelpers.defineProperty({
-      opacity: 1
-    }, translationType, 0)
-  };
-}
-
-var fadeIn = exports.fadeIn = {
-  from: {
-    opacity: 0
-  },
-  to: {
-    opacity: 1
-  }
-};
-
-var fadeInDown = exports.fadeInDown = makeFadeInTranslation('translateY', -100);
-
-var fadeInUp = exports.fadeInUp = makeFadeInTranslation('translateY', 100);
-
-var fadeInLeft = exports.fadeInLeft = makeFadeInTranslation('translateX', -100);
-
-var fadeInRight = exports.fadeInRight = makeFadeInTranslation('translateX', 100);
-
-var fadeInDownBig = exports.fadeInDownBig = makeFadeInTranslation('translateY', -500);
-
-var fadeInUpBig = exports.fadeInUpBig = makeFadeInTranslation('translateY', 500);
-
-var fadeInLeftBig = exports.fadeInLeftBig = makeFadeInTranslation('translateX', -500);
-
-var fadeInRightBig = exports.fadeInRightBig = makeFadeInTranslation('translateX', 500);
-}, 479, null, "react-native-animatable/definitions/fading-entrances.js");
-__d(/* react-native-animatable/definitions/fading-exits.js */function(global, require, module, exports) {Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-function makeFadeOutTranslation(translationType, toValue) {
-  return {
-    from: babelHelpers.defineProperty({
-      opacity: 1
-    }, translationType, 0),
-    to: babelHelpers.defineProperty({
-      opacity: 0
-    }, translationType, toValue)
-  };
-}
-
-var fadeOut = exports.fadeOut = {
-  from: {
-    opacity: 1
-  },
-  to: {
-    opacity: 0
-  }
-};
-
-var fadeOutDown = exports.fadeOutDown = makeFadeOutTranslation('translateY', 100);
-
-var fadeOutUp = exports.fadeOutUp = makeFadeOutTranslation('translateY', -100);
-
-var fadeOutLeft = exports.fadeOutLeft = makeFadeOutTranslation('translateX', -100);
-
-var fadeOutRight = exports.fadeOutRight = makeFadeOutTranslation('translateX', 100);
-
-var fadeOutDownBig = exports.fadeOutDownBig = makeFadeOutTranslation('translateY', 500);
-
-var fadeOutUpBig = exports.fadeOutUpBig = makeFadeOutTranslation('translateY', -500);
-
-var fadeOutLeftBig = exports.fadeOutLeftBig = makeFadeOutTranslation('translateX', -500);
-
-var fadeOutRightBig = exports.fadeOutRightBig = makeFadeOutTranslation('translateX', 500);
-}, 480, null, "react-native-animatable/definitions/fading-exits.js");
-__d(/* react-native-animatable/definitions/flippers.js */function(global, require, module, exports) {Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-var flipInX = exports.flipInX = {
-  easing: 'ease-in',
-  style: {
-    backfaceVisibility: 'visible',
-    perspective: 400
-  },
-  0: {
-    opacity: 0,
-    rotateX: '90deg'
-  },
-  0.4: {
-    rotateX: '-20deg'
-  },
-  0.6: {
-    opacity: 1,
-    rotateX: '10deg'
-  },
-  0.8: {
-    rotateX: '-5deg'
-  },
-  1: {
-    opacity: 1,
-    rotateX: '0deg'
-  }
-};
-
-var flipInY = exports.flipInY = {
-  easing: 'ease-in',
-  style: {
-    backfaceVisibility: 'visible',
-    perspective: 400
-  },
-  0: {
-    opacity: 0,
-    rotateY: '90deg'
-  },
-  0.4: {
-    rotateY: '-20deg'
-  },
-  0.6: {
-    opacity: 1,
-    rotateY: '10deg'
-  },
-  0.8: {
-    rotateY: '-5deg'
-  },
-  1: {
-    opacity: 1,
-    rotateY: '0deg'
-  }
-};
-
-var flipOutX = exports.flipOutX = {
-  style: {
-    backfaceVisibility: 'visible',
-    perspective: 400
-  },
-  0: {
-    opacity: 1,
-    rotateX: '0deg'
-  },
-  0.3: {
-    opacity: 1,
-    rotateX: '-20deg'
-  },
-  1: {
-    opacity: 0,
-    rotateX: '90deg'
-  }
-};
-
-var flipOutY = exports.flipOutY = {
-  style: {
-    backfaceVisibility: 'visible',
-    perspective: 400
-  },
-  0: {
-    opacity: 1,
-    rotateY: '0deg'
-  },
-  0.3: {
-    opacity: 1,
-    rotateY: '-20deg'
-  },
-  1: {
-    opacity: 0,
-    rotateY: '90deg'
-  }
-};
-}, 481, null, "react-native-animatable/definitions/flippers.js");
-__d(/* react-native-animatable/definitions/lightspeed.js */function(global, require, module, exports) {Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-var lightSpeedIn = exports.lightSpeedIn = {
-  easing: 'ease-out',
-  0: {
-    opacity: 0,
-    translateX: 200,
-    skewX: '-30deg'
-  },
-  0.6: {
-    opacity: 1,
-    translateX: 0,
-    skewX: '20deg'
-  },
-  0.8: {
-    skewX: '-5deg'
-  },
-  1: {
-    opacity: 1,
-    translateX: 0,
-    skewX: '0deg'
-  }
-};
-
-var lightSpeedOut = exports.lightSpeedOut = {
-  easing: 'ease-in',
-  0: {
-    opacity: 1,
-    translateX: 0,
-    skewX: '0deg'
-  },
-  1: {
-    opacity: 0,
-    translateX: 200,
-    skewX: '30deg'
-  }
-};
-}, 482, null, "react-native-animatable/definitions/lightspeed.js");
-__d(/* react-native-animatable/definitions/sliding-entrances.js */function(global, require, module, exports) {Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-function makeSlideInTranslation(translationType, fromValue) {
-  return {
-    from: babelHelpers.defineProperty({}, translationType, fromValue),
-    to: babelHelpers.defineProperty({}, translationType, 0)
-  };
-}
-
-var slideInDown = exports.slideInDown = makeSlideInTranslation('translateY', -100);
-
-var slideInUp = exports.slideInUp = makeSlideInTranslation('translateY', 100);
-
-var slideInLeft = exports.slideInLeft = makeSlideInTranslation('translateX', -100);
-
-var slideInRight = exports.slideInRight = makeSlideInTranslation('translateX', 100);
-}, 483, null, "react-native-animatable/definitions/sliding-entrances.js");
-__d(/* react-native-animatable/definitions/sliding-exits.js */function(global, require, module, exports) {Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-function makeSlideOutTranslation(translationType, fromValue) {
-  return {
-    from: babelHelpers.defineProperty({}, translationType, 0),
-    to: babelHelpers.defineProperty({}, translationType, fromValue)
-  };
-}
-
-var slideOutDown = exports.slideOutDown = makeSlideOutTranslation('translateY', 100);
-
-var slideOutUp = exports.slideOutUp = makeSlideOutTranslation('translateY', -100);
-
-var slideOutLeft = exports.slideOutLeft = makeSlideOutTranslation('translateX', -100);
-
-var slideOutRight = exports.slideOutRight = makeSlideOutTranslation('translateX', 100);
-}, 484, null, "react-native-animatable/definitions/sliding-exits.js");
-__d(/* react-native-animatable/definitions/zooming-entrances.js */function(global, require, module, exports) {Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.zoomInRight = exports.zoomInLeft = exports.zoomInUp = exports.zoomInDown = exports.zoomIn = undefined;
-
-var _reactNative = require(27            ); // 27 = react-native
-
-function makeZoomInTranslation(translationType, pivotPoint) {
-  var modifier = Math.min(1, Math.max(-1, pivotPoint));
-  return {
-    easing: _reactNative.Easing.bezier(0.175, 0.885, 0.32, 1),
-    0: babelHelpers.defineProperty({
-      opacity: 0,
-      scale: 0.1
-    }, translationType, modifier * -1000),
-    0.6: babelHelpers.defineProperty({
-      opacity: 1,
-      scale: 0.457
-    }, translationType, pivotPoint),
-    1: babelHelpers.defineProperty({
-      scale: 1
-    }, translationType, 0)
-  };
-}
-
-var zoomIn = exports.zoomIn = {
-  from: {
-    opacity: 0,
-    scale: 0.3
-  },
-  0.5: {
-    opacity: 1
-  },
-  to: {
-    opacity: 1,
-    scale: 1
-  }
-};
-
-var zoomInDown = exports.zoomInDown = makeZoomInTranslation('translateY', 60);
-
-var zoomInUp = exports.zoomInUp = makeZoomInTranslation('translateY', -60);
-
-var zoomInLeft = exports.zoomInLeft = makeZoomInTranslation('translateX', 10);
-
-var zoomInRight = exports.zoomInRight = makeZoomInTranslation('translateX', -10);
-}, 485, null, "react-native-animatable/definitions/zooming-entrances.js");
-__d(/* react-native-animatable/definitions/zooming-exits.js */function(global, require, module, exports) {Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.zoomOutRight = exports.zoomOutLeft = exports.zoomOutUp = exports.zoomOutDown = exports.zoomOut = undefined;
-
-var _reactNative = require(27            ); // 27 = react-native
-
-function makeZoomOutTranslation(translationType, pivotPoint) {
-  var modifier = Math.min(1, Math.max(-1, pivotPoint));
-  return {
-    easing: _reactNative.Easing.bezier(0.175, 0.885, 0.32, 1),
-    0: babelHelpers.defineProperty({
-      opacity: 1,
-      scale: 1
-    }, translationType, 0),
-    0.4: babelHelpers.defineProperty({
-      opacity: 1,
-      scale: 0.457
-    }, translationType, pivotPoint),
-    1: babelHelpers.defineProperty({
-      opacity: 0,
-      scale: 0.1
-    }, translationType, modifier * -1000)
-  };
-}
-
-var zoomOut = exports.zoomOut = {
-  from: {
-    opacity: 1,
-    scale: 1
-  },
-  0.5: {
-    opacity: 1,
-    scale: 0.3
-  },
-  to: {
-    opacity: 0,
-    scale: 0
-  }
-};
-
-var zoomOutDown = exports.zoomOutDown = makeZoomOutTranslation('translateY', 60);
-
-var zoomOutUp = exports.zoomOutUp = makeZoomOutTranslation('translateY', -60);
-
-var zoomOutLeft = exports.zoomOutLeft = makeZoomOutTranslation('translateX', 10);
-
-var zoomOutRight = exports.zoomOutRight = makeZoomOutTranslation('translateX', -10);
-}, 486, null, "react-native-animatable/definitions/zooming-exits.js");
-__d(/* react-native-modal/src/animations.js */function(global, require, module, exports) {Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.slideOutRight = exports.slideOutLeft = exports.slideOutUp = exports.slideOutDown = exports.slideInRight = exports.slideInLeft = exports.slideInUp = exports.slideInDown = undefined;
-
-var _reactNative = require(27            ); // 27 = react-native
-
-var _Dimensions$get = _reactNative.Dimensions.get('window'),
-    height = _Dimensions$get.height,
-    width = _Dimensions$get.width;
-
-function makeSlideTranslation(translationType, fromValue, toValue) {
-  return {
-    from: babelHelpers.defineProperty({}, translationType, fromValue),
-    to: babelHelpers.defineProperty({}, translationType, toValue)
-  };
-}
-
-var slideInDown = exports.slideInDown = makeSlideTranslation('translateY', -height, 0);
-
-var slideInUp = exports.slideInUp = makeSlideTranslation('translateY', height, 0);
-
-var slideInLeft = exports.slideInLeft = makeSlideTranslation('translateX', -width, 0);
-
-var slideInRight = exports.slideInRight = makeSlideTranslation('translateX', width, 0);
-
-var slideOutDown = exports.slideOutDown = makeSlideTranslation('translateY', 0, height);
-
-var slideOutUp = exports.slideOutUp = makeSlideTranslation('translateY', 0, -height);
-
-var slideOutLeft = exports.slideOutLeft = makeSlideTranslation('translateX', 0, -width);
-
-var slideOutRight = exports.slideOutRight = makeSlideTranslation('translateX', 0, width);
-}, 487, null, "react-native-modal/src/animations.js");
-__d(/* react-native-modal/src/index.style.js */function(global, require, module, exports) {Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _reactNative = require(27            ); // 27 = react-native
-
-exports.default = _reactNative.StyleSheet.create({
-  backdrop: {
-    position: 'absolute',
-    top: 0,
-    bottom: 0,
-    left: 0,
-    right: 0,
-    opacity: 0,
-    backgroundColor: 'black'
-  },
-  content: {
-    flex: 1,
-    justifyContent: 'center'
-  }
-});
-}, 488, null, "react-native-modal/src/index.style.js");
+}, 464, null, "JosefinaScanner/app/components/TicketConfirmation.js");
 __d(/* JosefinaScanner/app/components/ManualSearchScreen.js */function(global, require, module, exports) {Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -58146,7 +56238,7 @@ ManualSearchScreen.navigationOptions = {
   title: 'Manual search'
 };
 exports.default = ManualSearchScreen;
-}, 489, null, "JosefinaScanner/app/components/ManualSearchScreen.js");
+}, 465, null, "JosefinaScanner/app/components/ManualSearchScreen.js");
 ;require(121);
 ;require(0);
 //# sourceMappingURL=index.android.map

@@ -20,34 +20,102 @@ export default class ScannerScreen extends Component {
         title: 'Tickets scanner',
     };
 
-
+    constructor() {
+        super();
+        this.state = {
+            cameraVisible: true, ticketToCheck: {}
+        }
+    }
 
     render() {
-        return (
-            <TicketConfirmation/>
-        );
+        let cameraVisible = this.state.cameraVisible;
+
+        if (cameraVisible) {
+            return (
+                <View style={styles.container}>
+                    <Camera
+                        ref={(cam) => {
+                            this.camera = cam;
+                        }}
+                        style={styles.preview}
+                        aspect={Camera.constants.Aspect.fill}>
+                        <Text style={styles.capture} onPress={this._btnTest.bind(this)}>[CAPTURE]</Text>
+                    </Camera>
+                </View>
+            );
+        } else {
+            return (
+                <View style={styles.container}>
+                    <TicketConfirmation
+                        modalClosed={this._modalClosed.bind(this)}
+                        ticket={this.state.ticketToCheck}
+                    />
+                </View>
+            );
+        }
+    };
+
+    _modalClosed(checkTicket) {
+         if (checkTicket) {
+             var ticketToCheck = this.state.ticketToCheck;
+            this._checkTicket(ticketToCheck);
+        }
+
+        this.setState(() => {
+            return { cameraVisible: true, ticketToCheck: {} };
+        });       
+    };
+
+    _checkTicket(ticket) {
+        TicketsStorage.checkTicket(ticket);
     };
 
     _onBarCodeRead(event) {
-        Alert.alert(event.data);
-        // Alert.alert(TicketsStorage.getTickets());
+        var ticket = TicketsStorage.getTicketByQRCode(event.data);
+
+        if (ticket !== undefined) {
+            if (ticket.checked) {
+                this._ticketAlreadyCheckedAlert();
+            } else {
+                this._showModalTicket(ticket);
+            }
+        } else {
+            this._ticketNotFoundAlert();
+        }
+    };
+
+    _showModalTicket(ticket) {
+        this.setState(previousState => {
+            return { cameraVisible: !previousState.cameraVisible, ticketToCheck: ticket };
+        });
+    }
+
+    _ticketNotFoundAlert() {
+        Alert.alert(
+            'Error',
+            'Ticket not found! :(',
+            [
+                { text: 'OK' }
+            ],
+            { cancelable: false }
+        )
+    };
+
+    _ticketAlreadyCheckedAlert() {
+        Alert.alert(
+            'Error',
+            'Ticket already checked!',
+            [
+                { text: 'OK' }
+            ],
+            { cancelable: false }
+        )
     };
 
     // Hack
     _btnTest(event) {
-        // Works on both iOS and Android
-        Alert.alert(
-            'Alert Title',
-            'My Alert Msg',
-            [
-                { text: 'Ask me later', onPress: () => console.log('Ask me later pressed') },
-                { text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel' },
-                { text: 'OK', onPress: () => console.log('OK Pressed') },
-            ],
-            { cancelable: false }
-        );
-        var mock = { data: 'QR1' };
-        // this._onBarCodeRead(mock);
+        var mock = { data: 'QR2' };
+        this._onBarCodeRead(mock);
     }
 }
 

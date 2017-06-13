@@ -10,6 +10,11 @@ import {
 
 export default class TicketConfirmation extends Component {
 
+    // constructor(){
+    //     super();
+    //     this.state = 
+    // }
+
     state = {
         modalVisible: true,
     }
@@ -17,36 +22,36 @@ export default class TicketConfirmation extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <Modal
+                <Modal                                                                   
                     animationType={"slide"}
                     transparent={false}
-                    visible={this.props.modalVisible}
-                    onRequestClose={() => { alert("Modal has been closed.") }}>
+                    onRequestClose={() => { this.props.modalClosed(false) }}>
                     <View style={styles.container}>
                         <View>
                             <Text>Email</Text>
+                            <Text>{this.props.ticket.email}</Text>
                             <Text>Name</Text>
+                            <Text>{this.props.ticket.name}</Text>
                             <Text>Code</Text>
+                            <Text>{this.props.ticket.code}</Text>
                             <Text>VS</Text>
-
-                            <Button
-                                onPress={this._btnTest.bind(this)}
-                                title="Test"
-                            />
+                            <Text>{this.props.ticket.vs}</Text>
                         </View>
+                        <Button title='Check' onPress={this._onCheck.bind(this)}/>
+                        <Button title='Back' onPress={this._onBack.bind(this)}/>
                     </View>
                 </Modal>
             </View>
         );
     };
 
-    _btnTest(event) {
-        this.setModalVisible(!this.state.modalVisible)
-    }
+    _onBack(event){
+        this.props.modalClosed(false);
+    };
 
-    setModalVisible(visible) {
-        this.setState({ modalVisible: visible });
-    }
+    _onCheck(event){
+        this.props.modalClosed(true); 
+    };
 }
 
 var styles = StyleSheet.create({
