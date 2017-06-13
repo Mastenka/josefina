@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import {
     StyleSheet,
-    TouchableHighlight,
     Text,
     View,
     Button,
@@ -9,11 +8,6 @@ import {
 } from 'react-native';
 
 export default class TicketConfirmation extends Component {
-
-    // constructor(){
-    //     super();
-    //     this.state = 
-    // }
 
     state = {
         modalVisible: true,
@@ -28,14 +22,14 @@ export default class TicketConfirmation extends Component {
                     onRequestClose={() => { this.props.modalClosed(false) }}>
                     <View style={styles.container}>
                         <View>
-                            <Text>Category</Text>
-                            <Text>{this.props.ticket.category}</Text>
-                            <Text>Email</Text>
-                            <Text>{this.props.ticket.email}</Text>
-                            <Text>Name</Text>
-                            <Text>{this.props.ticket.name}</Text>
-                            <Text>Code</Text>
-                            <Text>{this.props.ticket.code}</Text>
+                            <Text>Category:</Text>
+                            <Text style={styles.boldText}>{this.props.ticket.category}</Text>
+                            <Text>Email:</Text>
+                            <Text style={styles.boldText}>{this.props.ticket.email}</Text>
+                            <Text>Name:</Text>
+                            <Text style={styles.boldText}>{this.props.ticket.name}</Text>
+                            <Text>Code:</Text>
+                            <Text style={styles.boldText}>{this.props.ticket.code}</Text>
                         </View>
                         <Button title='Check' onPress={this._onCheck.bind(this)}/>
                         <Button title='Back' onPress={this._onBack.bind(this)}/>
@@ -63,10 +57,14 @@ var styles = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'space-between',
         flex: 1,
-        borderWidth: 12
+        borderWidth: 12,
+        borderColor: 'green'
+    },
+    boldText: {
+        fontWeight: 'bold',
+        fontSize: 18
     },
     textCenter: {
         textAlign: 'center',
-
     }
 });

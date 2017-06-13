@@ -38,7 +38,9 @@ export default class ScannerScreen extends Component {
                             this.camera = cam;
                         }}
                         style={styles.preview}
-                        aspect={Camera.constants.Aspect.fill}>
+                        aspect={Camera.constants.Aspect.fill} 
+                        onBarCodeRead={this._onBarCodeRead.bind(this)}
+                        >
                         <Text style={styles.capture} onPress={this._btnTest.bind(this)}>[CAPTURE]</Text>
                     </Camera>
                 </View>
@@ -114,7 +116,7 @@ export default class ScannerScreen extends Component {
 
     // Hack
     _btnTest(event) {
-        var mock = { data: '3c5dc9db-4bfc-462b-bca6-96611f5ecf48' };
+        var mock = { data: '34aeb41c-a315-413e-9114-8cb6b85ff077' };
         this._onBarCodeRead(mock);
     }
 }

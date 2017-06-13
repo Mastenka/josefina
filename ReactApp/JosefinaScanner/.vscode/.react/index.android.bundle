@@ -55497,7 +55497,9 @@ var ScannerScreen = function (_Component) {
                                 _this2.camera = cam;
                             },
                             style: styles.preview,
-                            aspect: _reactNativeCamera2.default.constants.Aspect.fill, __source: {
+                            aspect: _reactNativeCamera2.default.constants.Aspect.fill,
+                            onBarCodeRead: this._onBarCodeRead.bind(this),
+                            __source: {
                                 fileName: _jsxFileName,
                                 lineNumber: 36
                             }
@@ -55506,7 +55508,7 @@ var ScannerScreen = function (_Component) {
                             _reactNative.Text,
                             { style: styles.capture, onPress: this._btnTest.bind(this), __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 42
+                                    lineNumber: 44
                                 }
                             },
                             '[CAPTURE]'
@@ -55518,7 +55520,7 @@ var ScannerScreen = function (_Component) {
                     _reactNative.View,
                     { style: styles.container, __source: {
                             fileName: _jsxFileName,
-                            lineNumber: 48
+                            lineNumber: 50
                         }
                     },
                     _react2.default.createElement(_TicketConfirmation2.default, {
@@ -55526,7 +55528,7 @@ var ScannerScreen = function (_Component) {
                         ticket: this.state.ticketToCheck,
                         __source: {
                             fileName: _jsxFileName,
-                            lineNumber: 49
+                            lineNumber: 51
                         }
                     })
                 );
@@ -55584,7 +55586,7 @@ var ScannerScreen = function (_Component) {
     }, {
         key: '_btnTest',
         value: function _btnTest(event) {
-            var mock = { data: '3c5dc9db-4bfc-462b-bca6-96611f5ecf48' };
+            var mock = { data: '34aeb41c-a315-413e-9114-8cb6b85ff077' };
             this._onBarCodeRead(mock);
         }
     }]);
@@ -55937,14 +55939,6 @@ var TicketsStorage = function () {
 
         babelHelpers.classCallCheck(this, TicketsStorage);
 
-        this._loadTickets = function () {
-            _tickets = [new _Ticket2.default("1", "QR1", "CODE1", "name1", "email1", 1, true), new _Ticket2.default("2", "QR2", "CODE2", "name2", "email2", 2, false)];
-        };
-
-        this.getTickets = function () {
-            return _tickets;
-        };
-
         this.getTicketByQRCode = function (qrCode) {
             var ticket = {};
             var loaded = false;
@@ -56126,12 +56120,11 @@ var TicketConfirmation = function (_Component) {
                                         lineNumber: 31
                                     }
                                 },
-                                'Category'
+                                'Category:'
                             ),
                             _react2.default.createElement(
                                 _reactNative.Text,
-                                {
-                                    __source: {
+                                { style: styles.boldText, __source: {
                                         fileName: _jsxFileName,
                                         lineNumber: 32
                                     }
@@ -56146,12 +56139,11 @@ var TicketConfirmation = function (_Component) {
                                         lineNumber: 33
                                     }
                                 },
-                                'Email'
+                                'Email:'
                             ),
                             _react2.default.createElement(
                                 _reactNative.Text,
-                                {
-                                    __source: {
+                                { style: styles.boldText, __source: {
                                         fileName: _jsxFileName,
                                         lineNumber: 34
                                     }
@@ -56166,12 +56158,11 @@ var TicketConfirmation = function (_Component) {
                                         lineNumber: 35
                                     }
                                 },
-                                'Name'
+                                'Name:'
                             ),
                             _react2.default.createElement(
                                 _reactNative.Text,
-                                {
-                                    __source: {
+                                { style: styles.boldText, __source: {
                                         fileName: _jsxFileName,
                                         lineNumber: 36
                                     }
@@ -56186,12 +56177,11 @@ var TicketConfirmation = function (_Component) {
                                         lineNumber: 37
                                     }
                                 },
-                                'Code'
+                                'Code:'
                             ),
                             _react2.default.createElement(
                                 _reactNative.Text,
-                                {
-                                    __source: {
+                                { style: styles.boldText, __source: {
                                         fileName: _jsxFileName,
                                         lineNumber: 38
                                     }
@@ -56239,7 +56229,12 @@ var styles = _reactNative.StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'space-between',
         flex: 1,
-        borderWidth: 12
+        borderWidth: 12,
+        borderColor: 'green'
+    },
+    boldText: {
+        fontWeight: 'bold',
+        fontSize: 18
     },
     textCenter: {
         textAlign: 'center'
