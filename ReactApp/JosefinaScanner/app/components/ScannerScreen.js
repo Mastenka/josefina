@@ -74,7 +74,7 @@ export default class ScannerScreen extends Component {
         var ticket = TicketsStorage.getTicketByQRCode(event.data);
 
         if (ticket !== undefined) {
-            if (ticket.checked) {
+            if (ticket.chck) {
                 this._ticketAlreadyCheckedAlert();
             } else {
                 this._showModalTicket(ticket);
@@ -114,7 +114,7 @@ export default class ScannerScreen extends Component {
 
     // Hack
     _btnTest(event) {
-        var mock = { data: 'QR2' };
+        var mock = { data: '3c5dc9db-4bfc-462b-bca6-96611f5ecf48' };
         this._onBarCodeRead(mock);
     }
 }

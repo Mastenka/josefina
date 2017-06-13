@@ -63,7 +63,8 @@ class HomeScreen extends React.Component {
     }
 
     _btnDownload(event) {
-        Alert.alert("_btnDownload");
+        TicketsStorage._loadTickets();
+        TicketsStorage._loadTicketsFromJosefina();
     }
 
     _btnUpload(event) {

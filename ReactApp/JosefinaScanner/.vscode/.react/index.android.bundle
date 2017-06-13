@@ -1330,7 +1330,8 @@ var HomeScreen = function (_React$Component) {
     }, {
         key: '_btnDownload',
         value: function _btnDownload(event) {
-            _reactNative.Alert.alert("_btnDownload");
+            _TicketsStorage2.default._loadTickets();
+            _TicketsStorage2.default._loadTicketsFromJosefina();
         }
     }, {
         key: '_btnUpload',
@@ -55554,7 +55555,7 @@ var ScannerScreen = function (_Component) {
             var ticket = _TicketsStorage2.default.getTicketByQRCode(event.data);
 
             if (ticket !== undefined) {
-                if (ticket.checked) {
+                if (ticket.chck) {
                     this._ticketAlreadyCheckedAlert();
                 } else {
                     this._showModalTicket(ticket);
@@ -55583,7 +55584,7 @@ var ScannerScreen = function (_Component) {
     }, {
         key: '_btnTest',
         value: function _btnTest(event) {
-            var mock = { data: 'QR2' };
+            var mock = { data: '3c5dc9db-4bfc-462b-bca6-96611f5ecf48' };
             this._onBarCodeRead(mock);
         }
     }]);
@@ -55924,6 +55925,11 @@ var _Ticket2 = babelHelpers.interopRequireDefault(_Ticket);
 
 var _tickets = [];
 var _ticketIdsToBeUpdated = [];
+var _ticketExportIdsToBeUpdated = [];
+
+var josefinaGetTicketsUrl = 'http://pepicka.cz/api/project/react/GetTickets/asd';
+
+var _josefinaViewModel = {};
 
 var TicketsStorage = function () {
     function TicketsStorage() {
@@ -55931,40 +55937,93 @@ var TicketsStorage = function () {
 
         babelHelpers.classCallCheck(this, TicketsStorage);
 
+        this._loadTickets = function () {
+            _tickets = [new _Ticket2.default("1", "QR1", "CODE1", "name1", "email1", 1, true), new _Ticket2.default("2", "QR2", "CODE2", "name2", "email2", 2, false)];
+        };
+
         this.getTickets = function () {
             return _tickets;
         };
 
         this.getTicketByQRCode = function (qrCode) {
-            var ticket = _tickets.filter(function (ticket) {
+            var ticket = {};
+            var loaded = false;
+
+            var ticketArray = _josefinaViewModel.Tickets.filter(function (ticket) {
                 return ticket.qrCode === qrCode;
             });
 
-            if (ticket.length === 1) {
-                var nevim = ticket[0];
-                return nevim;
+            if (ticketArray.length === 1) {
+                ticket = ticketArray[0];
+                ticket.type = 'T';
+
+                var headerArray = _josefinaViewModel.Headers.filter(function (header) {
+                    return header.id === ticket.CtgID;
+                });
+                ticket.category = headerArray[0].name;
+                loaded = true;
+            } else {
+                ticketArray = _josefinaViewModel.TicketExports.filter(function (ticketExport) {
+                    return ticketExport.qrCode === qrCode;
+                });
+                if (ticketArray.length === 1) {
+                    ticket = ticketArray[0];
+                    ticket.type = 'E';
+
+                    var headerArray = _josefinaViewModel.ExportHeaders.filter(function (exportHeader) {
+                        return exportHeader.id === ticket.CtgID;
+                    });
+                    ticket.category = headerArray[0].name;
+                    loaded = true;
+                }
+            }
+
+            if (loaded) {
+                return ticket;
             } else {
                 return undefined;
             }
         };
 
         this.checkTicket = function (ticketToCheck) {
-            _tickets.forEach(function (ticket) {
-                if (ticket.id === ticketToCheck.id) {
-                    ticket.checked = true;
-                }
-            }, _this);
 
-            _ticketIdsToBeUpdated.push(ticketToCheck.id);
+            if (ticketToCheck.type === 'T') {
+                _josefinaViewModel.Tickets.forEach(function (ticket) {
+                    if (ticket.id === ticketToCheck.id) {
+                        ticket.chck = true;
+                    }
+                }, _this);
+                _ticketIdsToBeUpdated.push(ticketToCheck.id);
+            } else {
+                _josefinaViewModel.TicketExports.forEach(function (ticketExport) {
+                    if (ticketExport.id === ticketToCheck.id) {
+                        ticketExport.chck = true;
+                    }
+                }, _this);
+                _ticketExportIdsToBeUpdated.push(ticketToCheck.id);
+            }
         };
 
-        this._loadTickets();
+        this._loadTicketsFromJosefina();
     }
 
     babelHelpers.createClass(TicketsStorage, [{
-        key: '_loadTickets',
-        value: function _loadTickets() {
-            _tickets = [new _Ticket2.default("1", "QR1", "CODE1", "name1", "email1", 1, true), new _Ticket2.default("2", "QR2", "CODE2", "name2", "email2", 2, false)];
+        key: '_loadTicketsFromJosefina',
+        value: function _loadTicketsFromJosefina() {
+            var _this2 = this;
+
+            fetch(josefinaGetTicketsUrl).then(function (response) {
+                return response.json();
+            }).then(function (responseJSON) {
+                _this2._processLoadedTickets(responseJSON);
+            }).catch(function (error) {
+                console.warn(error);
+            });
+        }
+    }, {
+        key: '_processLoadedTickets',
+        value: function _processLoadedTickets(ticketsViewModel) {
+            _josefinaViewModel = ticketsViewModel;
         }
     }]);
     return TicketsStorage;
@@ -55976,7 +56035,7 @@ __d(/* JosefinaScanner/app/storage/Ticket.js */function(global, require, module,
     value: true
 });
 
-var Ticket = function Ticket(id, qrCode, code, name, email, vs, checked) {
+var Ticket = function Ticket(id, qrCode, code, name, email, chck) {
     babelHelpers.classCallCheck(this, Ticket);
 
     this.id = id;
@@ -55984,8 +56043,8 @@ var Ticket = function Ticket(id, qrCode, code, name, email, vs, checked) {
     this.code = code;
     this.name = name;
     this.email = email;
-    this.vs = vs;
-    this.checked = checked;
+    this.chck = chck;
+    this.category = '';
 };
 
 exports.default = Ticket;
@@ -56067,7 +56126,7 @@ var TicketConfirmation = function (_Component) {
                                         lineNumber: 31
                                     }
                                 },
-                                'Email'
+                                'Category'
                             ),
                             _react2.default.createElement(
                                 _reactNative.Text,
@@ -56077,7 +56136,7 @@ var TicketConfirmation = function (_Component) {
                                         lineNumber: 32
                                     }
                                 },
-                                this.props.ticket.email
+                                this.props.ticket.category
                             ),
                             _react2.default.createElement(
                                 _reactNative.Text,
@@ -56087,7 +56146,7 @@ var TicketConfirmation = function (_Component) {
                                         lineNumber: 33
                                     }
                                 },
-                                'Name'
+                                'Email'
                             ),
                             _react2.default.createElement(
                                 _reactNative.Text,
@@ -56097,7 +56156,7 @@ var TicketConfirmation = function (_Component) {
                                         lineNumber: 34
                                     }
                                 },
-                                this.props.ticket.name
+                                this.props.ticket.email
                             ),
                             _react2.default.createElement(
                                 _reactNative.Text,
@@ -56107,7 +56166,7 @@ var TicketConfirmation = function (_Component) {
                                         lineNumber: 35
                                     }
                                 },
-                                'Code'
+                                'Name'
                             ),
                             _react2.default.createElement(
                                 _reactNative.Text,
@@ -56117,7 +56176,7 @@ var TicketConfirmation = function (_Component) {
                                         lineNumber: 36
                                     }
                                 },
-                                this.props.ticket.code
+                                this.props.ticket.name
                             ),
                             _react2.default.createElement(
                                 _reactNative.Text,
@@ -56127,7 +56186,7 @@ var TicketConfirmation = function (_Component) {
                                         lineNumber: 37
                                     }
                                 },
-                                'VS'
+                                'Code'
                             ),
                             _react2.default.createElement(
                                 _reactNative.Text,
@@ -56137,7 +56196,7 @@ var TicketConfirmation = function (_Component) {
                                         lineNumber: 38
                                     }
                                 },
-                                this.props.ticket.vs
+                                this.props.ticket.code
                             )
                         ),
                         _react2.default.createElement(_reactNative.Button, { title: 'Check', onPress: this._onCheck.bind(this), __source: {

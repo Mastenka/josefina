@@ -4,40 +4,84 @@ import Ticket from './Ticket';
 
 let _tickets = [];
 let _ticketIdsToBeUpdated = [];
+let _ticketExportIdsToBeUpdated = [];
+
+const josefinaGetTicketsUrl = 'http://pepicka.cz/api/project/react/GetTickets/asd';
+
+let _josefinaViewModel = {};
 
 class TicketsStorage {
 
     constructor() {
-        this._loadTickets();
+        this._loadTicketsFromJosefina();
     };
 
-    _loadTickets() {
-        _tickets = [new Ticket("1","QR1", "CODE1", "name1", "email1", 1, true), new Ticket("2", "QR2", "CODE2", "name2", "email2", 2, false)];
-    }
+    _loadTicketsFromJosefina() {
+        fetch(josefinaGetTicketsUrl)
+            .then((response) => response.json())
+            .then((responseJSON) => {
+                this._processLoadedTickets(responseJSON);
+            })
+            .catch((error) => {
+                console.warn(error);
+            });
+    };
 
-    getTickets = () => {
-        return _tickets;
+    _processLoadedTickets(ticketsViewModel) {
+        _josefinaViewModel = ticketsViewModel;
     };
 
     getTicketByQRCode = (qrCode) => {
-        var ticket = _tickets.filter((ticket) => ticket.qrCode === qrCode);
+        var ticket = {};
+        var loaded = false;
 
-        if (ticket.length === 1) {
-            var nevim = ticket[0];
-            return nevim;
+        var ticketArray = _josefinaViewModel.Tickets.filter((ticket) => ticket.qrCode === qrCode);
+
+        if (ticketArray.length === 1) {
+            ticket = ticketArray[0];
+            ticket.type = 'T';
+
+            var headerArray = _josefinaViewModel.Headers.filter((header) => header.id === ticket.CtgID);
+            ticket.category = headerArray[0].name;
+            loaded = true;
+        } else {
+            ticketArray = _josefinaViewModel.TicketExports.filter((ticketExport) => ticketExport.qrCode === qrCode);
+            if (ticketArray.length === 1) {
+                ticket = ticketArray[0];
+                ticket.type = 'E';
+
+                var headerArray = _josefinaViewModel.ExportHeaders.filter((exportHeader) => exportHeader.id === ticket.CtgID);
+                ticket.category = headerArray[0].name;
+                loaded = true;
+            }
+        }
+
+        if (loaded) {
+            return ticket;
         } else {
             return undefined;
         }
     };
 
     checkTicket = (ticketToCheck) => {
-        _tickets.forEach(function(ticket) {
-            if(ticket.id === ticketToCheck.id){
-                ticket.checked = true;
-            }
-        }, this);
 
-        _ticketIdsToBeUpdated.push(ticketToCheck.id);
+        if (ticketToCheck.type === 'T') {   
+            _josefinaViewModel.Tickets.forEach(function (ticket) {
+                if (ticket.id === ticketToCheck.id) {
+                    ticket.chck = true;
+                }
+            }, this);
+            _ticketIdsToBeUpdated.push(ticketToCheck.id);
+
+        } else {
+            _josefinaViewModel.TicketExports.forEach(function (ticketExport) {
+                if (ticketExport.id === ticketToCheck.id) {
+                    ticketExport.chck = true;
+                }
+            }, this);
+            _ticketExportIdsToBeUpdated.push(ticketToCheck.id);
+
+        }
     }
 }
 

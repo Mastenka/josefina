@@ -28,14 +28,14 @@ export default class TicketConfirmation extends Component {
                     onRequestClose={() => { this.props.modalClosed(false) }}>
                     <View style={styles.container}>
                         <View>
+                            <Text>Category</Text>
+                            <Text>{this.props.ticket.category}</Text>
                             <Text>Email</Text>
                             <Text>{this.props.ticket.email}</Text>
                             <Text>Name</Text>
                             <Text>{this.props.ticket.name}</Text>
                             <Text>Code</Text>
                             <Text>{this.props.ticket.code}</Text>
-                            <Text>VS</Text>
-                            <Text>{this.props.ticket.vs}</Text>
                         </View>
                         <Button title='Check' onPress={this._onCheck.bind(this)}/>
                         <Button title='Back' onPress={this._onBack.bind(this)}/>
