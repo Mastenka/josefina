@@ -38,10 +38,10 @@ export default class ScannerScreen extends Component {
                             this.camera = cam;
                         }}
                         style={styles.preview}
-                        aspect={Camera.constants.Aspect.fill} 
+                        aspect={Camera.constants.Aspect.fill}
                         onBarCodeRead={this._onBarCodeRead.bind(this)}
-                        >
-                        <Text style={styles.capture} onPress={this._btnTest.bind(this)}>[CAPTURE]</Text>
+                    >
+                        {/*<Text style={styles.capture} onPress={this._btnTest.bind(this)}>[CAPTURE]</Text>*/}
                     </Camera>
                 </View>
             );
@@ -58,14 +58,14 @@ export default class ScannerScreen extends Component {
     };
 
     _modalClosed(checkTicket) {
-         if (checkTicket) {
-             var ticketToCheck = this.state.ticketToCheck;
+        if (checkTicket) {
+            var ticketToCheck = this.state.ticketToCheck;
             this._checkTicket(ticketToCheck);
         }
 
         this.setState(() => {
             return { cameraVisible: true, ticketToCheck: {} };
-        });       
+        });
     };
 
     _checkTicket(ticket) {
@@ -116,10 +116,51 @@ export default class ScannerScreen extends Component {
 
     // Hack
     _btnTest(event) {
-        var mock = { data: '34aeb41c-a315-413e-9114-8cb6b85ff077' };
-        this._onBarCodeRead(mock);
+        var mock
+
+        if (neco === 0) {
+            mock = { data: 'e0adac80-ed73-4003-909b-38b5b4a4995d' };
+            neco++;
+            this._onBarCodeRead(mock);
+            return;
+        }
+
+        if (neco === 1) {
+            mock = { data: '3b2d4f03-30ef-4a06-a0fb-9e87aa0dc995' };
+            neco++;
+            this._onBarCodeRead(mock);
+            return;
+        }
+        if (neco === 2) {
+            mock = { data: '332348e6-27ef-4650-9e54-d3af79cbb5de' };
+            neco++;
+            this._onBarCodeRead(mock);
+            return;
+        }
+        if (neco === 3) {
+            mock = { data: '23e423e2-88cb-4b2b-8a68-a633c78699f8' };
+            neco++;
+            this._onBarCodeRead(mock);
+            return;
+        }
+
+        if (neco === 4) {
+            mock = { data: '5505e348-baa7-44af-9079-780c5c2104b8' };
+            neco++;
+            this._onBarCodeRead(mock);
+            return;
+        }
+
+        if (neco === 5) {
+            mock = { data: 'c93267ef-0fa4-4414-9bea-c4db58c94779' };
+            neco++;
+            this._onBarCodeRead(mock);
+            return;
+        }
     }
 }
+
+let neco = 0;
 
 const styles = StyleSheet.create({
     container: {

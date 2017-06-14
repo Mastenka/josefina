@@ -1275,7 +1275,8 @@ var HomeScreen = function (_React$Component) {
 
         var _this = babelHelpers.possibleConstructorReturn(this, (HomeScreen.__proto__ || Object.getPrototypeOf(HomeScreen)).call(this, props));
 
-        _this.state = { text: 'Useless Placeholder' };
+        _TicketsStorage2.default.bindCountUpdateEvent(_this.updateTicketToUpdateCounter.bind(_this));
+        _this.state = { text: 'Useless Placeholder', ticketsToUpdate: 0 };
         return _this;
     }
 
@@ -1288,7 +1289,7 @@ var HomeScreen = function (_React$Component) {
                 _reactNative.View,
                 { style: styles.container, __source: {
                         fileName: _jsxFileName,
-                        lineNumber: 33
+                        lineNumber: 34
                     }
                 },
                 _react2.default.createElement(_reactNative.Button, {
@@ -1298,7 +1299,7 @@ var HomeScreen = function (_React$Component) {
                     title: 'QR Scanner',
                     __source: {
                         fileName: _jsxFileName,
-                        lineNumber: 34
+                        lineNumber: 35
                     }
                 }),
                 _react2.default.createElement(_reactNative.Button, {
@@ -1306,10 +1307,36 @@ var HomeScreen = function (_React$Component) {
                     title: 'Synchronize',
                     __source: {
                         fileName: _jsxFileName,
-                        lineNumber: 42
+                        lineNumber: 43
                     }
-                })
+                }),
+                _react2.default.createElement(
+                    _reactNative.Text,
+                    {
+                        __source: {
+                            fileName: _jsxFileName,
+                            lineNumber: 47
+                        }
+                    },
+                    'Tickets to synchronize: ',
+                    _react2.default.createElement(
+                        _reactNative.Text,
+                        { style: styles.boldText, __source: {
+                                fileName: _jsxFileName,
+                                lineNumber: 47
+                            }
+                        },
+                        this.state.ticketsToUpdate
+                    )
+                )
             );
+        }
+    }, {
+        key: 'updateTicketToUpdateCounter',
+        value: function updateTicketToUpdateCounter(count) {
+            this.setState(function () {
+                return { ticketsToUpdate: count };
+            });
         }
     }, {
         key: '_btnSync',
@@ -1327,8 +1354,8 @@ HomeScreen.navigationOptions = {
 
 var styles = _reactNative.StyleSheet.create({
     container: {
-        paddingTop: 30,
-        paddingBottom: 30,
+        paddingTop: 130,
+        paddingBottom: 130,
         paddingRight: 30,
         paddingLeft: 30,
         flexDirection: 'column',
@@ -1338,6 +1365,10 @@ var styles = _reactNative.StyleSheet.create({
     textCenter: {
         textAlign: 'center'
 
+    },
+    boldText: {
+        fontWeight: 'bold',
+        fontSize: 18
     }
 });
 
@@ -2323,7 +2354,6 @@ function factory(ReactComponent, isValidElement, ReactNoopUpdateQueue) {
     componentWillUnmount: 'DEFINE_MANY',
 
     updateComponent: 'OVERRIDE_BASE'
-
   };
 
   var RESERVED_SPEC_KEYS = {
@@ -2366,12 +2396,15 @@ function factory(ReactComponent, isValidElement, ReactNoopUpdateQueue) {
     statics: function statics(Constructor, _statics) {
       mixStaticSpecIntoComponent(Constructor, _statics);
     },
-    autobind: function autobind() {} };
+    autobind: function autobind() {}
+  };
 
   function validateTypeDef(Constructor, typeDef, location) {
     for (var propName in typeDef) {
       if (typeDef.hasOwnProperty(propName)) {
-        process.env.NODE_ENV !== 'production' ? warning(typeof typeDef[propName] === 'function', '%s: %s type `%s` is invalid; it must be a function, usually from ' + 'React.PropTypes.', Constructor.displayName || 'ReactClass', ReactPropTypeLocationNames[location], propName) : void 0;
+        if (process.env.NODE_ENV !== 'production') {
+          warning(typeof typeDef[propName] === 'function', '%s: %s type `%s` is invalid; it must be a function, usually from ' + 'React.PropTypes.', Constructor.displayName || 'ReactClass', ReactPropTypeLocationNames[location], propName);
+        }
       }
     }
   }
@@ -2394,14 +2427,16 @@ function factory(ReactComponent, isValidElement, ReactNoopUpdateQueue) {
         var typeofSpec = typeof spec;
         var isMixinValid = typeofSpec === 'object' && spec !== null;
 
-        process.env.NODE_ENV !== 'production' ? warning(isMixinValid, '%s: You\'re attempting to include a mixin that is either null ' + 'or not an object. Check the mixins included by the component, ' + 'as well as any mixins they include themselves. ' + 'Expected object but got %s.', Constructor.displayName || 'ReactClass', spec === null ? null : typeofSpec) : void 0;
+        if (process.env.NODE_ENV !== 'production') {
+          warning(isMixinValid, "%s: You're attempting to include a mixin that is either null " + 'or not an object. Check the mixins included by the component, ' + 'as well as any mixins they include themselves. ' + 'Expected object but got %s.', Constructor.displayName || 'ReactClass', spec === null ? null : typeofSpec);
+        }
       }
 
       return;
     }
 
-    _invariant(typeof spec !== 'function', 'ReactClass: You\'re attempting to ' + 'use a component class or function as a mixin. Instead, just use a ' + 'regular object.');
-    _invariant(!isValidElement(spec), 'ReactClass: You\'re attempting to ' + 'use a component as a mixin. Instead, just use a regular object.');
+    _invariant(typeof spec !== 'function', "ReactClass: You're attempting to " + 'use a component class or function as a mixin. Instead, just use a ' + 'regular object.');
+    _invariant(!isValidElement(spec), "ReactClass: You're attempting to " + 'use a component as a mixin. Instead, just use a regular object.');
 
     var proto = Constructor.prototype;
     var autoBindPairs = proto.__reactAutoBindPairs;
@@ -2525,9 +2560,13 @@ function factory(ReactComponent, isValidElement, ReactNoopUpdateQueue) {
         }
 
         if (newThis !== component && newThis !== null) {
-          process.env.NODE_ENV !== 'production' ? warning(false, 'bind(): React component methods may only be bound to the ' + 'component instance. See %s', componentName) : void 0;
+          if (process.env.NODE_ENV !== 'production') {
+            warning(false, 'bind(): React component methods may only be bound to the ' + 'component instance. See %s', componentName);
+          }
         } else if (!args.length) {
-          process.env.NODE_ENV !== 'production' ? warning(false, 'bind(): You are binding a component method to the component. ' + 'React does this for you automatically in a high-performance ' + 'way, so you can safely remove this call. See %s', componentName) : void 0;
+          if (process.env.NODE_ENV !== 'production') {
+            warning(false, 'bind(): You are binding a component method to the component. ' + 'React does this for you automatically in a high-performance ' + 'way, so you can safely remove this call. See %s', componentName);
+          }
           return boundMethod;
         }
         var reboundMethod = _bind.apply(boundMethod, arguments);
@@ -2549,10 +2588,13 @@ function factory(ReactComponent, isValidElement, ReactNoopUpdateQueue) {
     }
   }
 
-  var IsMountedMixin = {
+  var IsMountedPreMixin = {
     componentDidMount: function componentDidMount() {
       this.__isMounted = true;
-    },
+    }
+  };
+
+  var IsMountedPostMixin = {
     componentWillUnmount: function componentWillUnmount() {
       this.__isMounted = false;
     }
@@ -2565,7 +2607,7 @@ function factory(ReactComponent, isValidElement, ReactNoopUpdateQueue) {
 
     isMounted: function isMounted() {
       if (process.env.NODE_ENV !== 'production') {
-        process.env.NODE_ENV !== 'production' ? warning(this.__didWarnIsMounted, '%s: isMounted is deprecated. Instead, make sure to clean up ' + 'subscriptions and pending requests in componentWillUnmount to ' + 'prevent memory leaks.', this.constructor && this.constructor.displayName || this.name || 'Component') : void 0;
+        warning(this.__didWarnIsMounted, '%s: isMounted is deprecated. Instead, make sure to clean up ' + 'subscriptions and pending requests in componentWillUnmount to ' + 'prevent memory leaks.', this.constructor && this.constructor.displayName || this.name || 'Component');
         this.__didWarnIsMounted = true;
       }
       return !!this.__isMounted;
@@ -2579,7 +2621,7 @@ function factory(ReactComponent, isValidElement, ReactNoopUpdateQueue) {
     var Constructor = identity(function (props, context, updater) {
 
       if (process.env.NODE_ENV !== 'production') {
-        process.env.NODE_ENV !== 'production' ? warning(this instanceof Constructor, 'Something is calling a React component directly. Use a factory or ' + 'JSX instead. See: https://fb.me/react-legacyfactory') : void 0;
+        warning(this instanceof Constructor, 'Something is calling a React component directly. Use a factory or ' + 'JSX instead. See: https://fb.me/react-legacyfactory');
       }
 
       if (this.__reactAutoBindPairs.length) {
@@ -2609,8 +2651,9 @@ function factory(ReactComponent, isValidElement, ReactNoopUpdateQueue) {
 
     injectedMixins.forEach(mixSpecIntoComponent.bind(null, Constructor));
 
-    mixSpecIntoComponent(Constructor, IsMountedMixin);
+    mixSpecIntoComponent(Constructor, IsMountedPreMixin);
     mixSpecIntoComponent(Constructor, spec);
+    mixSpecIntoComponent(Constructor, IsMountedPostMixin);
 
     if (Constructor.getDefaultProps) {
       Constructor.defaultProps = Constructor.getDefaultProps();
@@ -2628,8 +2671,8 @@ function factory(ReactComponent, isValidElement, ReactNoopUpdateQueue) {
     _invariant(Constructor.prototype.render, 'createClass(...): Class specification must implement a `render` method.');
 
     if (process.env.NODE_ENV !== 'production') {
-      process.env.NODE_ENV !== 'production' ? warning(!Constructor.prototype.componentShouldUpdate, '%s has a method called ' + 'componentShouldUpdate(). Did you mean shouldComponentUpdate()? ' + 'The name is phrased as a question because the function is ' + 'expected to return a value.', spec.displayName || 'A component') : void 0;
-      process.env.NODE_ENV !== 'production' ? warning(!Constructor.prototype.componentWillRecieveProps, '%s has a method called ' + 'componentWillRecieveProps(). Did you mean componentWillReceiveProps()?', spec.displayName || 'A component') : void 0;
+      warning(!Constructor.prototype.componentShouldUpdate, '%s has a method called ' + 'componentShouldUpdate(). Did you mean shouldComponentUpdate()? ' + 'The name is phrased as a question because the function is ' + 'expected to return a value.', spec.displayName || 'A component');
+      warning(!Constructor.prototype.componentWillRecieveProps, '%s has a method called ' + 'componentWillRecieveProps(). Did you mean componentWillReceiveProps()?', spec.displayName || 'A component');
     }
 
     for (var methodName in ReactClassInterface) {
@@ -55556,8 +55599,47 @@ var ScannerScreen = function (_Component) {
     }, {
         key: '_btnTest',
         value: function _btnTest(event) {
-            var mock = { data: '34aeb41c-a315-413e-9114-8cb6b85ff077' };
-            this._onBarCodeRead(mock);
+            var mock;
+
+            if (neco === 0) {
+                mock = { data: 'e0adac80-ed73-4003-909b-38b5b4a4995d' };
+                neco++;
+                this._onBarCodeRead(mock);
+                return;
+            }
+
+            if (neco === 1) {
+                mock = { data: '3b2d4f03-30ef-4a06-a0fb-9e87aa0dc995' };
+                neco++;
+                this._onBarCodeRead(mock);
+                return;
+            }
+            if (neco === 2) {
+                mock = { data: '332348e6-27ef-4650-9e54-d3af79cbb5de' };
+                neco++;
+                this._onBarCodeRead(mock);
+                return;
+            }
+            if (neco === 3) {
+                mock = { data: '23e423e2-88cb-4b2b-8a68-a633c78699f8' };
+                neco++;
+                this._onBarCodeRead(mock);
+                return;
+            }
+
+            if (neco === 4) {
+                mock = { data: '5505e348-baa7-44af-9079-780c5c2104b8' };
+                neco++;
+                this._onBarCodeRead(mock);
+                return;
+            }
+
+            if (neco === 5) {
+                mock = { data: 'c93267ef-0fa4-4414-9bea-c4db58c94779' };
+                neco++;
+                this._onBarCodeRead(mock);
+                return;
+            }
         }
     }]);
     return ScannerScreen;
@@ -55568,6 +55650,8 @@ ScannerScreen.navigationOptions = {
 };
 exports.default = ScannerScreen;
 
+
+var neco = 0;
 
 var styles = _reactNative.StyleSheet.create({
     container: {
@@ -55907,6 +55991,8 @@ var josefinaPostTicketsUrl = 'http://pepicka.cz/api/project/react/sync';
 
 var _josefinaViewModel = {};
 
+var _listener = void 0;
+
 var TicketsStorage = function () {
     function TicketsStorage() {
         var _this = this;
@@ -55970,6 +56056,7 @@ var TicketsStorage = function () {
                 }, _this);
                 _ticketExportIdsToBeUpdated.push(ticketToCheck.id);
             }
+            _this._updateListenerCount();
         };
 
         this.syncWithJosefina(false);
@@ -55987,6 +56074,11 @@ var TicketsStorage = function () {
             }).catch(function (error) {
                 console.warn(error);
             });
+        }
+    }, {
+        key: 'bindCountUpdateEvent',
+        value: function bindCountUpdateEvent(listener) {
+            _listener = listener;
         }
     }, {
         key: 'syncWithJosefina',
@@ -56010,6 +56102,7 @@ var TicketsStorage = function () {
                 _this3._processLoadedTickets(responseJSON);
                 if (showAlert) {
                     _this3._showSyncAlert();
+                    _this3._updateListenerCount();
                 }
             }).catch(function (error) {
                 console.warn(error);
@@ -56026,6 +56119,13 @@ var TicketsStorage = function () {
             _josefinaViewModel = ticketsViewModel;
             _ticketIdsToBeUpdated = [];
             _ticketExportIdsToBeUpdated = [];
+        }
+    }, {
+        key: '_updateListenerCount',
+        value: function _updateListenerCount() {
+            var listener = _listener;
+            var count = _ticketExportIdsToBeUpdated.length + _ticketIdsToBeUpdated.length;
+            listener(count);
         }
     }]);
     return TicketsStorage;

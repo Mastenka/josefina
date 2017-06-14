@@ -14,13 +14,14 @@ import {
 import { StackNavigator } from 'react-navigation';
 import ScannerScreen from './components/ScannerScreen';
 import ManualSearchScreen from './components/ManualSearchScreen';
-import TicketsStorage from './storage/TicketsStorage'; 
+import TicketsStorage from './storage/TicketsStorage';
 
 class HomeScreen extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = { text: 'Useless Placeholder' };
+        TicketsStorage.bindCountUpdateEvent(this.updateTicketToUpdateCounter.bind(this));
+        this.state = { text: 'Useless Placeholder', ticketsToUpdate: 0 };
     }
 
     static navigationOptions = {
@@ -43,8 +44,17 @@ class HomeScreen extends React.Component {
                     onPress={this._btnSync}
                     title="Synchronize"
                 />
+                <Text>Tickets to synchronize: <Text style={styles.boldText}>{this.state.ticketsToUpdate}</Text></Text>
+                
+
             </View>
         );
+    }
+
+    updateTicketToUpdateCounter(count) {
+        this.setState(() => {
+            return { ticketsToUpdate: count };
+        });
     }
 
     _btnSync(event) {
@@ -54,18 +64,22 @@ class HomeScreen extends React.Component {
 
 var styles = StyleSheet.create({
     container: {
-        paddingTop: 30,
-        paddingBottom: 30,
+        paddingTop: 130,
+        paddingBottom: 130,
         paddingRight: 30,
         paddingLeft: 30,
         flexDirection: 'column',
         justifyContent: 'space-between',
-        flex:1
+        flex: 1
     },
     textCenter: {
         textAlign: 'center',
 
-    }
+    },
+    boldText: {
+        fontWeight: 'bold',
+        fontSize: 18
+    },
 });
 
 const JosefinaScanner = StackNavigator({

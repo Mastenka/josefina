@@ -14,6 +14,8 @@ const josefinaPostTicketsUrl = 'http://pepicka.cz/api/project/react/sync';
 
 let _josefinaViewModel = {};
 
+let _listener;
+
 class TicketsStorage {
 
     constructor() {
@@ -29,6 +31,10 @@ class TicketsStorage {
             .catch((error) => {
                 console.warn(error);
             });
+    };
+
+    bindCountUpdateEvent(listener) {
+        _listener = listener;
     };
 
     syncWithJosefina(showAlert) {
@@ -49,6 +55,7 @@ class TicketsStorage {
                 this._processLoadedTickets(responseJSON);
                 if (showAlert) {
                     this._showSyncAlert();
+                    this._updateListenerCount();
                 }
             })
             .catch((error) => {
@@ -123,9 +130,15 @@ class TicketsStorage {
                 }
             }, this);
             _ticketExportIdsToBeUpdated.push(ticketToCheck.id);
-
         }
+        this._updateListenerCount();
     }
+
+    _updateListenerCount() {
+        var listener = _listener;
+        var count = _ticketExportIdsToBeUpdated.length + _ticketIdsToBeUpdated.length;
+        listener(count);
+    };
 }
 
 export default new TicketsStorage();
