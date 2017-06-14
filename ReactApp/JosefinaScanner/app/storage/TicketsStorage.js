@@ -17,7 +17,7 @@ let _josefinaViewModel = {};
 class TicketsStorage {
 
     constructor() {
-        this.syncWithJosefina();
+        this.syncWithJosefina(false);
     };
 
     _loadTicketsFromJosefina() {
@@ -31,7 +31,7 @@ class TicketsStorage {
             });
     };
 
-    syncWithJosefina() {
+    syncWithJosefina(showAlert) {
         fetch(josefinaPostTicketsUrl, {
             method: 'POST',
             headers: {
@@ -47,11 +47,26 @@ class TicketsStorage {
             .then((response) => response.json())
             .then((responseJSON) => {
                 this._processLoadedTickets(responseJSON);
+                if (showAlert) {
+                    this._showSyncAlert();
+                }
             })
             .catch((error) => {
                 console.warn(error);
             });
     };
+
+    _showSyncAlert() {
+        Alert.alert(
+            'Success',
+            'Synchronized with server!',
+            [
+                { text: 'OK' }
+            ],
+            { cancelable: false }
+        )
+    };
+
 
     _processLoadedTickets(ticketsViewModel) {
         _josefinaViewModel = ticketsViewModel;

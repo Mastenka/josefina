@@ -1298,15 +1298,7 @@ var HomeScreen = function (_React$Component) {
                     title: 'QR Scanner',
                     __source: {
                         fileName: _jsxFileName,
-                        lineNumber: 39
-                    }
-                }),
-                _react2.default.createElement(_reactNative.Button, {
-                    onPress: this._btnDownload,
-                    title: 'Download',
-                    __source: {
-                        fileName: _jsxFileName,
-                        lineNumber: 47
+                        lineNumber: 34
                     }
                 }),
                 _react2.default.createElement(_reactNative.Button, {
@@ -1314,37 +1306,15 @@ var HomeScreen = function (_React$Component) {
                     title: 'Synchronize',
                     __source: {
                         fileName: _jsxFileName,
-                        lineNumber: 51
-                    }
-                }),
-                _react2.default.createElement(_reactNative.Button, {
-                    onPress: this._btnTest,
-                    title: 'Test',
-                    __source: {
-                        fileName: _jsxFileName,
-                        lineNumber: 56
+                        lineNumber: 42
                     }
                 })
             );
         }
     }, {
-        key: '_btnDownload',
-        value: function _btnDownload(event) {
-            _TicketsStorage2.default._loadTickets();
-            _TicketsStorage2.default._loadTicketsFromJosefina();
-        }
-    }, {
         key: '_btnSync',
         value: function _btnSync(event) {
-            _TicketsStorage2.default.syncWithJosefina();
-        }
-    }, {
-        key: '_btnTest',
-        value: function _btnTest(event) {
-
-            var neco = _TicketsStorage2.default.getTicketByQRCode('QR1');
-
-            _reactNative.Alert.alert(JSON.stringify(neco));
+            _TicketsStorage2.default.syncWithJosefina(true);
         }
     }]);
     return HomeScreen;
@@ -2353,6 +2323,7 @@ function factory(ReactComponent, isValidElement, ReactNoopUpdateQueue) {
     componentWillUnmount: 'DEFINE_MANY',
 
     updateComponent: 'OVERRIDE_BASE'
+
   };
 
   var RESERVED_SPEC_KEYS = {
@@ -2395,15 +2366,12 @@ function factory(ReactComponent, isValidElement, ReactNoopUpdateQueue) {
     statics: function statics(Constructor, _statics) {
       mixStaticSpecIntoComponent(Constructor, _statics);
     },
-    autobind: function autobind() {}
-  };
+    autobind: function autobind() {} };
 
   function validateTypeDef(Constructor, typeDef, location) {
     for (var propName in typeDef) {
       if (typeDef.hasOwnProperty(propName)) {
-        if (process.env.NODE_ENV !== 'production') {
-          warning(typeof typeDef[propName] === 'function', '%s: %s type `%s` is invalid; it must be a function, usually from ' + 'React.PropTypes.', Constructor.displayName || 'ReactClass', ReactPropTypeLocationNames[location], propName);
-        }
+        process.env.NODE_ENV !== 'production' ? warning(typeof typeDef[propName] === 'function', '%s: %s type `%s` is invalid; it must be a function, usually from ' + 'React.PropTypes.', Constructor.displayName || 'ReactClass', ReactPropTypeLocationNames[location], propName) : void 0;
       }
     }
   }
@@ -2426,16 +2394,14 @@ function factory(ReactComponent, isValidElement, ReactNoopUpdateQueue) {
         var typeofSpec = typeof spec;
         var isMixinValid = typeofSpec === 'object' && spec !== null;
 
-        if (process.env.NODE_ENV !== 'production') {
-          warning(isMixinValid, "%s: You're attempting to include a mixin that is either null " + 'or not an object. Check the mixins included by the component, ' + 'as well as any mixins they include themselves. ' + 'Expected object but got %s.', Constructor.displayName || 'ReactClass', spec === null ? null : typeofSpec);
-        }
+        process.env.NODE_ENV !== 'production' ? warning(isMixinValid, '%s: You\'re attempting to include a mixin that is either null ' + 'or not an object. Check the mixins included by the component, ' + 'as well as any mixins they include themselves. ' + 'Expected object but got %s.', Constructor.displayName || 'ReactClass', spec === null ? null : typeofSpec) : void 0;
       }
 
       return;
     }
 
-    _invariant(typeof spec !== 'function', "ReactClass: You're attempting to " + 'use a component class or function as a mixin. Instead, just use a ' + 'regular object.');
-    _invariant(!isValidElement(spec), "ReactClass: You're attempting to " + 'use a component as a mixin. Instead, just use a regular object.');
+    _invariant(typeof spec !== 'function', 'ReactClass: You\'re attempting to ' + 'use a component class or function as a mixin. Instead, just use a ' + 'regular object.');
+    _invariant(!isValidElement(spec), 'ReactClass: You\'re attempting to ' + 'use a component as a mixin. Instead, just use a regular object.');
 
     var proto = Constructor.prototype;
     var autoBindPairs = proto.__reactAutoBindPairs;
@@ -2559,13 +2525,9 @@ function factory(ReactComponent, isValidElement, ReactNoopUpdateQueue) {
         }
 
         if (newThis !== component && newThis !== null) {
-          if (process.env.NODE_ENV !== 'production') {
-            warning(false, 'bind(): React component methods may only be bound to the ' + 'component instance. See %s', componentName);
-          }
+          process.env.NODE_ENV !== 'production' ? warning(false, 'bind(): React component methods may only be bound to the ' + 'component instance. See %s', componentName) : void 0;
         } else if (!args.length) {
-          if (process.env.NODE_ENV !== 'production') {
-            warning(false, 'bind(): You are binding a component method to the component. ' + 'React does this for you automatically in a high-performance ' + 'way, so you can safely remove this call. See %s', componentName);
-          }
+          process.env.NODE_ENV !== 'production' ? warning(false, 'bind(): You are binding a component method to the component. ' + 'React does this for you automatically in a high-performance ' + 'way, so you can safely remove this call. See %s', componentName) : void 0;
           return boundMethod;
         }
         var reboundMethod = _bind.apply(boundMethod, arguments);
@@ -2587,13 +2549,10 @@ function factory(ReactComponent, isValidElement, ReactNoopUpdateQueue) {
     }
   }
 
-  var IsMountedPreMixin = {
+  var IsMountedMixin = {
     componentDidMount: function componentDidMount() {
       this.__isMounted = true;
-    }
-  };
-
-  var IsMountedPostMixin = {
+    },
     componentWillUnmount: function componentWillUnmount() {
       this.__isMounted = false;
     }
@@ -2606,7 +2565,7 @@ function factory(ReactComponent, isValidElement, ReactNoopUpdateQueue) {
 
     isMounted: function isMounted() {
       if (process.env.NODE_ENV !== 'production') {
-        warning(this.__didWarnIsMounted, '%s: isMounted is deprecated. Instead, make sure to clean up ' + 'subscriptions and pending requests in componentWillUnmount to ' + 'prevent memory leaks.', this.constructor && this.constructor.displayName || this.name || 'Component');
+        process.env.NODE_ENV !== 'production' ? warning(this.__didWarnIsMounted, '%s: isMounted is deprecated. Instead, make sure to clean up ' + 'subscriptions and pending requests in componentWillUnmount to ' + 'prevent memory leaks.', this.constructor && this.constructor.displayName || this.name || 'Component') : void 0;
         this.__didWarnIsMounted = true;
       }
       return !!this.__isMounted;
@@ -2620,7 +2579,7 @@ function factory(ReactComponent, isValidElement, ReactNoopUpdateQueue) {
     var Constructor = identity(function (props, context, updater) {
 
       if (process.env.NODE_ENV !== 'production') {
-        warning(this instanceof Constructor, 'Something is calling a React component directly. Use a factory or ' + 'JSX instead. See: https://fb.me/react-legacyfactory');
+        process.env.NODE_ENV !== 'production' ? warning(this instanceof Constructor, 'Something is calling a React component directly. Use a factory or ' + 'JSX instead. See: https://fb.me/react-legacyfactory') : void 0;
       }
 
       if (this.__reactAutoBindPairs.length) {
@@ -2650,9 +2609,8 @@ function factory(ReactComponent, isValidElement, ReactNoopUpdateQueue) {
 
     injectedMixins.forEach(mixSpecIntoComponent.bind(null, Constructor));
 
-    mixSpecIntoComponent(Constructor, IsMountedPreMixin);
+    mixSpecIntoComponent(Constructor, IsMountedMixin);
     mixSpecIntoComponent(Constructor, spec);
-    mixSpecIntoComponent(Constructor, IsMountedPostMixin);
 
     if (Constructor.getDefaultProps) {
       Constructor.defaultProps = Constructor.getDefaultProps();
@@ -2670,8 +2628,8 @@ function factory(ReactComponent, isValidElement, ReactNoopUpdateQueue) {
     _invariant(Constructor.prototype.render, 'createClass(...): Class specification must implement a `render` method.');
 
     if (process.env.NODE_ENV !== 'production') {
-      warning(!Constructor.prototype.componentShouldUpdate, '%s has a method called ' + 'componentShouldUpdate(). Did you mean shouldComponentUpdate()? ' + 'The name is phrased as a question because the function is ' + 'expected to return a value.', spec.displayName || 'A component');
-      warning(!Constructor.prototype.componentWillRecieveProps, '%s has a method called ' + 'componentWillRecieveProps(). Did you mean componentWillReceiveProps()?', spec.displayName || 'A component');
+      process.env.NODE_ENV !== 'production' ? warning(!Constructor.prototype.componentShouldUpdate, '%s has a method called ' + 'componentShouldUpdate(). Did you mean shouldComponentUpdate()? ' + 'The name is phrased as a question because the function is ' + 'expected to return a value.', spec.displayName || 'A component') : void 0;
+      process.env.NODE_ENV !== 'production' ? warning(!Constructor.prototype.componentWillRecieveProps, '%s has a method called ' + 'componentWillRecieveProps(). Did you mean componentWillReceiveProps()?', spec.displayName || 'A component') : void 0;
     }
 
     for (var methodName in ReactClassInterface) {
@@ -56014,7 +55972,7 @@ var TicketsStorage = function () {
             }
         };
 
-        this.syncWithJosefina();
+        this.syncWithJosefina(false);
     }
 
     babelHelpers.createClass(TicketsStorage, [{
@@ -56032,7 +55990,7 @@ var TicketsStorage = function () {
         }
     }, {
         key: 'syncWithJosefina',
-        value: function syncWithJosefina() {
+        value: function syncWithJosefina(showAlert) {
             var _this3 = this;
 
             fetch(josefinaPostTicketsUrl, {
@@ -56050,9 +56008,17 @@ var TicketsStorage = function () {
                 return response.json();
             }).then(function (responseJSON) {
                 _this3._processLoadedTickets(responseJSON);
+                if (showAlert) {
+                    _this3._showSyncAlert();
+                }
             }).catch(function (error) {
                 console.warn(error);
             });
+        }
+    }, {
+        key: '_showSyncAlert',
+        value: function _showSyncAlert() {
+            _reactNative.Alert.alert('Success', 'Synchronized with server!', [{ text: 'OK' }], { cancelable: false });
         }
     }, {
         key: '_processLoadedTickets',

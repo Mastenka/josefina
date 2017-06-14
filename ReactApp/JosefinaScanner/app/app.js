@@ -48,7 +48,7 @@ class HomeScreen extends React.Component {
     }
 
     _btnSync(event) {
-        TicketsStorage.syncWithJosefina();
+        TicketsStorage.syncWithJosefina(true);
     }
 }
 
