@@ -22,5 +22,7 @@ namespace Josefina.Entities
         public string Email { get; set; }
 
         public string QRCode { get; set; }
+
+        public bool Checked { get; set; }
     }
 }

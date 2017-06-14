@@ -24,5 +24,8 @@ namespace Josefina.Entities
         public bool Paid { get; set; }
 
         public string QRCode { get; set; }
+
+        public bool Checked { get; set; }
+
     }
 }

@@ -36,6 +36,50 @@ namespace Josefina.Controllers
         [ResponseType(typeof(ReactAppTicketsViewModel))]
         public ReactAppTicketsViewModel GetTickets(string pass)
         {
+            if(pass != "3deca158-9668-42d2-8619-1135e487685a")
+            {
+                throw new HttpResponseException(HttpStatusCode.Unauthorized);
+            }            
+
+            return GetTickets();
+        }
+
+        [HttpPost]
+        [Route("sync/")]
+        [ResponseType(typeof(AngularErrorViewModel))]
+        public ReactAppTicketsViewModel SyncTickets(ReactAppTicketUploadViewModel model)
+        {
+            if (model.GUID != "3deca158-9668-42d2-8619-1135e487685a")
+            {
+                throw new HttpResponseException(HttpStatusCode.Unauthorized);
+            }
+
+            if (model.Tickets.Any() || model.Exports.Any())
+            {
+                using (ApplicationDbContext context = new ApplicationDbContext())
+                {
+                    foreach (var ticketId in model.Tickets)
+                    {
+                        var ticketItem = context.TicketItems.First(ti => ti.TicketItemID == ticketId);
+                        ticketItem.Checked = true;
+                    }
+
+                    foreach (var ticketExportId in model.Exports)
+                    {
+                        var ticketExportItem = context.TicketExportItems.First(tei => tei.TicketExportItemID == ticketExportId);
+                        ticketExportItem.Checked = true;
+                    }
+
+                    context.SaveChanges();
+                } 
+            }
+
+            return GetTickets();
+        }
+
+
+        private ReactAppTicketsViewModel GetTickets()
+        {
             ReactAppTicketsViewModel viewModel = new Models.ReactAppTicketsViewModel();
 
             using (ApplicationDbContext context = new ApplicationDbContext())
@@ -53,7 +97,7 @@ namespace Josefina.Controllers
                         foreach (var ticketItem in ticketCategoryOrder.TicketItems)
                         {
                             var ticket = new ReactAppTicketViewModel();
-                            ticket.chck = false; //todo
+                            ticket.chck = ticketItem.Checked;
                             ticket.code = ticketItem.Code;
                             ticket.email = ticketOrder.Email;
                             ticket.id = ticketItem.TicketItemID;
@@ -79,23 +123,25 @@ namespace Josefina.Controllers
                 {
                     foreach (var ticketExportItem in ticketExport.TicketExportItems)
                     {
-                        var ticket = new ReactAppTicketViewModel();
-                        ticket.chck = false; //todo
-                        ticket.code = ticketExportItem.Code;
-                        ticket.email = ticketExportItem.Email;
-                        ticket.id = ticketExportItem.TicketExportID;
-                        ticket.name = ticketExportItem.Name;
-                        ticket.qrCode = ticketExportItem.QRCode;
-                        ticket.CtgID = ticketExport.TicketExportID;
+                        if (ticketExportItem.Paid)
+                        {
+                            var ticket = new ReactAppTicketViewModel();
+                            ticket.chck = ticketExportItem.Checked;
+                            ticket.code = ticketExportItem.Code;
+                            ticket.email = ticketExportItem.Email;
+                            ticket.id = ticketExportItem.TicketExportItemID;
+                            ticket.name = ticketExportItem.Name;
+                            ticket.qrCode = ticketExportItem.QRCode;
+                            ticket.CtgID = ticketExport.TicketExportID;
 
-                        viewModel.TicketExports.Add(ticket);
+                            viewModel.TicketExports.Add(ticket);
+                        }
                     }
 
                     viewModel.ExportHeaders.Add(new ReactAppCategoryNameViewModel() { id = ticketExport.TicketExportID, name = ticketExport.Name });
                 }
 
             }
-
             return viewModel;
         }
     }

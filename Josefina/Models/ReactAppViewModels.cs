@@ -38,4 +38,13 @@ namespace Josefina.Models
         public int id { get; set; }
         public string name { get; set; }
     }
+
+    public class ReactAppTicketUploadViewModel
+    {
+        public int[] Tickets { get; set; }
+
+        public int[] Exports { get; set; }
+
+        public string GUID { get; set; }
+    }
 }
