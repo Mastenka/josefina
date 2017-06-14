@@ -14,7 +14,7 @@ import {
 import { StackNavigator } from 'react-navigation';
 import ScannerScreen from './components/ScannerScreen';
 import ManualSearchScreen from './components/ManualSearchScreen';
-import TicketsStorage from './storage/TicketsStorage'; //HACK
+import TicketsStorage from './storage/TicketsStorage'; 
 
 class HomeScreen extends React.Component {
 
@@ -31,11 +31,6 @@ class HomeScreen extends React.Component {
         const { navigate } = this.props.navigation;
         return (
             <View style={styles.container}>
-                {/*<TextInput
-          style={{borderColor: 'gray', borderWidth: 1, }}
-          onChange Text={(text) => this.setState({ text })}
-          value={this.state.text}
-        />*/}
                 <Button
                     onPress={() => navigate('Scanner')}
                     title="QR Scanner"
@@ -45,41 +40,16 @@ class HomeScreen extends React.Component {
                     title="Manual search"
                 />*/}
                 <Button
-                    onPress={this._btnDownload}
-                    title="Download"
+                    onPress={this._btnSync}
+                    title="Synchronize"
                 />
-                <Button
-                    onPress={this._btnUpload}
-                    title="Upload"
-                />
-
-                <Button
-                    onPress={this._btnTest}
-                    title="Test"
-                />
-
             </View>
         );
     }
 
-    _btnDownload(event) {
-        TicketsStorage._loadTickets();
-        TicketsStorage._loadTicketsFromJosefina();
+    _btnSync(event) {
+        TicketsStorage.syncWithJosefina();
     }
-
-    _btnUpload(event) {
-        Alert.alert("_btnUpload");
-    }
-
-    // Hack
-    _btnTest(event) {
-
-        var neco = TicketsStorage.getTicketByQRCode('QR1');
-
-        Alert.alert(JSON.stringify(neco));
-    }
-    // HACK
-
 }
 
 var styles = StyleSheet.create({
