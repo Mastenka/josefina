@@ -2,7 +2,6 @@ import { Alert } from 'react-native';
 
 import Ticket from './Ticket';
 
-let _tickets = [];
 let _ticketIdsToBeUpdated = [];
 let _ticketExportIdsToBeUpdated = [];
 
@@ -19,7 +18,7 @@ let _listener;
 class TicketsStorage {
 
     constructor() {
-        this.syncWithJosefina(false);
+        // this.syncWithJosefina(false);
     };
 
     _loadTicketsFromJosefina() {
@@ -36,6 +35,10 @@ class TicketsStorage {
     bindCountUpdateEvent(listener) {
         _listener = listener;
     };
+
+    isSynchronized(){
+        return _josefinaViewModel.Tickets !== undefined;
+    }
 
     syncWithJosefina(showAlert) {
         fetch(josefinaPostTicketsUrl, {

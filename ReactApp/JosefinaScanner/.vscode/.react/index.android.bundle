@@ -1293,9 +1293,7 @@ var HomeScreen = function (_React$Component) {
                     }
                 },
                 _react2.default.createElement(_reactNative.Button, {
-                    onPress: function onPress() {
-                        return navigate('Scanner');
-                    },
+                    onPress: this._btnScanner.bind(this),
                     title: 'QR Scanner',
                     __source: {
                         fileName: _jsxFileName,
@@ -1337,6 +1335,16 @@ var HomeScreen = function (_React$Component) {
             this.setState(function () {
                 return { ticketsToUpdate: count };
             });
+        }
+    }, {
+        key: '_btnScanner',
+        value: function _btnScanner(evnet) {
+
+            if (_TicketsStorage2.default.isSynchronized()) {
+                this.props.navigation.navigate('Scanner');
+            } else {
+                _reactNative.Alert.alert('Error', 'No tickets found, synchronize first.', [{ text: 'OK' }], { cancelable: false });
+            }
         }
     }, {
         key: '_btnSync',
@@ -55503,30 +55511,18 @@ var ScannerScreen = function (_Component) {
                             lineNumber: 35
                         }
                     },
-                    _react2.default.createElement(
-                        _reactNativeCamera2.default,
-                        {
-                            ref: function ref(cam) {
-                                _this2.camera = cam;
-                            },
-                            style: styles.preview,
-                            aspect: _reactNativeCamera2.default.constants.Aspect.fill,
-                            onBarCodeRead: this._onBarCodeRead.bind(this),
-                            __source: {
-                                fileName: _jsxFileName,
-                                lineNumber: 36
-                            }
+                    _react2.default.createElement(_reactNativeCamera2.default, {
+                        ref: function ref(cam) {
+                            _this2.camera = cam;
                         },
-                        _react2.default.createElement(
-                            _reactNative.Text,
-                            { style: styles.capture, onPress: this._btnTest.bind(this), __source: {
-                                    fileName: _jsxFileName,
-                                    lineNumber: 44
-                                }
-                            },
-                            '[CAPTURE]'
-                        )
-                    )
+                        style: styles.preview,
+                        aspect: _reactNativeCamera2.default.constants.Aspect.fill,
+                        onBarCodeRead: this._onBarCodeRead.bind(this),
+                        __source: {
+                            fileName: _jsxFileName,
+                            lineNumber: 36
+                        }
+                    })
                 );
             } else {
                 return _react2.default.createElement(
@@ -55979,7 +55975,6 @@ var _Ticket = require(463       ); // 463 = ./Ticket
 
 var _Ticket2 = babelHelpers.interopRequireDefault(_Ticket);
 
-var _tickets = [];
 var _ticketIdsToBeUpdated = [];
 var _ticketExportIdsToBeUpdated = [];
 
@@ -56058,8 +56053,6 @@ var TicketsStorage = function () {
             }
             _this._updateListenerCount();
         };
-
-        this.syncWithJosefina(false);
     }
 
     babelHelpers.createClass(TicketsStorage, [{
@@ -56079,6 +56072,11 @@ var TicketsStorage = function () {
         key: 'bindCountUpdateEvent',
         value: function bindCountUpdateEvent(listener) {
             _listener = listener;
+        }
+    }, {
+        key: 'isSynchronized',
+        value: function isSynchronized() {
+            return _josefinaViewModel.Tickets !== undefined;
         }
     }, {
         key: 'syncWithJosefina',

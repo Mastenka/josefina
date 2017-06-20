@@ -33,7 +33,7 @@ class HomeScreen extends React.Component {
         return (
             <View style={styles.container}>
                 <Button
-                    onPress={() => navigate('Scanner')}
+                    onPress={this._btnScanner.bind(this)}
                     title="QR Scanner"
                 />
                 {/*<Button
@@ -45,17 +45,36 @@ class HomeScreen extends React.Component {
                     title="Synchronize"
                 />
                 <Text>Tickets to synchronize: <Text style={styles.boldText}>{this.state.ticketsToUpdate}</Text></Text>
-                
+
 
             </View>
         );
     }
+
+
 
     updateTicketToUpdateCounter(count) {
         this.setState(() => {
             return { ticketsToUpdate: count };
         });
     }
+
+    _btnScanner(evnet) {
+
+        if (TicketsStorage.isSynchronized()) {
+            this.props.navigation.navigate('Scanner');
+        } else {
+            Alert.alert(
+                'Error',
+                'No tickets found, synchronize first.',
+                [
+                    { text: 'OK' }
+                ],
+                { cancelable: false }
+            )
+        }
+    }
+
 
     _btnSync(event) {
         TicketsStorage.syncWithJosefina(true);
