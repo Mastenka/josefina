@@ -86,7 +86,7 @@ namespace Josefina.Controllers
             {
                 TicketOrder neco = new TicketOrder();
                 //neco.TicketCategoryOrders.First()..TicketCategory
-                var ticketOrders = context.TicketOrders.Where(tor => tor.Paid && tor.ProjectID == 3)
+                var ticketOrders = context.TicketOrders.Where(tor => tor.Paid && (tor.ProjectID == 3 || tor.ProjectID == 10))
                     .Include("TicketCategoryOrders.TicketItems")
                     .Include("TicketCategoryOrders.TicketCategory").ToList();
 
@@ -110,7 +110,7 @@ namespace Josefina.Controllers
                     }
                 }
 
-                var ticketCategories = context.TicketCategories.Where(tc => tc.ProjectID == 3).ToList();
+                var ticketCategories = context.TicketCategories.Where(tc => tc.ProjectID == 3 || tc.ProjectID == 10).ToList();
 
                 foreach (var ticketCategory in ticketCategories)
                 {

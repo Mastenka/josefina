@@ -412,7 +412,7 @@ namespace Josefina.Controllers
                 CategoryOrders = ticketCategoryOrderViewModels
             };
 
-            SendEmail(ticketOrderViewModel);
+            //SendEmail(ticketOrderViewModel);
             return ticketOrderViewModel;
         }
 
@@ -423,6 +423,12 @@ namespace Josefina.Controllers
             {
                 var ticketOrder = context.TicketOrders.Single(to => to.VariableSymbol == ticketOrderViewModel.VariableSymbol && to.ProjectID == ticketOrderViewModel.ProjectID);
 
+                var project = context.Projects.Include("BankProxy.FioBankProxy").Single(p => p.ProjectID == ticketOrderViewModel.ProjectID);
+
+                ticketOrderViewModel.IBAN = project.BankProxy.FioBankProxy.IBAN;
+                ticketOrderViewModel.SWIFT = project.BankProxy.FioBankProxy.BIC;
+                ticketOrderViewModel.MessageForPayee = "/VS/" + ticketOrderViewModel.VariableSymbol;
+
                 var results = context.TicketCategoryOrders.Where(to => to.TicketOrderID == ticketOrder.TicketOrderID).Include(tco => tco.TicketCategory);
                 foreach (var result in results)
                 {
@@ -431,6 +437,7 @@ namespace Josefina.Controllers
             }
 
             SetLocalization(ticketOrderViewModel);
+            SendEmail(ticketOrderViewModel);
             return View("~/Views/Tickets/TicketOrderLocalized.cshtml", ticketOrderViewModel);
         }
 
@@ -570,6 +577,10 @@ namespace Josefina.Controllers
                 }
                 else
                 {
+                    ticketFinalOrderLocalization.OrgNoteHdr = "Message from organizer";
+                    ticketFinalOrderLocalization.MessageForRecipient = "Message for recipient";
+                    ticketFinalOrderLocalization.InternationPaymentHdr = "Internation payment";
+                    ticketFinalOrderLocalization.PaymentInformation = "Payment info";
                     ticketFinalOrderLocalization.FinalizedHdr = "Order completed";
                     ticketFinalOrderLocalization.OrderedTicketsHdr = "Ordered tickets";
                     ticketFinalOrderLocalization.TicketCountHdr = "Ordered tickets";
@@ -595,6 +606,10 @@ namespace Josefina.Controllers
                 }
                 else
                 {
+                    ticketFinalOrderLocalization.OrgNoteHdr = "Poznamka poradatele";
+                    ticketFinalOrderLocalization.InternationPaymentHdr = "Mezinarodni platba";
+                    ticketFinalOrderLocalization.MessageForRecipient = "Zpráva pro příjemce";
+                    ticketFinalOrderLocalization.PaymentInformation = "Platebni informace";
                     ticketFinalOrderLocalization.FinalizedHdr = "Objednávka dokončena";
                     ticketFinalOrderLocalization.OrderedTicketsHdr = "Objednané vstupenky";
                     ticketFinalOrderLocalization.TicketCountHdr = "Objednaných vstupenek";

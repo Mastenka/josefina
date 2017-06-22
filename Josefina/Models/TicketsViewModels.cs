@@ -64,6 +64,7 @@ namespace Josefina.Models.TicketsViewModel
         public string NameViewHdr1 { get; set; }
 
         public string NameViewHdr2 { get; set; }
+        public string OrgNoteHdr { get; internal set; }
     }
 
     public class TicketCategoryViewModel
@@ -128,6 +129,12 @@ namespace Josefina.Models.TicketsViewModel
 
         public string Note { get; set; }
 
+        public string IBAN { get; set; }
+
+        public string SWIFT { get; set; }
+
+        public string MessageForPayee { get; set; }
+
         public TicketFinalOrderLocalization Localization { get; set; }
     }
 
@@ -154,6 +161,10 @@ namespace Josefina.Models.TicketsViewModel
         public string ToYourEmail1 { get; set; }
 
         public string ToYourEmail2 { get; set; }
+        public string PaymentInformation { get; internal set; }
+        public string InternationPaymentHdr { get; internal set; }
+        public string MessageForRecipient { get; internal set; }
+        public string OrgNoteHdr { get; internal set; }
     }
 
     public class TicketItemConfirmationViewModel

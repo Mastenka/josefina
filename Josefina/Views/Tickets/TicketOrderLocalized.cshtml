@@ -39,17 +39,17 @@
         </div>
     </div>
     <div class="row">
-        <h3>Platební informace</h3>
+        <h3>@Model.Localization.PaymentInformation</h3>
     </div>
     <div class="row" style="margin-top: 10px">
         <div class="container">
             <div class="panel-default">
                 <div class="row" style="margin-top: 5px">
                     <div class="col-md-2">
-                        <text style="font-size:16px;">Číslo účtu:</text>
+                        <text style="font-size:16px;">@Model.Localization.AccountNumberHdr</text>
                     </div>
                     <div class="col-md-10">
-                        <text style="font-size:18px;">@Model.Localization.AccountNumberHdr</text>
+                        <text style="font-size:18px;">@Model.AccountNumber</text>
                     </div>
                 </div>
                 <div class="row" style="margin-top: 5px">
@@ -73,7 +73,7 @@
                 }
                 <div class="row" style="margin-top: 5px">
                     <div class="col-md-2">
-                        <label style="font-size:16px;">@Model.Localization.TicketTotalPriceHdr + ":"</label>
+                        <text style="font-size:16px;">@Model.Localization.TicketTotalPriceHdr</text>
                     </div>
                     <div class="col-md-10">
                         <text style="font-size:18px;">@Model.TotalPrice</text>
@@ -91,16 +91,51 @@
         </div>
     </div>
 
+    <div class="row">
+        <h3>@Model.Localization.InternationPaymentHdr</h3>
+    </div>
+
+    <div class="row" style="margin-top: 10px">
+        <div class="container">
+            <div class="panel-default">
+                <div class="row" style="margin-top: 5px">
+                    <div class="col-md-2">
+                        <text style="font-size:16px;">IBAN</text>
+                    </div>
+                    <div class="col-md-10">
+                        <text style="font-size:18px;">@Model.IBAN</text>
+                    </div>
+                </div>
+                <div class="row" style="margin-top: 5px">
+                    <div class="col-md-2">
+                        <text style="font-size:16px;">SWIFT/BIC</text>
+                    </div>
+                    <div class="col-md-10">
+                        <text style="font-size:18px;">@Model.SWIFT</text>
+                    </div>
+                </div>
+                <div class="row" style="margin-top: 5px">
+                    <div class="col-md-2">
+                        <text style="font-size:16px;">@Model.Localization.MessageForRecipient</text>
+                    </div>
+                    <div class="col-md-10">
+                        <text style="font-size:18px;">@Model.MessageForPayee</text>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     @if (!string.IsNullOrEmpty(Model.Note))
     {
         <div class="row">
-            <h3>Poznámka pořadatele</h3>
+            <h3>@Model.Localization.OrgNoteHdr</h3>
             <text style="font-size:18px;">@Model.Note</text>
         </div>
     }
 
     <div class="row">
-        <h3>Kontaktní údáje</h3>
         <label font-size:16px;>@Model.Localization.ToYourEmail1<span style="font-size:20px; text-decoration:underline">@Model.Email</span>@Model.Localization.ToYourEmail2</label>
     </div>
     <div class="row">

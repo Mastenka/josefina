@@ -1,42 +1,29 @@
 ﻿@model Josefina.Models.TicketsViewModel.TicketOrderViewModel
-<h1 style="text-decoration:underline">@Model.ProjectName</h1>
 <div class="container">
     <div class="row">
-        @if (Model.ProjectID == 3)
-        {   //Junktown Shit
-            <h3>Rezervovaná místa na spolkovém festivalu Junktown 2017</h3>
-        }
-        else
-        {   //Normalni, slusni lidi
-            <h3>Objednané vstupenky</h3>
-        }
+        <div class="page-header">
+            <h1>@Model.Localization.FinalizedHdr</h1>
+        </div>
+
+        <h2>@Model.Localization.OrderedTicketsHdr</h2>
     </div>
     <div class="row">
         <div class="col-md-6">
             <table class="table">
                 <thead>
                     <tr>
-                        @if (Model.ProjectID == 3)
-                        {   //Junktown Shit
-                            <th style="text-align: left; min-width:200px;">Kategorie</th>
-                            <th style="text-align: left; min-width:200px;">Rezervovaných míst</th>
-                            <th style="text-align: left; min-width:200px;">Celková výše stanoveného členského příspěvku</th>
-                        }
-                        else
-                        {   //Normalni, slusni lidi
-                            <th style="text-align: left; min-width:200px;">Kategorie</th>
-                            <th style="text-align: left; min-width:200px;">Objednaných vstupenek</th>
-                            <th style="text-align: left; min-width:200px;">Celková cena</th>
-                        }
+                        <th style="text-align: center;">@Model.Localization.CategoryHdr</th>
+                        <th style="text-align: center;">@Model.Localization.OrderedTicketsHdr</th>
+                        <th style="text-align: center;">@Model.Localization.TicketTotalPriceHdr</th>
                     </tr>
                 </thead>
                 <tbody>
                     @for (int i = 0; i < Model.CategoryOrders.Count(); i++)
                     {
                         <tr>
-                            <td style="min-width:200px;">@Model.CategoryOrders[i].Header</td>
-                            <td style="min-width:200px;">@Model.CategoryOrders[i].Ordered</td>
-                            <td style="min-width:200px;">@Model.CategoryOrders[i].TotalPrice</td>
+                            <td style="text-align: center;">@Model.CategoryOrders[i].Header</td>
+                            <td style="text-align: center;">@Model.CategoryOrders[i].Ordered</td>
+                            <td style="text-align: center;">@Model.CategoryOrders[i].TotalPrice</td>
                         </tr>
                     }
                 </tbody>
@@ -44,92 +31,100 @@
         </div>
     </div>
     <div class="row">
-        <h3>Platební informace</h3>
+        <h3>@Model.Localization.PaymentInformation</h3>
     </div>
     <div class="row" style="margin-top: 10px">
         <div class="container">
             <div class="panel-default">
                 <div class="row" style="margin-top: 5px">
                     <div class="col-md-2">
-                        <text style="font-size:16px;">Číslo účtu:</text>
+                        <h4>@Model.Localization.AccountNumberHdr</h4>
                     </div>
                     <div class="col-md-10">
-                        <h1 style="font-size:18px;">@Model.AccountNumber</h1>
+                        <text style="font-size:18px;">@Model.AccountNumber</text>
                     </div>
                 </div>
                 <div class="row" style="margin-top: 5px">
                     <div class="col-md-2">
-                        <text style="font-size:16px;">Variabilni symbol:</text>
+                        <h4>@Model.Localization.VSHeader</h4>
                     </div>
                     <div class="col-md-10">
-                        <h1 style="font-size:18px;">@Model.VariableSymbol</h1>
+                        <text style="font-size:18px;">@Model.VariableSymbol</text>
                     </div>
                 </div>
                 @if (Model.ProjectID == 3)
                 {   //Junktown Shit
                     <div class="row" style="margin-top: 5px">
                         <div class="col-md-2">
-                            <text style="font-size:16px;">Konstantní symbol:</text>
+                            <text style="font-size:16px;">@Model.Localization.KSHeader</text>
                         </div>
                         <div class="col-md-10">
-                            <h1 style="font-size:18px;">4714</h1>
+                            <text style="font-size:18px;">4714</text>
                         </div>
                     </div>
                 }
                 <div class="row" style="margin-top: 5px">
                     <div class="col-md-2">
-                        @if (Model.ProjectID == 3)
-                        {   //Junktown Shit
-                            <label style="font-size:16px;">Celková částka:</label>
-                        }
-                        else
-                        {   //Normalni, slusni lidi
-                            <label style="font-size:16px;">Celková částka:</label>
-                        }
+                        <h4>@Model.Localization.TicketTotalPriceHdr</h4>
                     </div>
                     <div class="col-md-10">
-                        <h1 style="font-size:18px;">@Model.TotalPrice</h1>
+                        <text style="font-size:18px;">@Model.TotalPrice</text>
                     </div>
                 </div>
                 <div class="row" style="margin-top: 5px">
                     <div class="col-md-2">
-                        <text style="font-size:16px;">Datum splatnost:</text>
+                        <h4>@Model.Localization.DueDateHdr</h4>
                     </div>
                     <div class="col-md-10">
-                        <h1 style="font-size:18px;">@Model.ReservedUntil</h1>
+                        <text style="font-size:18px;">@Model.ReservedUntil</text>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
+    <div class="row">
+        <h3>@Model.Localization.InternationPaymentHdr</h3>
+    </div>
+
+    <div class="row" style="margin-top: 10px">
+        <div class="container">
+            <div class="panel-default">
+                <div class="row" style="margin-top: 5px">
+                    <div class="col-md-2">
+                        <h4>IBAN</h4>
+                    </div>
+                    <div class="col-md-10">
+                        <text style="font-size:18px;">@Model.IBAN</text>
+                    </div>
+                </div>
+                <div class="row" style="margin-top: 5px">
+                    <div class="col-md-2">
+                        <h4>SWIFT/BIC</h4>
+                    </div>
+                    <div class="col-md-10">
+                        <text style="font-size:18px;">@Model.SWIFT</text>
+                    </div>
+                </div>
+                <div class="row" style="margin-top: 5px">
+                    <div class="col-md-2">
+                        <h4>@Model.Localization.MessageForRecipient</h4>
+                    </div>
+                    <div class="col-md-10">
+                        <text style="font-size:18px;">@Model.MessageForPayee</text>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     @if (!string.IsNullOrEmpty(Model.Note))
     {
         <div class="row">
-            <h3>Poznámka pořadatele</h3>
+            <h3>@Model.Localization.OrgNoteHdr</h3>
             <text style="font-size:18px;">@Model.Note</text>
         </div>
     }
-    <div class="row">
-        <div class="page-header"></div>
 
-        @if (Model.ProjectID == 3)
-        {   //Junktown Shit
-            <h4>Po připsání celkové částky / příspěvku na účet pořadatele / spolku Vám bude obratem na tento Email odesláno potvrzení o úspěšné úhradě členského příspěvku, které vás na základě interních předpisů spolku opravňuje ke vstupu na příslušný ročník spolkového festivalu Junktown 2017.</h4>
-            <p>Datum splatnosti je nejpozdější datum, kdy musí být připsán vámi uhrazený členský příspěvek na příslušný účet spolku, přičemž nestane-li se tak, propadne Vám tím zcela Vaše rezervace příslušných míst na spojkovém festivalu Junktown 2017.</p>
-            <p>ZÁKONNÉ POUČENÍ / PLATEBNÍ PODMÍNKY:</p>
-            <p>Projekt Junktown (dále  jen „Projekt“) a akce Junktown 2017 (dále jen „Akce“) je realizována pod záštitou Občanského sdružení Alternativa II, z.s. (dále jen „Spolku“) na spolkové neziskové a nespotřebitelské členské bázi dle stanov Spolku (dále jen „Stanov“), za účelem rekultivace objektu bývalé raketové základny Bratronice a naplňování vybraných oblastí spolkového poslání, kterým je podpora aktivního bytí, seberealizace, vědy, kultury, sportu, tělovýchovy, vzdělávání, občanské angažovanosti, volnočasového vyžití, jakož i všech ostatních aktivit směřujících k  všestrannému rozvoji jedince i společnosti. Veškeré platby ve prospěch projektu Junktown jsou přijímány Spolkem výhradně ve formě členských příspěvků (neboli zkráceně jen „příspěvků“) stanovovaných Spolkem na základě § 233 zákona č. 89/2012 Sb. (dále jen „NOZ“), přičemž upozorňujeme, že dobrovolná úhrada příspěvku stanoveného příslušným orgánem Spolku je dle spolkových Stanov považována současně i za projev vůle ve smyslu § 233 (2) NOZ, na základě čehož plátci stanoveného příspěvku vzniká nejpozději okamžikem přijetí příspěvku ze strany Spolku v souladu se Stanovami a interními předpisy bezzávazkový členský status „podporovatel“ Projektu a řadové neregistrované členství ve Spolku, které příslušného člena opravňuje ve Spolkem stanoveném rozsahu navštěvovat prostory Projektu, účastnit se Akcí Projektu a čerpat příslušné členské výhody a služby Projektu poskytované „podporovatelům“ Projektu  výhradně a  pouze  na  spolkové neziskové a nespotřebitelské bázi v rámci hlavní činnosti Spolku za účelem realizace spolkového poslání a efektivního  interního fundraisingu / crowdfundingu. Nesouhlasíte-li s uvedenými platebními podmínkami, neprovádějte ve prospěch Spolku jakoukoliv platbu, anebo požádejte neprodleně o vrácení platby, pokud jste tuto platbu provedl(a) v domnění, že se jedná o jiný právní akt za jiných platebních podmínek. Změnu členství  z neregistrovaného na  registrované lze provést na adrese www.osa2.cz/registrace. Stanovy, jakož i ostatní informace o Spolku jsou k dispozici ve spolkovém rejstříku u Městského soudu v Praze pod spisovou značkou L 16540.</p>
-        }
-        else
-        {   //Normalni, slusni lidi
-            <h4>Po připsání celkové částky na účet pořadatele Vám budou obratem na tento Email odeslány vstupenky.</h4>
-            <p>Platbu za objednané vstupenky prosím proveďte pomocí bankovního převodu.</p>
-            <p class="text-warning">Datum splatnosti je nejpozdější datum připsání částky na účet.</p>
-            <p class="text-warning">Po datu splatnosti tato objednávka již nebude platná. Pro zakoupení vstupenek vytvořte novou objednávku.</p>
-        }
-
-    </div>
 </div>
-
-
-
