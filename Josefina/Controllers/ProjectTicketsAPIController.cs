@@ -98,6 +98,8 @@ namespace Josefina.Controllers
                                 orderViewModel.Ordered = ticketOrder.Created;
                                 orderViewModel.PaidDate = ticketOrder.PaidDate;
                                 orderViewModel.TicketOrderID = ticketOrder.TicketOrderID;
+                                orderViewModel.VariableSymbol = ticketOrder.VariableSymbol;
+
                                 if (ticketOrder.Paid)
                                 {
                                     orderViewModel.State = "Zaplacena";
