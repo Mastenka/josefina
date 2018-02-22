@@ -13,6 +13,7 @@
                              { name: 'Objednáno', field: 'Ordered', cellFilter: 'date:\'dd.MM.yyyy\'', headerCellClass: 'header-filtered' },
                              { name: 'Zaplaceno', field: 'PaidDate', cellFilter: 'date:\'dd.MM.yyyy\'', headerCellClass: 'header-filtered' },
                              { name: 'Stav', field: 'State', headerCellClass: 'header-filtered' },
+                             { name: 'Names', field: 'Names', headerCellClass: 'header-filtered' }
                 ],
             };
             $scope.ordersGridOptions.multiSelect = false;

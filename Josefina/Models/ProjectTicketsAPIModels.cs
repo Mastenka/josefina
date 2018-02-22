@@ -188,6 +188,8 @@ namespace Josefina.ApiModels.Tickets
         public DateTime? Ordered { get; set; }
 
         public string State { get; set; }
+
+        public string Names { get; set; }
     }
 
     public class OrderViewModel : AngularViewModel
