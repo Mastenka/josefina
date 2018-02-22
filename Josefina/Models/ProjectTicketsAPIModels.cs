@@ -31,6 +31,7 @@ namespace Josefina.ApiModels.Tickets
         public bool IsCategory { get; set; }
         public bool CodeRequired { get; set; }
         public string Code { get; set; }
+        public int ReallyPaid {get; set;}
     }
 
     public class TicketGridRow
@@ -150,7 +151,7 @@ namespace Josefina.ApiModels.Tickets
             this.Token = fioBankProxy.Token;
             this.LastUpdate = fioBankProxy.LastUpdate;
             this.BIC = fioBankProxy.BIC;
-            this.IBAN = fioBankProxy.IBAN;            
+            this.IBAN = fioBankProxy.IBAN;
         }
         public string BIC { get; set; }
         public string IBAN { get; set; }
@@ -210,8 +211,8 @@ namespace Josefina.ApiModels.Tickets
 
         public long VariableSymbol { get; set; }
 
-        public List<TicketGridItem> TicketItems { get; set; }        
-    }  
+        public List<TicketGridItem> TicketItems { get; set; }
+    }
 
     public class TicketGridItem
     {
