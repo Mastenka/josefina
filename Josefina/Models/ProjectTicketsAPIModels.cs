@@ -31,6 +31,7 @@ namespace Josefina.ApiModels.Tickets
         public bool IsCategory { get; set; }
         public bool CodeRequired { get; set; }
         public string Code { get; set; }
+        public int ReallyPaid {get; set;}
     }
 
     public class TicketGridRow
