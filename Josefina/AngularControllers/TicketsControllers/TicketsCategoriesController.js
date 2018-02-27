@@ -9,7 +9,7 @@
                 enableRowSelection: true, enableRowHeaderSelection: false,
                 showColumnFooter: true,
                 columnDefs: [
-                             { name: 'Názevx', field: 'Name' },
+                             { name: 'Název', field: 'Name' },
                              { name: 'Celkový příjem', field: 'PaidTotal', aggregationType: uiGridConstants.aggregationTypes.sum },
                              { name: 'Zaplacených', field: 'Paid', aggregationType: uiGridConstants.aggregationTypes.sum },
                              { name: 'Nezaplacených', field: 'Unpaid', aggregationType: uiGridConstants.aggregationTypes.sum },
