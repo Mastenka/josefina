@@ -189,7 +189,10 @@ namespace Josefina.ApiModels.Tickets
 
         public string State { get; set; }
 
+        public string Names { get; set; }
+      
         public long VariableSymbol { get; set; }
+
     }
 
     public class OrderViewModel : AngularViewModel

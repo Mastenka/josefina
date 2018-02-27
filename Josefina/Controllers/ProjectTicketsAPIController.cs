@@ -98,6 +98,18 @@ namespace Josefina.Controllers
                                 orderViewModel.Ordered = ticketOrder.Created;
                                 orderViewModel.PaidDate = ticketOrder.PaidDate;
                                 orderViewModel.TicketOrderID = ticketOrder.TicketOrderID;
+                                orderViewModel.Names = "";
+
+                                var ticketCategoryOrders = context.TicketCategoryOrders.Where(tco => tco.TicketOrderID == ticketOrder.TicketOrderID);
+
+                                foreach (TicketCategoryOrder ticketCategoryOrder in ticketCategoryOrders) {
+                                    var ticketItems = context.TicketItems.Where(ti => ti.TicketCategoryOrderID == ticketCategoryOrder.TicketCategoryOrderID);
+
+                                    foreach (TicketItem ticketItem in ticketItems) {
+                                        orderViewModel.Names += (orderViewModel.Names.Length == 0) ? ticketItem.Name : (", " + ticketItem.Name);
+                                    }
+                                }
+   
                                 orderViewModel.VariableSymbol = ticketOrder.VariableSymbol;
 
                                 if (ticketOrder.Paid)
