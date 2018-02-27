@@ -1436,7 +1436,7 @@ namespace Josefina.Controllers
 
                 ticketGridRow.Paid = ticketCategory.TicketCategoryOrders.Where(tco => tco.Paid && !tco.Canceled).Sum(tco => tco.Count);
                 ticketGridRow.Unpaid = ticketCategory.TicketCategoryOrders.Where(tco => !tco.Paid && !tco.Canceled).Sum(tco => tco.Count);
-                ticketGridRow.ReallyPaid = ticketCategory.TicketCategoryOrders.Where(tco => tco.TicketOrder.Paid && !tco.TicketOrder.Canceled).Sum(tco => tco.Count);
+                ticketGridRow.ReallyPaid = ticketCategory.TicketCategoryOrders.Where(tco => tco.TicketOrder.Paid).Sum(tco => tco.Count);
 
                 ticketGridRow.PaidTotal = ticketGridRow.Paid * ticketGridRow.TicketPrice;
                 ticketGridRows.Add(ticketGridRow);
