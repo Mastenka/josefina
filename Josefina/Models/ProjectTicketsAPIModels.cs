@@ -150,7 +150,7 @@ namespace Josefina.ApiModels.Tickets
             this.Token = fioBankProxy.Token;
             this.LastUpdate = fioBankProxy.LastUpdate;
             this.BIC = fioBankProxy.BIC;
-            this.IBAN = fioBankProxy.IBAN;            
+            this.IBAN = fioBankProxy.IBAN;
         }
         public string BIC { get; set; }
         public string IBAN { get; set; }
@@ -190,6 +190,9 @@ namespace Josefina.ApiModels.Tickets
         public string State { get; set; }
 
         public string Names { get; set; }
+      
+        public long VariableSymbol { get; set; }
+
     }
 
     public class OrderViewModel : AngularViewModel
@@ -212,8 +215,8 @@ namespace Josefina.ApiModels.Tickets
 
         public long VariableSymbol { get; set; }
 
-        public List<TicketGridItem> TicketItems { get; set; }        
-    }  
+        public List<TicketGridItem> TicketItems { get; set; }
+    }
 
     public class TicketGridItem
     {

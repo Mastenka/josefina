@@ -110,6 +110,8 @@ namespace Josefina.Controllers
                                     }
                                 }
    
+                                orderViewModel.VariableSymbol = ticketOrder.VariableSymbol;
+
                                 if (ticketOrder.Paid)
                                 {
                                     orderViewModel.State = "Zaplacena";

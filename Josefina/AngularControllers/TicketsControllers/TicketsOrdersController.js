@@ -14,11 +14,12 @@
                              { name: 'Zaplaceno', field: 'PaidDate', cellFilter: 'date:\'dd.MM.yyyy\'', headerCellClass: 'header-filtered' },
                              { name: 'Stav', field: 'State', headerCellClass: 'header-filtered' },
                              { name: 'Names', field: 'Names', headerCellClass: 'header-filtered' }
+                             { name: 'Variabilní symbol', field: 'VariableSymbol', headerCellClass: 'header-filtered' }
                 ],
             };
             $scope.ordersGridOptions.multiSelect = false;
             $scope.ordersGridOptions.data = ticketsOrdersViewModel.data.Orders;
-            
+
 
             $rootScope.PageTitle = ticketsOrdersViewModel.data.Title;
             $scope.ticketOrdersActive = true;
@@ -52,7 +53,7 @@
         else {
             $state.go('tickets.order', { orderID: selectedRow[0].TicketOrderID });
         }
-    };       
+    };
 });
 
 var ModalShowError = function ($scope, $uibModalInstance) {
