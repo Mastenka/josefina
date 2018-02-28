@@ -1435,10 +1435,12 @@ namespace Josefina.Controllers
                 context.Entry(ticketCategory).Collection(tc => tc.TicketCategoryOrders).Load();
 
                 ticketGridRow.Paid = ticketCategory.TicketCategoryOrders.Where(tco => tco.Paid && !tco.Canceled).Sum(tco => tco.Count);
-                ticketGridRow.Unpaid = ticketCategory.TicketCategoryOrders.Where(tco => !tco.Paid && !tco.Canceled).Sum(tco => tco.Count);
-                ticketGridRow.ReallyPaid = ticketCategory.TicketCategoryOrders.Where(tco => tco.TicketOrder.Paid).Sum(tco => tco.Count);
 
-                ticketGridRow.PaidTotal = ticketGridRow.Paid * ticketGridRow.TicketPrice;
+                ticketGridRow.Unpaid = ticketCategory.TicketCategoryOrders.Where(tco => tco.TicketOrder.Canceled || (!tco.TicketOrder.Paid && tco.TicketOrder.ReservedUntil < DateTime.Now.Date)).Sum(tco => tco.Count);
+                ticketGridRow.ReallyPaid = ticketCategory.TicketCategoryOrders.Where(tco => tco.TicketOrder.Paid).Sum(tco => tco.Count);
+                ticketGridRow.Reserved = ticketCategory.TicketCategoryOrders.Where(tco => !tco.TicketOrder.Paid && tco.TicketOrder.ReservedUntil >= DateTime.Now.Date).Sum(tco => tco.Count);
+
+                ticketGridRow.PaidTotal = ticketGridRow.ReallyPaid * ticketGridRow.TicketPrice;
                 ticketGridRows.Add(ticketGridRow);
             }
 
