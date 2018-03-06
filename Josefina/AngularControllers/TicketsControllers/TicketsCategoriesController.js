@@ -57,6 +57,7 @@
             if (selectedRow[0].IsCategory)
             {
                 var soldFromDT = Date.parse(selectedRow[0].SoldFrom);
+                var soldFromT = new Date(soldFromDT);
                 var soldToDT = Date.parse(selectedRow[0].SoldTo);
 
                 $scope.categoryModal = {
@@ -67,6 +68,7 @@
                     capacity: selectedRow[0].Capacity,
                     price: selectedRow[0].TicketPrice,
                     soldFrom: soldFromDT,
+                    soldFromTime: soldFromT.getHours() + ':' + soldFromT.getMinutes(),
                     soldTo: soldToDT,
                     codeRequired: selectedRow[0].CodeRequired,
                     code: selectedRow[0].Code,
@@ -152,6 +154,7 @@
     };
 
     $scope.$on('createUpdateCategory', function (event, categoryData) {
+        console.log(categoryData);
         categoryData.ProjectID = $rootScope.projectID;
         $http.post('/api/project/tickets/CreateUpdateCategory', categoryData)
         .success(function (data) {
@@ -228,6 +231,9 @@ var ModalCreateUpdateCategoryCtrl = function ($scope, $uibModalInstance) {
         }
 
         if ($scope.categoryModal.soldTo >= $scope.categoryModal.soldFrom) {
+            console.log($scope.categoryModal.soldFrom);
+            console.log($scope.categoryModal.soldFromTime);
+
             var categoryModel = {
                 Name: $scope.categoryModal.name,
                 Capacity: $scope.categoryModal.capacity,
@@ -239,6 +245,9 @@ var ModalCreateUpdateCategoryCtrl = function ($scope, $uibModalInstance) {
                 CodeRequired: $scope.categoryModal.codeRequired,
                 Code: $scope.categoryModal.code
             };
+ 
+            categoryModel.SoldFrom.setHours($scope.categoryModal.soldFromTime.split(':')[0], $scope.categoryModal.soldFromTime.split(':')[1]);
+            console.log(categoryModel.SoldFrom);
 
             $scope.$emit('createUpdateCategory', categoryModel);
             $uibModalInstance.close('closed');

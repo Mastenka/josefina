@@ -91,7 +91,8 @@ namespace Josefina.Controllers
 
                 foreach (TicketCategory ticketCategory in project.TicketCategories.Where(tc => !tc.Deleted && tc.CodeRequired == isCode))
                 {
-                    if (ticketCategory.SoldFrom <= DateTime.Now.Date && ticketCategory.SoldTo >= DateTime.Now.Date)
+
+                    if (ticketCategory.SoldFrom <= DateTime.Now && ticketCategory.SoldTo >= DateTime.Now)
                     {
                         TicketCategoryViewModel ticketCategoryViewModel = new TicketCategoryViewModel()
                         {

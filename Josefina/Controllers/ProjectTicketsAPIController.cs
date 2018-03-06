@@ -821,8 +821,8 @@ namespace Josefina.Controllers
                                     HeaderCZ = data.Name,
                                     Capacity = data.Capacity,
                                     Price = data.Price,
-                                    SoldFrom = data.SoldFrom.AddHours(2).Date,
-                                    SoldTo = data.SoldTo.AddHours(2).Date,
+                                    SoldFrom = data.SoldFrom.AddHours(1),
+                                    SoldTo = data.SoldTo.AddHours(1),
                                     Project = project,
                                     Deleted = false,
                                     CodeRequired = data.CodeRequired
@@ -849,8 +849,8 @@ namespace Josefina.Controllers
                                 ticketCategory.HeaderCZ = data.Name;
                                 ticketCategory.Price = data.Price;
                                 ticketCategory.Capacity = data.Capacity;
-                                ticketCategory.SoldFrom = data.SoldFrom.AddHours(2).Date;
-                                ticketCategory.SoldTo = data.SoldTo.AddHours(2).Date;
+                                ticketCategory.SoldFrom = data.SoldFrom.AddHours(1);
+                                ticketCategory.SoldTo = data.SoldTo.AddHours(1);
                                 ticketCategory.CodeRequired = data.CodeRequired;
                                 if (ticketCategory.CodeRequired)
                                 {
