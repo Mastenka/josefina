@@ -86,7 +86,7 @@ namespace Josefina.Controllers
             {
                 TicketOrder neco = new TicketOrder();
                 //neco.TicketCategoryOrders.First()..TicketCategory
-                var ticketOrders = context.TicketOrders.Where(tor => tor.Paid && (tor.ProjectID == 3 || tor.ProjectID == 10))
+                var ticketOrders = context.TicketOrders.Where(tor => tor.Paid && (tor.ProjectID == 14))
                     .Include("TicketCategoryOrders.TicketItems")
                     .Include("TicketCategoryOrders.TicketCategory").ToList();
 
@@ -110,14 +110,14 @@ namespace Josefina.Controllers
                     }
                 }
 
-                var ticketCategories = context.TicketCategories.Where(tc => tc.ProjectID == 3 || tc.ProjectID == 10).ToList();
+                var ticketCategories = context.TicketCategories.Where(tc => tc.ProjectID == 14).ToList();
 
                 foreach (var ticketCategory in ticketCategories)
                 {
                     viewModel.Headers.Add(new ReactAppCategoryNameViewModel() { id = ticketCategory.TicketCategoryID, name = ticketCategory.HeaderCZ });
                 }
 
-                var ticketExports = context.TicketExports.Where(te => te.ProjectID == 3).Include("TicketExportItems").ToList();
+                var ticketExports = context.TicketExports.Where(te => te.ProjectID == 14).Include("TicketExportItems").ToList();
 
                 foreach (var ticketExport in ticketExports)
                 {
