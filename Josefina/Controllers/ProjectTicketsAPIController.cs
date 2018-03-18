@@ -43,6 +43,11 @@ namespace Josefina.Controllers
                             viewModel.Title = "Vstupenky | " + project.Name;
 
                             List<CategoryGridRow> ticketGridRows = GetProjectCategoriesGridRows(project, context);
+                            foreach (CategoryGridRow categoryGridRow in ticketGridRows)
+                            {
+                                categoryGridRow.SoldFrom = categoryGridRow.SoldFrom.ToLocalTime();
+                                categoryGridRow.SoldTo = categoryGridRow.SoldTo.ToLocalTime();
+                            }
                             viewModel.Categories = ticketGridRows;
                         }
                         else
@@ -821,8 +826,8 @@ namespace Josefina.Controllers
                                     HeaderCZ = data.Name,
                                     Capacity = data.Capacity,
                                     Price = data.Price,
-                                    SoldFrom = data.SoldFrom.AddHours(2).Date,
-                                    SoldTo = data.SoldTo.AddHours(2).Date,
+                                    SoldFrom = data.SoldFrom,
+                                    SoldTo = data.SoldTo,
                                     Project = project,
                                     Deleted = false,
                                     CodeRequired = data.CodeRequired
@@ -849,14 +854,15 @@ namespace Josefina.Controllers
                                 ticketCategory.HeaderCZ = data.Name;
                                 ticketCategory.Price = data.Price;
                                 ticketCategory.Capacity = data.Capacity;
-                                ticketCategory.SoldFrom = data.SoldFrom.AddHours(2).Date;
-                                ticketCategory.SoldTo = data.SoldTo.AddHours(2).Date;
+                                ticketCategory.SoldFrom = data.SoldFrom;
+                                ticketCategory.SoldTo = data.SoldTo;
                                 ticketCategory.CodeRequired = data.CodeRequired;
                                 if (ticketCategory.CodeRequired)
                                 {
                                     ticketCategory.Code = data.Code.Trim();
                                 }
                                 context.SaveChanges();
+
                             }
 
                             List<CategoryGridRow> ticketGridRows = GetProjectCategoriesGridRows(project, context);
@@ -1392,6 +1398,7 @@ namespace Josefina.Controllers
 
         private List<CategoryGridRow> GetProjectCategoriesGridRows(Project project, ApplicationDbContext context)
         {
+            //ner
             context.Entry(project).Collection(p => p.TicketCategories).Load();
             context.Entry(project).Collection(p => p.TicketExports).Load();
 
