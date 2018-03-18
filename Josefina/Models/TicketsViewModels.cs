@@ -61,6 +61,8 @@ namespace Josefina.Models.TicketsViewModel
 
         public string ParticipantNameHdr { get; set; }
 
+        public string ParticipantEmailHdr { get; set; }
+
         public string NameViewHdr1 { get; set; }
 
         public string NameViewHdr2 { get; set; }
@@ -92,12 +94,20 @@ namespace Josefina.Models.TicketsViewModel
         public int Ordered { get; set; }
 
         public TicketName[] Names { get; set; }
+
+        public TicketEmail[] Emails { get; set; }
     }
 
     public class TicketName
     {
         [Required(ErrorMessageResourceType = typeof(Resources.GeneralResources), ErrorMessageResourceName = "ErrorRequiredField")]
         public string Name { get; set; }
+    }
+
+    public class TicketEmail
+    {
+        [Required(ErrorMessageResourceType = typeof(Resources.GeneralResources), ErrorMessageResourceName = "ErrorRequiredField")]
+        public string Email { get; set; }
     }
 
     public class TicketCategoryOrderViewModel

@@ -509,6 +509,7 @@ namespace Josefina.Controllers
                 }
 
                 ticketOrderLocalization.ParticipantNameHdr = "Civic name";
+                ticketOrderLocalization.ParticipantEmailHdr = "Email";
                 ticketOrderLocalization.CategoryHdr = "Categories";
                 ticketOrderLocalization.LanguageBtn = "Czech";
                 ticketOrderLocalization.NameViewHdr1 = "For the successful completion of the registration organizer demands that you must fill in the civic names of individual visitors.";
@@ -538,6 +539,7 @@ namespace Josefina.Controllers
                 }
 
                 ticketOrderLocalization.ParticipantNameHdr = "Občanské jméno";
+                ticketOrderLocalization.ParticipantEmailHdr = "Email";
                 ticketOrderLocalization.CategoryHdr = "Kategorie";
                 ticketOrderLocalization.NoFreeTicketsMsg = "Momentálně nejsou dostupná žádná volná místa.";
                 ticketOrderLocalization.LanguageBtn = "English";

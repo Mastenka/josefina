@@ -23,7 +23,8 @@
             <thead>
                 <tr>
                     <th style="text-align: center;">Kategorie</th>
-                    <th style="text-align: center;">Občanské jméno</th>
+                    <th style="text-align: left;">Občanské jméno</th>
+                    <th style="text-align: left;">Email</th>
                 </tr>
             </thead>
             <tbody style="vertical-align:central;">
@@ -38,9 +39,13 @@
                                 <td style="text-align: center;">
                                     @Model.TicketCategories[i].Header
                                 </td>
-                                <td style="text-align: center; align-content:center;">
+                                <td style="text-align: left; align-content:center;">
                                     @Html.TextBoxFor(m => Model.TicketCategories[i].Names[j].Name, new { @class = "form-control" })
                                     @Html.ValidationMessageFor(m => Model.TicketCategories[i].Names[j].Name, "", new { @class = "text-danger" })
+                                </td>
+                                <td style="text-align: left; align-content:center;">
+                                    @Html.TextBoxFor(m => Model.TicketCategories[i].Emails[j].Email, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(m => Model.TicketCategories[i].Emails[j].Email, "", new { @class = "text-danger" })
                                 </td>
                             </tr>
                         }

@@ -22,7 +22,8 @@
             <thead>
                 <tr>
                     <th style="text-align: center;">@Model.Localization.CategoryHdr</th>
-                    <th style="text-align: center;">@Model.Localization.ParticipantNameHdr</th>
+                    <th style="text-align: left;">@Model.Localization.ParticipantNameHdr</th>
+                    <th style="text-align: left;">@Model.Localization.ParticipantEmailHdr</th>
                 </tr>
             </thead>
             <tbody style="vertical-align:central;">
@@ -37,9 +38,13 @@
                                 <td style="text-align: center;">
                                     @Model.TicketCategories[i].Header
                                 </td>
-                                <td style="text-align: center; align-content:center;">
+                                <td style="text-align: left; align-content:center;">
                                     @Html.TextBoxFor(m => Model.TicketCategories[i].Names[j].Name, new { @class = "form-control" })
                                     @Html.ValidationMessageFor(m => Model.TicketCategories[i].Names[j].Name, "", new { @class = "text-danger" })
+                                </td>
+                                <td style="text-align: left; align-content:center;">
+                                    @Html.TextBoxFor(m => Model.TicketCategories[i].Emails[j].Email, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(m => Model.TicketCategories[i].Emails[j].Email, "", new { @class = "text-danger" })
                                 </td>
                             </tr>
                         }
@@ -95,6 +100,7 @@ else
 @Html.HiddenFor(m => Model.Localization.NameViewHdr2)
 @Html.HiddenFor(m => Model.Localization.NoFreeTicketsMsg)
 @Html.HiddenFor(m => Model.Localization.ParticipantNameHdr)
+@Html.HiddenFor(m => Model.Localization.ParticipantEmailHdr)
 @Html.HiddenFor(m => Model.Localization.RegisterBtn)
 @Html.HiddenFor(m => Model.Localization.RegistrationStartHdr)
 @Html.HiddenFor(m => Model.Localization.TicketCountHdr)
