@@ -226,6 +226,8 @@ namespace Josefina.Controllers
                             if (ticketCategory.Ordered > 0)
                             {
                                 ticketCategory.Names = new TicketName[ticketCategory.Ordered];
+                                ticketCategory.Emails = new TicketEmail[ticketCategory.Ordered];
+
                             }
                         }
 
@@ -374,6 +376,7 @@ namespace Josefina.Controllers
                         if (project.TicketSetting.NamedTickets)
                         {
                             ticketItem.Name = ticketCategoryViewModel.Names[j].Name;
+                            ticketItem.Email = ticketCategoryViewModel.Emails[j].Email;
                         }
 
                         context.TicketItems.Add(ticketItem);

@@ -107,6 +107,8 @@ namespace Josefina.Models.TicketsViewModel
     public class TicketEmail
     {
         [Required(ErrorMessageResourceType = typeof(Resources.GeneralResources), ErrorMessageResourceName = "ErrorRequiredField")]
+        [EmailAddress(ErrorMessageResourceType = typeof(Resources.AccountResources), ErrorMessageResourceName = "InvalidEmailError", ErrorMessage = null)]
+        [Display(Name = "Email")]
         public string Email { get; set; }
     }
 
@@ -121,7 +123,7 @@ namespace Josefina.Models.TicketsViewModel
 
     public class TicketOrderViewModel
     {
-        public int ProjectID { get; set; } //HACK: Junktown 
+        public int ProjectID { get; set; } //HACK: Junktown
 
         public string ProjectName { get; set; }
 
