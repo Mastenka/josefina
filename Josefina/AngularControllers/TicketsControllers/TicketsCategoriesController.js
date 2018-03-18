@@ -16,8 +16,8 @@
                              { name: 'Počet platných vstupenek', field: 'ReallyPaid', aggregationType: uiGridConstants.aggregationTypes.sum },
                              { name: 'Kapacita', field: 'Capacity', aggregationType: uiGridConstants.aggregationTypes.sum },
                              { name: 'Cena', field: 'TicketPrice' },
-                             { name: 'Začátek prodeje', field: 'SoldFrom', cellFilter: 'date:\'dd.MM.yyyy\'' },
-                             { name: 'Konec prodeje', field: 'SoldTo', cellFilter: 'date:\'dd.MM.yyyy\'' },
+                             { name: 'Začátek prodeje', field: 'SoldFrom', cellFilter: 'date:"dd.MM.yyyy HH:mm"' },
+                             { name: 'Konec prodeje', field: 'SoldTo', cellFilter: 'date:"dd.MM.yyyy HH:mm"' },
                 ],
             };
             $scope.categoriesGridOptions.multiSelect = false;
@@ -40,12 +40,13 @@
     };
 
     $scope.UpdateCategory = function () {
+        var modalInstance;
         var selectedRow = $scope.categoriesGridApi.selection.getSelectedRows();
 
         if (selectedRow.length === 0) {
             $scope.errorModal = { Header: "Editace", Message: "Není vybrána položka k editaci." }
 
-            var modalInstance = $uibModal.open({
+            modalInstance = $uibModal.open({
                 animation: true,
                 templateUrl: 'http://localhost:44301/AngularViews/Modals/HeaderMessageDanger.html',
                 controller: ModalShowError,
@@ -59,24 +60,26 @@
                 var soldFromDT = Date.parse(selectedRow[0].SoldFrom);
                 var soldFromT = new Date(soldFromDT);
                 var soldToDT = Date.parse(selectedRow[0].SoldTo);
+                var soldToT = new Date(soldToDT);
+
 
                 $scope.categoryModal = {
                     header: "Editace",
-                    name: "",
                     button: "Uložit",
                     name: selectedRow[0].Name,
                     capacity: selectedRow[0].Capacity,
                     price: selectedRow[0].TicketPrice,
                     soldFrom: soldFromDT,
-                    soldFromTime: soldFromT.getHours() + ':' + soldFromT.getMinutes(),
+                    soldFromTime: soldFromT.getHours() + ':' + (soldFromT.getMinutes() < 10 ? '0' : '') + soldFromT.getMinutes(),
                     soldTo: soldToDT,
+                    soldToTime: soldToT.getHours() + ':' + (soldToT.getMinutes() < 10 ? '0' : '') + soldToT.getMinutes(),
                     codeRequired: selectedRow[0].CodeRequired,
                     code: selectedRow[0].Code,
                     isNew: false,
                     categoryID: selectedRow[0].TicketCategoryID
                 };
 
-                var modalInstance = $uibModal.open({
+                modalInstance = $uibModal.open({
                     animation: true,
                     templateUrl: 'http://localhost:44301/AngularViews/Modals/TicketCategory.html',
                     controller: ModalCreateUpdateCategoryCtrl,
@@ -91,12 +94,13 @@
     };
 
     $scope.DeleteCategory = function () {
+        var modalInstance;
         var selectedRow = $scope.categoriesGridApi.selection.getSelectedRows();
 
         if (selectedRow.length === 0) {
             $scope.errorModal = { Header: "Odstranění kategorie", Message: "Není vybrána kategorie ke smazání." }
 
-            var modalInstance = $uibModal.open({
+            modalInstance = $uibModal.open({
                 animation: true,
                 templateUrl: 'http://localhost:44301/AngularViews/Modals/HeaderMessageDanger.html',
                 controller: ModalShowError,
@@ -114,7 +118,7 @@
             $scope.confirmationModal.button1 = "Ano";
             $scope.confirmationModal.button2 = "Ne";
             $scope.confirmationModal.NodeId = selectedRow[0].TicketCategoryID;
-            var modalInstance = $uibModal.open({
+            modalInstance = $uibModal.open({
                 animation: true,
                 templateUrl: 'http://localhost:44301/AngularViews/Modals/Confirmation.html',
                 controller: ModalDeleteCtrl,
@@ -154,7 +158,6 @@
     };
 
     $scope.$on('createUpdateCategory', function (event, categoryData) {
-        console.log(categoryData);
         categoryData.ProjectID = $rootScope.projectID;
         $http.post('/api/project/tickets/CreateUpdateCategory', categoryData)
         .success(function (data) {
@@ -231,8 +234,6 @@ var ModalCreateUpdateCategoryCtrl = function ($scope, $uibModalInstance) {
         }
 
         if ($scope.categoryModal.soldTo >= $scope.categoryModal.soldFrom) {
-            console.log($scope.categoryModal.soldFrom);
-            console.log($scope.categoryModal.soldFromTime);
 
             var categoryModel = {
                 Name: $scope.categoryModal.name,
@@ -245,9 +246,9 @@ var ModalCreateUpdateCategoryCtrl = function ($scope, $uibModalInstance) {
                 CodeRequired: $scope.categoryModal.codeRequired,
                 Code: $scope.categoryModal.code
             };
- 
+
             categoryModel.SoldFrom.setHours($scope.categoryModal.soldFromTime.split(':')[0], $scope.categoryModal.soldFromTime.split(':')[1]);
-            console.log(categoryModel.SoldFrom);
+            categoryModel.SoldTo.setHours($scope.categoryModal.soldToTime.split(':')[0], $scope.categoryModal.soldToTime.split(':')[1]);
 
             $scope.$emit('createUpdateCategory', categoryModel);
             $uibModalInstance.close('closed');

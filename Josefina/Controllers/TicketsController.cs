@@ -92,7 +92,7 @@ namespace Josefina.Controllers
                 foreach (TicketCategory ticketCategory in project.TicketCategories.Where(tc => !tc.Deleted && tc.CodeRequired == isCode))
                 {
 
-                    if (ticketCategory.SoldFrom <= DateTime.Now && ticketCategory.SoldTo >= DateTime.Now)
+                    if (ticketCategory.SoldFrom.Value.ToLocalTime() <= DateTime.Now && ticketCategory.SoldTo.Value.ToLocalTime() >= DateTime.Now)
                     {
                         TicketCategoryViewModel ticketCategoryViewModel = new TicketCategoryViewModel()
                         {
@@ -101,8 +101,8 @@ namespace Josefina.Controllers
                             Header = ticketCategory.HeaderCZ,
                             Price = ticketCategory.Price + "Kč",
                             TicketCategoryID = ticketCategory.TicketCategoryID,
-                            SoldFrom = ticketCategory.SoldFrom.Value.ToShortDateString(),
-                            SoldTo = ticketCategory.SoldTo.Value.ToShortDateString(),
+                            SoldFrom = String.Format("{0:d.M.yyyy HH:mm:ss}", ticketCategory.SoldFrom.Value.ToLocalTime()),
+                            SoldTo = String.Format("{0:d.M.yyyy HH:mm:ss}", ticketCategory.SoldTo.Value.ToLocalTime()),
                             RowVersion = ticketCategory.RowVersion
                         };
 
