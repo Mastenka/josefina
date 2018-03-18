@@ -227,6 +227,8 @@ namespace Josefina.Controllers
                             if (ticketCategory.Ordered > 0)
                             {
                                 ticketCategory.Names = new TicketName[ticketCategory.Ordered];
+                                ticketCategory.Emails = new TicketEmail[ticketCategory.Ordered];
+
                             }
                         }
 
@@ -375,6 +377,7 @@ namespace Josefina.Controllers
                         if (project.TicketSetting.NamedTickets)
                         {
                             ticketItem.Name = ticketCategoryViewModel.Names[j].Name;
+                            ticketItem.Email = ticketCategoryViewModel.Emails[j].Email;
                         }
 
                         context.TicketItems.Add(ticketItem);
@@ -510,6 +513,7 @@ namespace Josefina.Controllers
                 }
 
                 ticketOrderLocalization.ParticipantNameHdr = "Civic name";
+                ticketOrderLocalization.ParticipantEmailHdr = "Email";
                 ticketOrderLocalization.CategoryHdr = "Categories";
                 ticketOrderLocalization.LanguageBtn = "Czech";
                 ticketOrderLocalization.NameViewHdr1 = "For the successful completion of the registration organizer demands that you must fill in the civic names of individual visitors.";
@@ -539,6 +543,7 @@ namespace Josefina.Controllers
                 }
 
                 ticketOrderLocalization.ParticipantNameHdr = "Občanské jméno";
+                ticketOrderLocalization.ParticipantEmailHdr = "Email";
                 ticketOrderLocalization.CategoryHdr = "Kategorie";
                 ticketOrderLocalization.NoFreeTicketsMsg = "Momentálně nejsou dostupná žádná volná místa.";
                 ticketOrderLocalization.LanguageBtn = "English";

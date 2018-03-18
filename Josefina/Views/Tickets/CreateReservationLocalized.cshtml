@@ -105,7 +105,7 @@
 else
 {
     <div class="row col-lg-offset-1">
-        <h2 class="text-danger">@Model.Localization.NoFreeTicketsMsg</h2> 
+        <h2 class="text-danger">@Model.Localization.NoFreeTicketsMsg</h2>
     </div>
 }
 
@@ -119,6 +119,7 @@ else
 @Html.HiddenFor(m => Model.Localization.NameViewHdr2)
 @Html.HiddenFor(m => Model.Localization.NoFreeTicketsMsg)
 @Html.HiddenFor(m => Model.Localization.ParticipantNameHdr)
+@Html.HiddenFor(m => Model.Localization.ParticipantEmailHdr)
 @Html.HiddenFor(m => Model.Localization.RegisterBtn)
 @Html.HiddenFor(m => Model.Localization.RegistrationStartHdr)
 @Html.HiddenFor(m => Model.Localization.TicketCountHdr)
