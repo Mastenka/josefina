@@ -160,19 +160,6 @@ namespace Josefina.Controllers
             }
         }
 
-        
-        public ActionResult Index()
-        {
-            var model = new ShowTicketCategoriesViewModel();
-            return View(model);
-        }
-        
-
-        [HttpPost]
-        public ActionResult Index(ShowTicketCategoriesViewModel model)
-        {
-            return View(model);
-        }
 
         private bool ValidateTicketCode(ShowTicketCategoriesCodeViewModel submitedModel, ApplicationDbContext context)
         {
