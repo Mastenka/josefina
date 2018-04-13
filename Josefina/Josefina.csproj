@@ -28,6 +28,7 @@
     <SccProvider>SAK</SccProvider>
     <TypeScriptToolsVersion>1.7</TypeScriptToolsVersion>
     <UseGlobalApplicationHostFile />
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -1371,6 +1372,8 @@
     <Content Include="Views\Tickets\CreateReservationLocalized.cshtml" />
     <Content Include="Views\Tickets\NamedTicketsLocalized.cshtml" />
     <Content Include="Views\Tickets\TicketOrderLocalized.cshtml" />
+    <Content Include="Views\Tickets\TermsConditions.cshtml" />
+    <Content Include="Views\Tickets\TermsConditionsLocalized.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="AngularViews\RightViews\" />

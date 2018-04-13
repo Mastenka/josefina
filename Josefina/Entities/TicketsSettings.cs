@@ -37,5 +37,11 @@ namespace Josefina.Entities
         public string NoteOrderCZ { get; set; }
 
         public string NoteOrderEN { get; set; }
+
+        public string TermsConditionsCZ { get; set; }
+
+        public string TermsConditionsEN { get; set; }
+
+        public bool AllowTermsConditions { get; set; }
     }
 }

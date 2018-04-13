@@ -133,6 +133,12 @@ namespace Josefina.ApiModels.Tickets
         public string NoteOrderCZ { get; set; }
 
         public string NoteOrderEN { get; set; }
+
+        public bool AllowTermsConditions { get; set; }
+
+        public string TermsConditionsCZ { get; set; }
+
+        public string TermsConditionsEN { get; set; }
     }
 
     public class CreateUpdateBankProxyData

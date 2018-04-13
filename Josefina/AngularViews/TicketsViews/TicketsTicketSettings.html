@@ -94,7 +94,7 @@
             <div class="form-group">
                 <label for="noteCZ" class="col-lg-2 control-label">Poznámka-Vstupenka CZ</label>
                 <div class="col-lg-10">
-                    <textarea  rows="10" cols="40" name="NoteTicketCZ" class="form-control" ng-model="settingsTicketsModel.NoteTicketCZ"></textarea>
+                    <textarea rows="10" cols="40" name="NoteTicketCZ" class="form-control" ng-model="settingsTicketsModel.NoteTicketCZ"></textarea>
                 </div>
             </div>
 
@@ -119,6 +119,34 @@
                 <label for="noteEN" class="col-lg-2 control-label">Poznámka-Objednávka EN</label>
                 <div class="col-lg-10">
                     <textarea rows="10" cols="40" name="NoteOrderEN" class="form-control" ng-model="settingsTicketsModel.NoteOrderEN"></textarea>
+                </div>
+            </div>
+
+            <!--Obchodní-podmínky-->
+            <div class="form-group">
+                <label for="inputEmail" class="col-lg-2 control-label">Obchodní podmínky</label>
+                <div class="col-lg-10">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="AllowTermsConditions" ng-model="settingsTicketsModel.AllowTermsConditions">
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!--Obchodní-podmínky-->
+            <div class="form-group">
+                <label for="TermsConditionsCZ" class="col-lg-2 control-label">Obchodní podmínky CZ</label>
+                <div class="col-lg-10">
+                    <textarea rows="10" cols="40" name="TermsConditionsCZ" class="form-control" ng-model="settingsTicketsModel.TermsConditionsCZ"></textarea>
+                </div>
+            </div>
+
+            <!--Obchodní-podmínky-->
+            <div class="form-group">
+                <label for="TermsConditionsEN" class="col-lg-2 control-label">Obchodní podmínky EN</label>
+                <div class="col-lg-10">
+                    <textarea rows="10" cols="40" name="TermsConditionsEN" class="form-control" ng-model="settingsTicketsModel.TermsConditionsEN"></textarea>
                 </div>
             </div>
 

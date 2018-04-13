@@ -34,7 +34,7 @@
                     {
 
                         for (int j = 0; j < Model.TicketCategories[i].Ordered; j++)
-                            {
+                        {
                             <tr style="vertical-align:central;">
                                 <td style="text-align: center;">
                                     @Model.TicketCategories[i].Header
@@ -79,11 +79,14 @@
             </tbody>
         </table>
         <div class="row">
+            <div class="col-md-offset-1 col-md-10">
+                <textarea>@Model.TicketCategories[i].Header</textarea>
+            </div>
+        </div>
+        <div class="row">
             <div class="col-md-4">
                 <div class="form-group">
-                    <div class="col-md-offset-7 col-md-4">
-                        <input type="submit" class="btn btn-success" value="Objednat" />
-                    </div>
+                    <input type="submit" class="btn btn-success" value="Objednat" />
                 </div>
             </div>
         </div>
