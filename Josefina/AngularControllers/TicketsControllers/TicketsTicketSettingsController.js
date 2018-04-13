@@ -28,6 +28,10 @@
         $scope.settingsTicketsModel.NoteTicketEN = ticketsTicketSettingsViewModel.data.NoteTicketEN;
         $scope.settingsTicketsModel.NoteOrderCZ = ticketsTicketSettingsViewModel.data.NoteOrderCZ;
         $scope.settingsTicketsModel.NoteOrderEN = ticketsTicketSettingsViewModel.data.NoteOrderEN;
+        $scope.settingsTicketsModel.TermsConditionsCZ = ticketsTicketSettingsViewModel.data.TermsConditionsCZ;
+        $scope.settingsTicketsModel.TermsConditionsEN = ticketsTicketSettingsViewModel.data.TermsConditionsEN;
+        $scope.settingsTicketsModel.AllowTermsConditions = ticketsTicketSettingsViewModel.data.AllowTermsConditions;
+
     };
 
     $scope.uploadPic = function (file) {

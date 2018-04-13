@@ -160,6 +160,7 @@ namespace Josefina.Controllers
             }
         }
 
+
         private bool ValidateTicketCode(ShowTicketCategoriesCodeViewModel submitedModel, ApplicationDbContext context)
         {
             var categoryToOrder = submitedModel.TicketCategories.Single(tc => tc.Ordered > 0);
@@ -234,6 +235,27 @@ namespace Josefina.Controllers
 
                         submitedModel.AfterNameSetting = true;
                         return View("~/Views/Tickets/NamedTicketsLocalized.cshtml", submitedModel);
+                    }
+                }
+
+                if (project.TicketSetting.AllowTermsConditions)
+                {
+                    if (project.TicketSetting.NamedTickets && submitedModel.AfterNameSetting && !submitedModel.AfterTermsConditionsSetting)
+                    {
+                        submitedModel.AfterTermsConditionsSetting = true;
+                        bool isEnglish = false;
+                        var cookie = Request.Cookies[LocalizationCookie];
+
+                        if (cookie != null)
+                        {
+                            if (cookie.Value == "en")
+                            {
+                                isEnglish = true;
+                            }
+                        }
+                        submitedModel.TermsConditions = isEnglish ? project.TicketSetting.TermsConditionsEN : project.TicketSetting.TermsConditionsCZ;
+
+                        return View("~/Views/Tickets/TermsConditionsLocalized.cshtml", submitedModel);
                     }
                 }
 
@@ -518,6 +540,8 @@ namespace Josefina.Controllers
                 ticketOrderLocalization.LanguageBtn = "Czech";
                 ticketOrderLocalization.NameViewHdr1 = "For the successful completion of the registration organizer demands that you must fill in the civic names of individual visitors.";
                 ticketOrderLocalization.NameViewHdr2 = "Please fill in the civic names of the visitors. These civic names will be checked when tickets will be checked on entry.";
+                ticketOrderLocalization.TermsConditionHdr = "Please read terms and conditions and agree to them.";
+                ticketOrderLocalization.TermsConditionAgree = "I agree with terms, conditions and processing of personal informations.";
             }
             else
             {
@@ -549,6 +573,8 @@ namespace Josefina.Controllers
                 ticketOrderLocalization.LanguageBtn = "English";
                 ticketOrderLocalization.NameViewHdr1 = "Pro úspěšné dokončení registrace vyžaduje pořadatel vyplnění občanských jmen jednotlivých návštěvníků.";
                 ticketOrderLocalization.NameViewHdr2 = "Vyplňtě prosím jednotlivá občasnká jména návštěvníků. Uvedená jména budou kontrolována při kontrole vstupenek.";
+                ticketOrderLocalization.TermsConditionHdr = "Seznamte se s obchodními podmínkami a odsouhlaste je.";
+                ticketOrderLocalization.TermsConditionAgree = "Souhlasím s obchodními podmínkami a zpracováním osobních údajů.";
             }
 
             ticketOrderLocalization.ChangeLangLink = string.Format("http://{0}/tickets/ChangeLanguage/{1}", Request.Url.Authority, projectId);

@@ -597,6 +597,9 @@ namespace Josefina.Controllers
                             viewModel.NoteTicketEN = project.TicketSetting.NoteEN;
                             viewModel.NoteOrderCZ = project.TicketSetting.NoteOrderCZ;
                             viewModel.NoteOrderEN = project.TicketSetting.NoteOrderEN;
+                            viewModel.TermsConditionsCZ = project.TicketSetting.TermsConditionsCZ;
+                            viewModel.TermsConditionsEN = project.TicketSetting.TermsConditionsEN;
+                            viewModel.AllowTermsConditions = project.TicketSetting.AllowTermsConditions;
                             viewModel.ProjectID = projectId;
                         }
                         else
@@ -653,6 +656,9 @@ namespace Josefina.Controllers
                             project.TicketSetting.NoteEN = model.NoteTicketEN;
                             project.TicketSetting.NoteOrderCZ = model.NoteOrderCZ;
                             project.TicketSetting.NoteOrderEN = model.NoteOrderEN;
+                            project.TicketSetting.TermsConditionsCZ = model.TermsConditionsCZ;
+                            project.TicketSetting.TermsConditionsEN = model.TermsConditionsEN;
+                            project.TicketSetting.AllowTermsConditions = model.AllowTermsConditions;
 
                             if (model.LogoURL != project.TicketSetting.LogoURL)
                             {
