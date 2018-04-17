@@ -224,6 +224,8 @@ namespace Josefina.ApiModels.Tickets
         public long VariableSymbol { get; set; }
 
         public List<TicketGridItem> TicketItems { get; set; }
+
+        public bool TermsConditionsAccepted { get; set; }
     }
 
     public class TicketGridItem

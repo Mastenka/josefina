@@ -190,6 +190,7 @@ namespace Josefina.Controllers
                             viewModel.TicketOrderID = ticketOrder.TicketOrderID;
                             viewModel.Email = ticketOrder.Email;
                             viewModel.VariableSymbol = ticketOrder.VariableSymbol;
+                            viewModel.TermsConditionsAccepted = ticketOrder.TermsConditionsAccepted ? true : false;
                             viewModel.TicketItems = new List<TicketGridItem>();
 
                             context.Entry(ticketOrder).Collection(to => to.TicketCategoryOrders).Load();
