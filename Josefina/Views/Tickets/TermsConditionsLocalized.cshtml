@@ -8,7 +8,16 @@
     Culture = UICulture = "cs";
 }
 
-<div class="page-header"><h1>@Model.ProjectName</h1></div>
+<div class="page-header">
+    @if (Model.ProjectID == 21)
+    {   //NEW Junktown Shit
+        <h1><img src="~/Content/jt-logo-mini.png" alt="Junktown 2018" /></h1>
+    }
+    else
+    {   //Normalni, slusni lidi
+        <h1>@Model.ProjectName</h1>
+    }
+</div>
 
 <h4>@Model.Localization.TermsConditionHdr</h4>
 

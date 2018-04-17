@@ -10,7 +10,14 @@
 
 <div class="row">
     <div class="page-header col-lg-offset-1 col-lg-4">
-        <h1>@Model.ProjectName</h1>
+        @if (Model.ProjectID == 21)
+        {   //NEW Junktown Shit
+            <h1><img src="~/Content/jt-logo-mini.png" alt="Junktown 2018"/></h1>
+        }
+        else
+        {   //Normalni, slusni lidi
+            <h1>@Model.ProjectName</h1>
+        }
         <div class="col-lg-4">
             <input type="button" class="btn btn-default" value="@Model.Localization.TicketTypeBtn" onclick="@("window.location.href='" + @Url.Action("CreateCodeReservation", "Tickets") + "'");" />
         </div>
