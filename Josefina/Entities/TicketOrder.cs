@@ -41,6 +41,6 @@ namespace Josefina.Entities
 
         public virtual ICollection<FioTransaction> FioTransactions { get; set; }
 
-        public bool TermsConditionsAccepted { get; set; }
+        public bool? TermsConditionsAccepted { get; set; }
     }
 }

@@ -274,8 +274,12 @@ namespace Josefina.Controllers
 
                 ticketOrder.ReservedUntil = DateTime.Today.AddDays(7).Date;
 
-                if (project.TicketSetting.AllowTermsConditions) {
+                if (project.TicketSetting.AllowTermsConditions)
+                {
                     ticketOrder.TermsConditionsAccepted = submitedModel.TicketCategories[0].TermsConditionsAccepted;
+                }
+                else {
+                    ticketOrder.TermsConditionsAccepted = false;
                 }
 
                 context.TicketOrders.Add(ticketOrder);
