@@ -7,7 +7,7 @@
                 <h1 class="col-lg-offset-2">Objednávka</h1>
 
                 <!--Email-->
-                <div class="form-group">    
+                <div class="form-group">
                     <label for="email" class="col-lg-2 control-label">Email</label>
                     <div class="col-lg-10">
                         <input type="email" name="email" class="form-control" ng-model="orderModel.Email" required>
@@ -76,6 +76,18 @@
                     <label for="totalPaid" class="col-lg-2 control-label">Zaplaceno celkem</label>
                     <div class="col-lg-10">
                         <input type="text" name="totalPaid" class="form-control" ng-model="orderModel.TotalPaid" disabled>
+                    </div>
+                </div>
+
+                <!--Paid-->
+                <div class="form-group">
+                    <label for="paid" class="col-lg-2 control-label">Obchodní podmínky odsouhlaseny</label>
+                    <div class="col-lg-1">
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" name="termsConditionsAccepted" ng-model="orderModel.TermsConditionsAccepted" disabled>
+                            </label>
+                        </div>
                     </div>
                 </div>
             </fieldset>

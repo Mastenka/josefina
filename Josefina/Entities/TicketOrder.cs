@@ -40,5 +40,7 @@ namespace Josefina.Entities
         public bool IsEnglish { get; set; }
 
         public virtual ICollection<FioTransaction> FioTransactions { get; set; }
+
+        public bool? TermsConditionsAccepted { get; set; }
     }
 }

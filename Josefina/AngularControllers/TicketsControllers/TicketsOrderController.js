@@ -25,6 +25,7 @@
         $scope.orderModel.TotalPaid = orderViewModel.data.TotalPaid;
         $scope.orderModel.TotalPrice = orderViewModel.data.TotalPrice;
         $scope.orderModel.VariableSymbol = orderViewModel.data.VariableSymbol;
+        $scope.orderModel.TermsConditionsAccepted = orderViewModel.data.TermsConditionsAccepted;
     };
 
     function initGrid() {
