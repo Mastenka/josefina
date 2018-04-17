@@ -36,6 +36,8 @@ namespace Josefina.Models.TicketsViewModel
         public List<TicketCategoryViewModel> TicketCategories { get; set; }
 
         public string TermsConditions { get; set; }
+
+        public int MaxTicketsPerMail { get; set; }
     }
 
     public class TicketOrderLocalization
@@ -76,6 +78,10 @@ namespace Josefina.Models.TicketsViewModel
         public string TermsConditionHdr { get; set; }
 
         public string TermsConditionAgree { get; set; }
+
+        public string ReservationCode { get; set; }
+
+        public string TermsConditionWarning { get; set; }
     }
 
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = false)]
@@ -207,6 +213,14 @@ namespace Josefina.Models.TicketsViewModel
         public string InternationPaymentHdr { get; internal set; }
         public string MessageForRecipient { get; internal set; }
         public string OrgNoteHdr { get; internal set; }
+
+        public string PaymentInfo1 { get; set; }
+
+        public string PaymentInfo2 { get; set; }
+
+        public string PaymentInfo3 { get; set; }
+
+        public string PaymentInfo4 { get; set; }
     }
 
     public class TicketItemConfirmationViewModel

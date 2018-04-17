@@ -1372,7 +1372,6 @@
     <Content Include="Views\Tickets\CreateReservationLocalized.cshtml" />
     <Content Include="Views\Tickets\NamedTicketsLocalized.cshtml" />
     <Content Include="Views\Tickets\TicketOrderLocalized.cshtml" />
-    <Content Include="Views\Tickets\TermsConditions.cshtml" />
     <Content Include="Views\Tickets\TermsConditionsLocalized.cshtml" />
   </ItemGroup>
   <ItemGroup>
