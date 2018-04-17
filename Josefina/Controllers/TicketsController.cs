@@ -77,6 +77,8 @@ namespace Josefina.Controllers
 
                 viewModel.ProjectID = project.ProjectID;
                 viewModel.ProjectName = project.Name;
+                viewModel.MaxTicketsPerMail = project.TicketSetting.MaxTicketsPerEmail;
+
                 viewModel.TicketCategories = new List<TicketCategoryViewModel>();
 
                 if (project.TicketsURL != null && project.TicketsURL != "")
@@ -229,9 +231,11 @@ namespace Josefina.Controllers
                             {
                                 ticketCategory.Names = new TicketName[ticketCategory.Ordered];
                                 ticketCategory.Emails = new TicketEmail[ticketCategory.Ordered];
-
+                                ticketCategory.Emails[0] = new TicketEmail();
+                                ticketCategory.Emails[0].Email = submitedModel.Email;
                             }
                         }
+                        
 
                         submitedModel.AfterNameSetting = true;
                         return View("~/Views/Tickets/NamedTicketsLocalized.cshtml", submitedModel);
@@ -538,10 +542,13 @@ namespace Josefina.Controllers
                 ticketOrderLocalization.ParticipantEmailHdr = "Email";
                 ticketOrderLocalization.CategoryHdr = "Categories";
                 ticketOrderLocalization.LanguageBtn = "Czech";
-                ticketOrderLocalization.NameViewHdr1 = "For the successful completion of the registration organizer demands that you must fill in the civic names of individual visitors.";
-                ticketOrderLocalization.NameViewHdr2 = "Please fill in the civic names of the visitors. These civic names will be checked when tickets will be checked on entry.";
+                ticketOrderLocalization.NameViewHdr1 = "For the successful completion of the registration organizer demands that you must fill in the civic names and emails of individual visitors.";
+                ticketOrderLocalization.NameViewHdr2 = "These civic names will be checked on entry.";
                 ticketOrderLocalization.TermsConditionHdr = "Please read terms and conditions and agree to them.";
                 ticketOrderLocalization.TermsConditionAgree = "I agree with terms, conditions and processing of personal informations.";
+                ticketOrderLocalization.ReservationCode = "Code";
+                ticketOrderLocalization.TermsConditionWarning = "You have to agree with terms and conditions!";
+
             }
             else
             {
@@ -571,10 +578,12 @@ namespace Josefina.Controllers
                 ticketOrderLocalization.CategoryHdr = "Kategorie";
                 ticketOrderLocalization.NoFreeTicketsMsg = "Momentálně nejsou dostupná žádná volná místa.";
                 ticketOrderLocalization.LanguageBtn = "English";
-                ticketOrderLocalization.NameViewHdr1 = "Pro úspěšné dokončení registrace vyžaduje pořadatel vyplnění občanských jmen jednotlivých návštěvníků.";
-                ticketOrderLocalization.NameViewHdr2 = "Vyplňtě prosím jednotlivá občasnká jména návštěvníků. Uvedená jména budou kontrolována při kontrole vstupenek.";
+                ticketOrderLocalization.NameViewHdr1 = "Pro úspěšné dokončení registrace vyžaduje pořadatel vyplnění jednotlivých občanských jmen a emailů návštěvníků.";
+                ticketOrderLocalization.NameViewHdr2 = "Uvedená občanská jména budou kontrolována na vstupu.";
                 ticketOrderLocalization.TermsConditionHdr = "Seznamte se s obchodními podmínkami a odsouhlaste je.";
                 ticketOrderLocalization.TermsConditionAgree = "Souhlasím s obchodními podmínkami a zpracováním osobních údajů.";
+                ticketOrderLocalization.ReservationCode = "Kód";
+                ticketOrderLocalization.TermsConditionWarning = "Musíte souhlasit s obchodními podmínkami!";
             }
 
             ticketOrderLocalization.ChangeLangLink = string.Format("http://{0}/tickets/ChangeLanguage/{1}", Request.Url.Authority, projectId);
@@ -606,6 +615,10 @@ namespace Josefina.Controllers
                     ticketFinalOrderLocalization.TicketCountHdr = "Reserved places";
                     ticketFinalOrderLocalization.TicketTotalPriceHdr = "Total membership fee";
                     ticketFinalOrderLocalization.ToYourEmail2 = " we've sent you a copy of reservation.";
+                    ticketFinalOrderLocalization.PaymentInfo1 = "";
+                    ticketFinalOrderLocalization.PaymentInfo1 = "";
+                    ticketFinalOrderLocalization.PaymentInfo1 = "";
+                    ticketFinalOrderLocalization.PaymentInfo1 = "";
                 }
                 else
                 {
@@ -618,6 +631,11 @@ namespace Josefina.Controllers
                     ticketFinalOrderLocalization.TicketCountHdr = "Ordered tickets";
                     ticketFinalOrderLocalization.TicketTotalPriceHdr = "Total price";
                     ticketFinalOrderLocalization.ToYourEmail2 = " we've sent you a copy of order.";
+                    ticketFinalOrderLocalization.PaymentInfo1 = "Payment for ordered tickets please make by bank transfer.";
+                    ticketFinalOrderLocalization.PaymentInfo2 = "After we register your complete payment we'll send your ticket on your email address.";
+                    ticketFinalOrderLocalization.PaymentInfo3 = "Due date is latest day of registering your payment on our account.";
+                    ticketFinalOrderLocalization.PaymentInfo4 = "After due date this order will not be valid. Create new order for buing a ticket.";
+
                 }
                 ticketFinalOrderLocalization.ToYourEmail1 = "To your email:";
                 ticketFinalOrderLocalization.CategoryHdr = "Category";
@@ -635,18 +653,26 @@ namespace Josefina.Controllers
                     ticketFinalOrderLocalization.TicketCountHdr = "Rezervovaných míst";
                     ticketFinalOrderLocalization.TicketTotalPriceHdr = "Celková výše stanoveného členského příspěvku";
                     ticketFinalOrderLocalization.ToYourEmail2 = " Vám byla odeslána kopie vytvořené rezervace.";
+                    ticketFinalOrderLocalization.PaymentInfo1 = "Po připsání celkové částky / příspěvku na účet pořadatele / spolku Vám bude obratem na tento Email odesláno potvrzení o úspěšné úhradě členského příspěvku, které vás na základě interních předpisů spolku opravňuje ke vstupu na příslušný ročník spolkového festivalu Junktown 2017.";
+                    ticketFinalOrderLocalization.PaymentInfo2 = "Datum splatnosti je nejpozdější datum, kdy musí být připsán vámi uhrazený členský příspěvek na příslušný účet spolku, přičemž nestane-li se tak, propadne Vám tím zcela Vaše rezervace příslušných míst na spojkovém festivalu Junktown 2017.";
+                    ticketFinalOrderLocalization.PaymentInfo3 = "ZÁKONNÉ POUČENÍ / PLATEBNÍ PODMÍNKY:";
+                    ticketFinalOrderLocalization.PaymentInfo4 = "Projekt Junktown (dále  jen „Projekt“) a akce Junktown 2017 (dále jen „Akce“) je realizována pod záštitou Občanského sdružení Alternativa II, z.s. (dále jen „Spolku“) na spolkové neziskové a nespotřebitelské členské bázi dle stanov Spolku (dále jen „Stanov“), za účelem rekultivace objektu bývalé raketové základny Bratronice a naplňování vybraných oblastí spolkového poslání, kterým je podpora aktivního bytí, seberealizace, vědy, kultury, sportu, tělovýchovy, vzdělávání, občanské angažovanosti, volnočasového vyžití, jakož i všech ostatních aktivit směřujících k  všestrannému rozvoji jedince i společnosti. Veškeré platby ve prospěch projektu Junktown jsou přijímány Spolkem výhradně ve formě členských příspěvků (neboli zkráceně jen „příspěvků“) stanovovaných Spolkem na základě § 233 zákona č. 89/2012 Sb. (dále jen „NOZ“), přičemž upozorňujeme, že dobrovolná úhrada příspěvku stanoveného příslušným orgánem Spolku je dle spolkových Stanov považována současně i za projev vůle ve smyslu § 233 (2) NOZ, na základě čehož plátci stanoveného příspěvku vzniká nejpozději okamžikem přijetí příspěvku ze strany Spolku v souladu se Stanovami a interními předpisy bezzávazkový členský status „podporovatel“ Projektu a řadové neregistrované členství ve Spolku, které příslušného člena opravňuje ve Spolkem stanoveném rozsahu navštěvovat prostory Projektu, účastnit se Akcí Projektu a čerpat příslušné členské výhody a služby Projektu poskytované „podporovatelům“ Projektu  výhradně a  pouze  na  spolkové neziskové a nespotřebitelské bázi v rámci hlavní činnosti Spolku za účelem realizace spolkového poslání a efektivního  interního fundraisingu / crowdfundingu. Nesouhlasíte-li s uvedenými platebními podmínkami, neprovádějte ve prospěch Spolku jakoukoliv platbu, anebo požádejte neprodleně o vrácení platby, pokud jste tuto platbu provedl(a) v domnění, že se jedná o jiný právní akt za jiných platebních podmínek. Změnu členství  z neregistrovaného na  registrované lze provést na adrese www.osa2.cz/registrace. Stanovy, jakož i ostatní informace o Spolku jsou k dispozici ve spolkovém rejstříku u Městského soudu v Praze pod spisovou značkou L 16540.";
                 }
                 else
                 {
-                    ticketFinalOrderLocalization.OrgNoteHdr = "Poznamka poradatele";
-                    ticketFinalOrderLocalization.InternationPaymentHdr = "Mezinarodni platba";
+                    ticketFinalOrderLocalization.OrgNoteHdr = "Poznámka pořadatele";
+                    ticketFinalOrderLocalization.InternationPaymentHdr = "Mezinárodní platba";
                     ticketFinalOrderLocalization.MessageForRecipient = "Zpráva pro příjemce";
-                    ticketFinalOrderLocalization.PaymentInformation = "Platebni informace";
+                    ticketFinalOrderLocalization.PaymentInformation = "Platební informace";
                     ticketFinalOrderLocalization.FinalizedHdr = "Objednávka dokončena";
                     ticketFinalOrderLocalization.OrderedTicketsHdr = "Objednané vstupenky";
                     ticketFinalOrderLocalization.TicketCountHdr = "Objednaných vstupenek";
                     ticketFinalOrderLocalization.TicketTotalPriceHdr = "Celková cena";
                     ticketFinalOrderLocalization.ToYourEmail2 = " Vám byla odeslána kopie vytvořené objednávky.";
+                    ticketFinalOrderLocalization.PaymentInfo1 = "Platbu za objednané vstupenky prosím proveďte pomocí bankovního převodu.";
+                    ticketFinalOrderLocalization.PaymentInfo2 = "Po připsání celkové částky na účet pořadatele Vám budou obratem na Váš Email odeslány vstupenky.";
+                    ticketFinalOrderLocalization.PaymentInfo3 = "Datum splatnosti je nejpozdější datum připsání částky na účet.";
+                    ticketFinalOrderLocalization.PaymentInfo4 = "Po datu splatnosti tato objednávka již nebude platná. Pro zakoupení vstupenek vytvořte novou objednávku.";
                 }
                 ticketFinalOrderLocalization.ToYourEmail1 = "Na Váš email:";
                 ticketFinalOrderLocalization.CategoryHdr = "Kategorie";

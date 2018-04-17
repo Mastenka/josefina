@@ -136,24 +136,24 @@
     }
 
     <div class="row">
-        <label font-size:16px;>@Model.Localization.ToYourEmail1<span style="font-size:20px; text-decoration:underline">@Model.Email</span>@Model.Localization.ToYourEmail2</label>
+        <label font-size:16px;>@Model.Localization.ToYourEmail1 <span style="font-size:20px; text-decoration:underline">@Model.Email</span>@Model.Localization.ToYourEmail2</label>
     </div>
     <div class="row">
         <div class="page-header"></div>
         @if (Model.ProjectID == 3)
         {   //Junktown Shit
-            <p>Po připsání celkové částky / příspěvku na účet pořadatele / spolku Vám bude obratem na tento Email odesláno potvrzení o úspěšné úhradě členského příspěvku, které vás na základě interních předpisů spolku opravňuje ke vstupu na příslušný ročník spolkového festivalu Junktown 2017.</p>
-            <p>Datum splatnosti je nejpozdější datum, kdy musí být připsán vámi uhrazený členský příspěvek na příslušný účet spolku, přičemž nestane-li se tak, propadne Vám tím zcela Vaše rezervace příslušných míst na spojkovém festivalu Junktown 2017.</p>
-            <p>ZÁKONNÉ POUČENÍ / PLATEBNÍ PODMÍNKY:</p>
-            <p>Projekt Junktown (dále  jen „Projekt“) a akce Junktown 2017 (dále jen „Akce“) je realizována pod záštitou Občanského sdružení Alternativa II, z.s. (dále jen „Spolku“) na spolkové neziskové a nespotřebitelské členské bázi dle stanov Spolku (dále jen „Stanov“), za účelem rekultivace objektu bývalé raketové základny Bratronice a naplňování vybraných oblastí spolkového poslání, kterým je podpora aktivního bytí, seberealizace, vědy, kultury, sportu, tělovýchovy, vzdělávání, občanské angažovanosti, volnočasového vyžití, jakož i všech ostatních aktivit směřujících k  všestrannému rozvoji jedince i společnosti. Veškeré platby ve prospěch projektu Junktown jsou přijímány Spolkem výhradně ve formě členských příspěvků (neboli zkráceně jen „příspěvků“) stanovovaných Spolkem na základě § 233 zákona č. 89/2012 Sb. (dále jen „NOZ“), přičemž upozorňujeme, že dobrovolná úhrada příspěvku stanoveného příslušným orgánem Spolku je dle spolkových Stanov považována současně i za projev vůle ve smyslu § 233 (2) NOZ, na základě čehož plátci stanoveného příspěvku vzniká nejpozději okamžikem přijetí příspěvku ze strany Spolku v souladu se Stanovami a interními předpisy bezzávazkový členský status „podporovatel“ Projektu a řadové neregistrované členství ve Spolku, které příslušného člena opravňuje ve Spolkem stanoveném rozsahu navštěvovat prostory Projektu, účastnit se Akcí Projektu a čerpat příslušné členské výhody a služby Projektu poskytované „podporovatelům“ Projektu  výhradně a  pouze  na  spolkové neziskové a nespotřebitelské bázi v rámci hlavní činnosti Spolku za účelem realizace spolkového poslání a efektivního  interního fundraisingu / crowdfundingu. Nesouhlasíte-li s uvedenými platebními podmínkami, neprovádějte ve prospěch Spolku jakoukoliv platbu, anebo požádejte neprodleně o vrácení platby, pokud jste tuto platbu provedl(a) v domnění, že se jedná o jiný právní akt za jiných platebních podmínek. Změnu členství  z neregistrovaného na  registrované lze provést na adrese www.osa2.cz/registrace. Stanovy, jakož i ostatní informace o Spolku jsou k dispozici ve spolkovém rejstříku u Městského soudu v Praze pod spisovou značkou L 16540.</p>
+            <p>@Model.Localization.PaymentInfo1</p>
+            <p>@Model.Localization.PaymentInfo2</p>
+            <p>@Model.Localization.PaymentInfo3</p>
+            <p>@Model.Localization.PaymentInfo4</p>
 
         }
         else
         {   //Normalni, slusni lidi
-            <p>Platbu za objednané vstupenky prosím proveďte pomocí bankovního převodu.</p>
-            <p class="text-success">Po připsání celkové částky na účet pořadatele Vám budou obratem na Váš Email odeslány vstupenky.</p>
-            <p class="text-warning">Datum splatnosti je nejpozdější datum připsání částky na účet.</p>
-            <p class="text-warning">Po datu splatnosti tato objednávka již nebude platná. Pro zakoupení vstupenek vytvořte novou objednávku.</p>
+            <p>@Model.Localization.PaymentInfo1</p>
+            <p>@Model.Localization.PaymentInfo2</p>
+            <p class="text-danger">@Model.Localization.PaymentInfo3</p>
+            <p class="text-danger">@Model.Localization.PaymentInfo4</p>
         }
     </div>
 </div>

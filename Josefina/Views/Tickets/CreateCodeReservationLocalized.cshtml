@@ -33,7 +33,7 @@
                         <th style="text-align: center;">@Model.Localization.RegistrationStartHdr</th>
                         <th style="text-align: center;">@Model.Localization.EdnRegistrationHdr</th>
                         <th style="text-align: center;">@Model.Localization.TicketPriceHdr</th>
-                        <th style="text-align: center;">@Model.Localization.TicketCountHdr</th>
+                        <th style="text-align: center;">@Model.Localization.TicketCountHdr (max @Model.MaxTicketsPerMail)</th>
                     </tr>
                 </thead>
                 <tbody style="vertical-align:central;">
@@ -80,7 +80,7 @@
             <div class="row">
                 <div class="col-md-offset-9 col-md-3">
                     <div class="form-group">
-                        @Html.LabelFor(m => m.Code, new { @class = "col-md-2 control-label" })
+                        @Html.LabelFor(m => m.Code, Model.Localization.ReservationCode, new { @class = "col-md-2 control-label" })
                         <div class="col-md-10">
                             @Html.TextBoxFor(m => m.Code, new { @class = "form-control" })
                             @Html.ValidationMessageFor(m => m.Code, "", new { @class = "text-danger" })

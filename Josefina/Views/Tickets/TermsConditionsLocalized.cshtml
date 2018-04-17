@@ -62,7 +62,7 @@
                     <input type="submit" class="btn btn-success pull-right" value="@Model.Localization.RegisterBtn" />
                 </div>
                 <div>
-                    @Html.ValidationMessageFor(m => Model.TicketCategories[0].TermsConditionsAccepted, "", new { @class = "text-danger" })
+                    @Html.ValidationMessageFor(m => Model.TicketCategories[0].TermsConditionsAccepted, Model.Localization.TermsConditionWarning, new { @class = "text-danger" })
                 </div>
             </div>
         </div>
