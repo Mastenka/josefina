@@ -147,5 +147,19 @@ namespace Josefina.Mailers
 
             return emailMsg;
         }
+
+        public MvcMailMessage SendUserCreatedJT(string email, string password)
+        {
+            ViewBag.Password = password;
+            var emailMsg = Populate(x =>
+            {
+                x.Subject = "Přístup do uživatelské sekce JUNKTOWN.EU";
+                x.ViewName = "SendUserCreatedJT";
+                x.To.Add(email);
+            });
+            emailMsg.IsBodyHtml = true;
+            emailMsg.BodyEncoding = System.Text.Encoding.UTF8;
+            return emailMsg;
+        }
     }
 }

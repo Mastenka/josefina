@@ -369,6 +369,72 @@ namespace Josefina.Controllers
             }
         }
 
+        //NEW JT SHIT
+        [HttpGet]
+        [Route("RecreateUsersJT/{orderID:int}")]
+        [ResponseType(typeof(OrderViewModel))]
+        public AngularErrorViewModel RecreateUsersJT(int orderID)
+        {
+            AngularErrorViewModel viewModel = new AngularErrorViewModel();
+            try
+            {
+                using (ApplicationDbContext context = new ApplicationDbContext())
+                {
+                    TicketOrder ticketOrder = context.TicketOrders.FirstOrDefault(to => to.TicketOrderID == orderID);
+
+                    if (ticketOrder == null)
+                    {
+                        viewModel.IsValid = false;
+                        return viewModel;
+                    }
+
+                    Project project = context.Projects.SingleOrDefault(p => p.ProjectID == ticketOrder.ProjectID);
+                    if (project != null && (project.ProjectID == 21 || project.ProjectID == 1002))
+                    {
+                        viewModel.IsValid = true;
+                        if (IsAuthorized(project, context))
+                        {
+                            viewModel.IsAuthorized = true;
+                            viewModel.Title = "Objednávka | " + project.Name;
+
+                            context.Entry(ticketOrder).Collection(to => to.TicketCategoryOrders).Load();
+
+                            foreach (TicketCategoryOrder ticketCategoryOrder in ticketOrder.TicketCategoryOrders)
+                            {
+                                context.Entry(ticketCategoryOrder).Collection(tco => tco.TicketItems).Load();
+                                context.Entry(ticketCategoryOrder).Reference(tco => tco.TicketCategory).Load();
+
+                                foreach (TicketItem ticketItem in ticketCategoryOrder.TicketItems)
+                                {
+                                    var user = new UserJT().createUserInWordpress(ticketItem.Email);
+                                    if (!user.isValidUser()) {
+                                        viewModel.IsValid = false;
+                                    }
+                                }
+                            }
+                        }
+                        else
+                        {
+                            viewModel.IsAuthorized = false;
+                        }
+                    }
+                    else
+                    {
+                        viewModel.IsValid = false;
+                    }
+                }
+
+                return viewModel;
+            }
+            catch (Exception e)
+            {
+                viewModel.IsValid = false;
+                return viewModel;
+                System.Diagnostics.Debug.WriteLine(e.Message);
+                throw;
+            }
+        }
+
         [HttpGet]
         [Route("GetExportViewModel/{exportID:int}")]
         [ResponseType(typeof(ExportViewModel))]

@@ -15,5 +15,6 @@ namespace Josefina.Mailers
         MvcMailMessage SendTicketOrder(TicketOrderViewModel model);
         MvcMailMessage SendTicketOrderConfirmation(TicketItemConfirmationViewModel model, List<TicketPDFGenerator.TicketToGenerateWrapper> ticketsToExport, TicketSetting settings);
         MvcMailMessage SendTicketOrderCanceled(TicketOrderCanceledViewModel model);
+        MvcMailMessage SendUserCreatedJT(string email, string password);
     }
 }

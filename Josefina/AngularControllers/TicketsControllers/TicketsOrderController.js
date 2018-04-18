@@ -62,7 +62,7 @@
             .success(function (data) {
                 if (data.IsValid) {
                     if (data.IsAuthorized) {
-                        ShowSuccessModal(true);
+                        ShowSuccessModal('update');
                     }
                     else {
                         $state.go('unauthorized');
@@ -82,7 +82,7 @@
             .success(function (data) {
                 if (data.IsValid) {
                     if (data.IsAuthorized) {
-                        ShowSuccessModal(false);
+                        ShowSuccessModal('resend');
                     }
                     else {
                         $state.go('unauthorized');
@@ -95,15 +95,41 @@
 
     };
 
-    function ShowSuccessModal(isSave) {
+    $scope.recreateUsers = function () {
+
+
+        $http.get('/api/project/tickets/RecreateUsersJT/' + $scope.orderModel.TicketOrderID)
+            .success(function (data) {
+                if (data.IsValid) {
+                    if (data.IsAuthorized) {
+                        ShowSuccessModal('recreate');
+                    }
+                    else {
+                        $state.go('unauthorized');
+                    }
+                }
+                else {
+                    $state.go('error');
+                }
+            });
+
+    };
+
+    function ShowSuccessModal(section) {
         $scope.successModal = {};
-        if (isSave) {
-            $scope.successModal.Header = "Uložení změn";
-            $scope.successModal.Message = "Změny byly úspěšně uloženy.";
-        }
-        else {
-            $scope.successModal.Header = "Odeslání vstupenek";
-            $scope.successModal.Message = "Vstupenky byly úspěšně odeslány.";
+        switch (section) {
+            case 'update':
+                $scope.successModal.Header = "Uložení změn";
+                $scope.successModal.Message = "Změny byly úspěšně uloženy.";
+                break;
+            case 'resend':
+                $scope.successModal.Header = "Odeslání vstupenek";
+                $scope.successModal.Message = "Vstupenky byly úspěšně odeslány.";
+                break;
+            case 'recreate':
+                $scope.successModal.Header = "Vytvoření uživatelů";
+                $scope.successModal.Message = "Uživatelé úspěšně vytvořeni.";
+                break;
         }
         var modalInstance = $uibModal.open({
             animation: true,
