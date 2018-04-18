@@ -125,6 +125,10 @@ namespace Josefina.Controllers
                                 {
                                     orderViewModel.State = "Nezaplacena/Storno";
                                 }
+                                else if (ticketOrder.TotalPaidPrice > 0)
+                                {
+                                    orderViewModel.State = "Částečně zaplacena";
+                                }
                                 else
                                 {
                                     orderViewModel.State = "Rezervace";
