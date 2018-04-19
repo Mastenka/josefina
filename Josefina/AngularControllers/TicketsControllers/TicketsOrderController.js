@@ -26,6 +26,8 @@
         $scope.orderModel.TotalPrice = orderViewModel.data.TotalPrice;
         $scope.orderModel.VariableSymbol = orderViewModel.data.VariableSymbol;
         $scope.orderModel.TermsConditionsAccepted = orderViewModel.data.TermsConditionsAccepted;
+        $scope.orderModel.ProjectID = orderViewModel.data.ProjectID;
+
     };
 
     function initGrid() {
@@ -62,7 +64,7 @@
             .success(function (data) {
                 if (data.IsValid) {
                     if (data.IsAuthorized) {
-                        ShowSuccessModal(true);
+                        ShowSuccessModal('update');
                     }
                     else {
                         $state.go('unauthorized');
@@ -82,7 +84,7 @@
             .success(function (data) {
                 if (data.IsValid) {
                     if (data.IsAuthorized) {
-                        ShowSuccessModal(false);
+                        ShowSuccessModal('resend');
                     }
                     else {
                         $state.go('unauthorized');
@@ -95,15 +97,43 @@
 
     };
 
-    function ShowSuccessModal(isSave) {
+    $scope.recreateUsers = function () {
+
+
+        $http.get('/api/project/tickets/RecreateUsersJT/' + $scope.orderModel.TicketOrderID)
+            .success(function (data) {
+                if (data.IsAuthorized) {
+                    var message = "";
+                    for (var i = 0; i < data.CreatedUsers.length; i++) {
+                        if (data.CreatedUsers[i].Error) {
+                            message += data.CreatedUsers[i].Username + ": " + data.CreatedUsers[i].ErrorText + "\n";
+                        } else {
+                            message += data.CreatedUsers[i].Username + ": " + data.CreatedUsers[i].Password + "\n";
+                        }
+                    }
+                    ShowSuccessModal('recreate', message);
+                } else {
+                    $state.go('unauthorized');
+                }
+            });
+
+    };
+
+    function ShowSuccessModal(section, message) {
         $scope.successModal = {};
-        if (isSave) {
-            $scope.successModal.Header = "Uložení změn";
-            $scope.successModal.Message = "Změny byly úspěšně uloženy.";
-        }
-        else {
-            $scope.successModal.Header = "Odeslání vstupenek";
-            $scope.successModal.Message = "Vstupenky byly úspěšně odeslány.";
+        switch (section) {
+            case 'update':
+                $scope.successModal.Header = "Uložení změn";
+                $scope.successModal.Message = "Změny byly úspěšně uloženy.";
+                break;
+            case 'resend':
+                $scope.successModal.Header = "Odeslání vstupenek";
+                $scope.successModal.Message = "Vstupenky byly úspěšně odeslány.";
+                break;
+            case 'recreate':
+                $scope.successModal.Header = "Vytvoření uživatelů";
+                $scope.successModal.Message = message;
+                break;
         }
         var modalInstance = $uibModal.open({
             animation: true,

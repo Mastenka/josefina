@@ -300,6 +300,22 @@ namespace Josefina.Helpers
                     foreach (TicketCategoryOrder ticketCategoryOrder in ticketOrder.TicketCategoryOrders)
                     {
                         ticketCategoryOrder.Paid = true;
+
+                        //NEW junktown shit
+                        if (project.ProjectID == 21 || project.ProjectID == 1002)
+                        {
+                            foreach (TicketItem ticketItem in ticketCategoryOrder.TicketItems)
+                            {
+                                try
+                                {
+                                    new UserJT().createUserInWordpress(ticketItem.Email);
+                                }
+                                catch (Exception ex)
+                                {
+                                    Console.WriteLine(ex.ToString());
+                                }
+                            }
+                        }
                     }
 
                     SendConfirmationEmail(ticketOrder, project, context);

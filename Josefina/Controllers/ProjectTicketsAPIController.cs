@@ -195,6 +195,7 @@ namespace Josefina.Controllers
                             viewModel.Email = ticketOrder.Email;
                             viewModel.VariableSymbol = ticketOrder.VariableSymbol;
                             viewModel.TermsConditionsAccepted = ticketOrder.TermsConditionsAccepted == true ? true : false;
+                            viewModel.ProjectID = project.ProjectID;
                             viewModel.TicketItems = new List<TicketGridItem>();
 
                             context.Entry(ticketOrder).Collection(to => to.TicketCategoryOrders).Load();
@@ -355,6 +356,95 @@ namespace Josefina.Controllers
                     else
                     {
                         viewModel.IsValid = false;
+                    }
+                }
+
+                return viewModel;
+            }
+            catch (Exception e)
+            {
+                viewModel.IsValid = false;
+                return viewModel;
+                System.Diagnostics.Debug.WriteLine(e.Message);
+                throw;
+            }
+        }
+
+        //NEW JT SHIT
+        [HttpGet]
+        [Route("RecreateUsersJT/{orderID:int}")]
+        [ResponseType(typeof(OrderViewModel))]
+        public CreateUsersJTViewModel RecreateUsersJT(int orderID)
+        {
+            CreateUsersJTViewModel viewModel = new CreateUsersJTViewModel();
+            try
+            {
+                using (ApplicationDbContext context = new ApplicationDbContext())
+                {
+                    TicketOrder ticketOrder = context.TicketOrders.FirstOrDefault(to => to.TicketOrderID == orderID);
+
+                    if (ticketOrder == null)
+                    {
+                        viewModel.IsValid = false;
+                        return viewModel;
+                    }
+
+                    Project project = context.Projects.SingleOrDefault(p => p.ProjectID == ticketOrder.ProjectID);
+                    if (project != null && (project.ProjectID == 21 || project.ProjectID == 1002))
+                    {
+                        viewModel.IsValid = true;
+                        if (IsAuthorized(project, context))
+                        {
+                            viewModel.IsAuthorized = true;
+                            viewModel.Title = "Objednávka | " + project.Name;
+
+                            context.Entry(ticketOrder).Collection(to => to.TicketCategoryOrders).Load();
+
+                            foreach (TicketCategoryOrder ticketCategoryOrder in ticketOrder.TicketCategoryOrders)
+                            {
+                                context.Entry(ticketCategoryOrder).Collection(tco => tco.TicketItems).Load();
+                                context.Entry(ticketCategoryOrder).Reference(tco => tco.TicketCategory).Load();
+
+                                viewModel.CreatedUsers = new List<CreatedUserModel>();
+
+                                foreach (TicketItem ticketItem in ticketCategoryOrder.TicketItems)
+                                {
+                                    var user = new UserJT().createUserInWordpress(ticketItem.Email);
+                                    if (!user.isValidUser())
+                                    {
+                                        CreatedUserModel createdUserModel = new CreatedUserModel()
+                                        {
+                                            Username = user.email,
+                                            Error = true,
+                                            ErrorText = user.message
+                                        };
+
+                                        viewModel.CreatedUsers.Add(createdUserModel);
+                                        viewModel.IsValid = false;
+                                    }
+                                    else
+                                    {
+                                        CreatedUserModel createdUserModel = new CreatedUserModel()
+                                        {
+                                            Username = user.email,
+                                            Password = user.password,
+                                            Error = false
+
+                                        };
+
+                                        viewModel.CreatedUsers.Add(createdUserModel);
+                                    }
+                                }
+                            }
+                        }
+                        else
+                        {
+                            viewModel.IsAuthorized = false;
+                        }
+                    }
+                    else
+                    {
+                        viewModel.IsAuthorized = false;
                     }
                 }
 
