@@ -26,6 +26,8 @@
         $scope.orderModel.TotalPrice = orderViewModel.data.TotalPrice;
         $scope.orderModel.VariableSymbol = orderViewModel.data.VariableSymbol;
         $scope.orderModel.TermsConditionsAccepted = orderViewModel.data.TermsConditionsAccepted;
+        $scope.orderModel.ProjectID = orderViewModel.data.ProjectID;
+
     };
 
     function initGrid() {
@@ -100,22 +102,24 @@
 
         $http.get('/api/project/tickets/RecreateUsersJT/' + $scope.orderModel.TicketOrderID)
             .success(function (data) {
-                if (data.IsValid) {
-                    if (data.IsAuthorized) {
-                        ShowSuccessModal('recreate');
+                if (data.IsAuthorized) {
+                    var message = "";
+                    for (var i = 0; i < data.CreatedUsers.length; i++) {
+                        if (data.CreatedUsers[i].Error) {
+                            message += data.CreatedUsers[i].Username + ": " + data.CreatedUsers[i].ErrorText + "\n";
+                        } else {
+                            message += data.CreatedUsers[i].Username + ": " + data.CreatedUsers[i].Password + "\n";
+                        }
                     }
-                    else {
-                        $state.go('unauthorized');
-                    }
-                }
-                else {
-                    $state.go('error');
+                    ShowSuccessModal('recreate', message);
+                } else {
+                    $state.go('unauthorized');
                 }
             });
 
     };
 
-    function ShowSuccessModal(section) {
+    function ShowSuccessModal(section, message) {
         $scope.successModal = {};
         switch (section) {
             case 'update':
@@ -128,7 +132,7 @@
                 break;
             case 'recreate':
                 $scope.successModal.Header = "Vytvoření uživatelů";
-                $scope.successModal.Message = "Uživatelé úspěšně vytvořeni.";
+                $scope.successModal.Message = message;
                 break;
         }
         var modalInstance = $uibModal.open({

@@ -38,10 +38,12 @@ namespace Josefina
                 try
                 {
                     user = this.SendRESTrequest(email, password);
+                    user.email = email;
                 }
                 catch (Exception ex)
                 {
                     user.code = "create_account_fail";
+                    user.email = email;
                     user.message = String.Format("Nepodarilo se vytvorit ucet {0} ve wordpressu!", email);
                     user.data = ex.ToString();
                 }
@@ -57,6 +59,7 @@ namespace Josefina
                     catch (Exception ex)
                     {
                         user.code = "send_email_fail";
+                        user.email = email;
                         user.message = String.Format("Nepodarilo se odeslat email uzivateli '{0}' s heslem '{1}'!", user.email, user.password);
                         user.data = ex.ToString();
                     }
@@ -66,6 +69,7 @@ namespace Josefina
             {
                 // pridej chybovou hlasku
                 user.code = "bad_email_or_password";
+                user.email = email;
                 user.message = "Chybne zadany email nebo spatne vygenerovane heslo!";
             }
 

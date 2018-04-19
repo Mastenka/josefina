@@ -195,6 +195,7 @@ namespace Josefina.Controllers
                             viewModel.Email = ticketOrder.Email;
                             viewModel.VariableSymbol = ticketOrder.VariableSymbol;
                             viewModel.TermsConditionsAccepted = ticketOrder.TermsConditionsAccepted == true ? true : false;
+                            viewModel.ProjectID = project.ProjectID;
                             viewModel.TicketItems = new List<TicketGridItem>();
 
                             context.Entry(ticketOrder).Collection(to => to.TicketCategoryOrders).Load();
@@ -373,9 +374,9 @@ namespace Josefina.Controllers
         [HttpGet]
         [Route("RecreateUsersJT/{orderID:int}")]
         [ResponseType(typeof(OrderViewModel))]
-        public AngularErrorViewModel RecreateUsersJT(int orderID)
+        public CreateUsersJTViewModel RecreateUsersJT(int orderID)
         {
-            AngularErrorViewModel viewModel = new AngularErrorViewModel();
+            CreateUsersJTViewModel viewModel = new CreateUsersJTViewModel();
             try
             {
                 using (ApplicationDbContext context = new ApplicationDbContext())
@@ -404,11 +405,34 @@ namespace Josefina.Controllers
                                 context.Entry(ticketCategoryOrder).Collection(tco => tco.TicketItems).Load();
                                 context.Entry(ticketCategoryOrder).Reference(tco => tco.TicketCategory).Load();
 
+                                viewModel.CreatedUsers = new List<CreatedUserModel>();
+
                                 foreach (TicketItem ticketItem in ticketCategoryOrder.TicketItems)
                                 {
                                     var user = new UserJT().createUserInWordpress(ticketItem.Email);
-                                    if (!user.isValidUser()) {
+                                    if (!user.isValidUser())
+                                    {
+                                        CreatedUserModel createdUserModel = new CreatedUserModel()
+                                        {
+                                            Username = user.email,
+                                            Error = true,
+                                            ErrorText = user.message
+                                        };
+
+                                        viewModel.CreatedUsers.Add(createdUserModel);
                                         viewModel.IsValid = false;
+                                    }
+                                    else
+                                    {
+                                        CreatedUserModel createdUserModel = new CreatedUserModel()
+                                        {
+                                            Username = user.email,
+                                            Password = user.password,
+                                            Error = false
+
+                                        };
+
+                                        viewModel.CreatedUsers.Add(createdUserModel);
                                     }
                                 }
                             }
@@ -420,7 +444,7 @@ namespace Josefina.Controllers
                     }
                     else
                     {
-                        viewModel.IsValid = false;
+                        viewModel.IsAuthorized = false;
                     }
                 }
 

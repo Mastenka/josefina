@@ -226,6 +226,8 @@ namespace Josefina.ApiModels.Tickets
         public List<TicketGridItem> TicketItems { get; set; }
 
         public bool TermsConditionsAccepted { get; set; }
+
+        public int ProjectID { get; set; }
     }
 
     public class TicketGridItem
@@ -297,5 +299,18 @@ namespace Josefina.ApiModels.Tickets
         public bool FromSelected { get; set; }
 
         public int ProjectID { get; set; }
+    }
+
+    public class CreateUsersJTViewModel : AngularViewModel
+    {
+        public List<CreatedUserModel> CreatedUsers { get; set; }
+    }
+
+    public class CreatedUserModel
+    {
+        public string Username { get; set; }
+        public string Password { get; set; }
+        public bool Error { get; set; }
+        public string ErrorText { get; set; }
     }
 }
