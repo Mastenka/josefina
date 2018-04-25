@@ -494,7 +494,8 @@ namespace Josefina.Helpers
                 Email = ticketOrder.Email,
                 ProjectName = projectName,
                 VariableSymbol = ticketOrder.VariableSymbol,
-                ReserverdUntil = ticketOrder.ReservedUntil.Value.ToShortDateString()
+                ReserverdUntil = ticketOrder.ReservedUntil.Value.ToShortDateString(),
+                ProjectID = ticketOrder.ProjectID
             };
 
             IUserMailer userMailer = new UserMailer();

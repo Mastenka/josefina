@@ -1378,6 +1378,7 @@
     <Content Include="Views\Tickets\TicketOrderLocalized.cshtml" />
     <Content Include="Views\Tickets\TermsConditionsLocalized.cshtml" />
     <Content Include="Views\UserMailer\SendUserCreatedJT.cshtml" />
+    <Content Include="Views\UserMailer\TicketOrderCanceledJT.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="AngularViews\RightViews\" />

@@ -141,7 +141,14 @@ namespace Josefina.Mailers
             var emailMsg = Populate(x =>
             {
                 x.Subject = "Zrušení objednávky vstupenek č." + model.VariableSymbol;
-                x.ViewName = "TicketOrderCanceled";
+                if (model.ProjectID == 21)
+                {
+                    x.ViewName = "TicketOrderCanceledJT";
+                }
+                else
+                {
+                    x.ViewName = "TicketOrderCanceled";
+                }
                 x.To.Add(model.Email);
             });
 
