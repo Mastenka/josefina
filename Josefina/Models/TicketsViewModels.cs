@@ -244,6 +244,8 @@ namespace Josefina.Models.TicketsViewModel
     {
         public string ProjectName { get; set; }
 
+        public int ProjectID { get; set; }
+
         public string ReserverdUntil { get; set; }
 
         public string Email { get; set; }
