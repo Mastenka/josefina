@@ -107,7 +107,11 @@ namespace Josefina.Controllers
 
                                 var ticketCategoryOrders = context.TicketCategoryOrders.Where(tco => tco.TicketOrderID == ticketOrder.TicketOrderID);
 
+                                orderViewModel.CategoryName = "";
+
                                 foreach (TicketCategoryOrder ticketCategoryOrder in ticketCategoryOrders) {
+                                    orderViewModel.CategoryName += orderViewModel.CategoryName == "" ? ticketCategoryOrder.TicketCategory.HeaderCZ : ", " + ticketCategoryOrder.TicketCategory.HeaderCZ;
+
                                     var ticketItems = context.TicketItems.Where(ti => ti.TicketCategoryOrderID == ticketCategoryOrder.TicketCategoryOrderID);
 
                                     foreach (TicketItem ticketItem in ticketItems) {

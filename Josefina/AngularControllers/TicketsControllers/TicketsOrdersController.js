@@ -14,7 +14,8 @@
                              { name: 'Zaplaceno', field: 'PaidDate', cellFilter: 'date:\'dd.MM.yyyy\'', headerCellClass: 'header-filtered' },
                              { name: 'Stav', field: 'State', headerCellClass: 'header-filtered' },
                              { name: 'Names', field: 'Names', headerCellClass: 'header-filtered' },
-                             { name: 'Variabilní symbol', field: 'VariableSymbol', headerCellClass: 'header-filtered' }
+                             { name: 'Variabilní symbol', field: 'VariableSymbol', headerCellClass: 'header-filtered' },
+                             { name: 'Kategorie', field: 'CategoryName', headerCellClass: 'header-filtered' }
                 ],
             };
             $scope.ordersGridOptions.multiSelect = false;
