@@ -82,6 +82,8 @@ namespace Josefina.Models.TicketsViewModel
         public string ReservationCode { get; set; }
 
         public string TermsConditionWarning { get; set; }
+
+        public string DuplicateEmailsWarning { get; set; }
     }
 
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = false)]

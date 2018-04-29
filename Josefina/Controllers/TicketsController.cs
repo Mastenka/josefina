@@ -235,10 +235,24 @@ namespace Josefina.Controllers
                                 ticketCategory.Emails[0].Email = submitedModel.Email;
                             }
                         }
-                        
+
 
                         submitedModel.AfterNameSetting = true;
                         return View("~/Views/Tickets/NamedTicketsLocalized.cshtml", submitedModel);
+                    }
+                    else
+                    {
+                        foreach (var ticketCategory in submitedModel.TicketCategories)
+                        {
+                            if (ticketCategory.Ordered > 0)
+                            {
+                                if (ticketCategory.Emails.GroupBy(e => e.Email).Any(c => c.Count() > 1)) {
+                                    ModelState.AddModelError("ErrorDuplicate", submitedModel.Localization.DuplicateEmailsWarning);
+                                    return View("~/Views/Tickets/NamedTicketsLocalized.cshtml", submitedModel);
+                                }
+                            }
+                        }
+
                     }
                 }
 
@@ -556,6 +570,7 @@ namespace Josefina.Controllers
                 ticketOrderLocalization.TermsConditionAgree = "I agree with terms, conditions and processing of personal informations.";
                 ticketOrderLocalization.ReservationCode = "Code";
                 ticketOrderLocalization.TermsConditionWarning = "You have to agree with terms and conditions!";
+                ticketOrderLocalization.DuplicateEmailsWarning = "Emails has to be unique!";
 
             }
             else
@@ -592,6 +607,7 @@ namespace Josefina.Controllers
                 ticketOrderLocalization.TermsConditionAgree = "Souhlasím s obchodními podmínkami a zpracováním osobních údajů.";
                 ticketOrderLocalization.ReservationCode = "Kód";
                 ticketOrderLocalization.TermsConditionWarning = "Musíte souhlasit s obchodními podmínkami!";
+                ticketOrderLocalization.DuplicateEmailsWarning = "Emaily se nesmí shodovat!";
             }
 
             ticketOrderLocalization.ChangeLangLink = string.Format("http://{0}/tickets/ChangeLanguage/{1}", Request.Url.Authority, projectId);
