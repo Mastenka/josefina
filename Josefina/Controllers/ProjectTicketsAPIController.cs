@@ -463,6 +463,42 @@ namespace Josefina.Controllers
             }
         }
 
+        //NEW JT SHIT
+        [HttpGet]
+        [Route("RecreateAllUsersJT/")]
+        [ResponseType(typeof(OrderViewModel))]
+        public CreateUsersJTViewModel RecreateAllUsersJT()
+        {
+            CreateUsersJTViewModel viewModel = new CreateUsersJTViewModel();
+            try
+            {
+                using (ApplicationDbContext context = new ApplicationDbContext())
+                {
+
+                    foreach (TicketCategory ticketCategory in context.TicketCategories.Where(tc => tc.ProjectID == 21 || tc.ProjectID == 1002))
+                    {
+                        foreach (TicketCategoryOrder ticketCategoryOrder in ticketCategory.TicketCategoryOrders)
+                        {
+                            foreach (TicketItem ticketItem in ticketCategoryOrder.TicketItems)
+                            {
+                                var user = new UserJT().createUserInWordpress(ticketItem.Email);
+
+                            }
+                        }
+                    }
+
+                    return viewModel;
+                }
+            }
+            catch (Exception e)
+            {
+                viewModel.IsValid = false;
+                return viewModel;
+                System.Diagnostics.Debug.WriteLine(e.Message);
+                throw;
+            }
+        }
+
         [HttpGet]
         [Route("GetExportViewModel/{exportID:int}")]
         [ResponseType(typeof(ExportViewModel))]
