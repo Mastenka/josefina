@@ -463,6 +463,7 @@ namespace Josefina.Controllers
             }
         }
 
+        /*
         //NEW JT SHIT
         [HttpGet]
         [Route("RecreateAllUsersJT/")]
@@ -498,6 +499,7 @@ namespace Josefina.Controllers
                 throw;
             }
         }
+        */
 
         [HttpGet]
         [Route("GetExportViewModel/{exportID:int}")]

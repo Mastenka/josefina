@@ -119,6 +119,7 @@
 
     };
 
+    /*
     $scope.recreateAllUsersJT = function () {
 
 
@@ -132,6 +133,7 @@
             });
 
     };
+    */
 
     function ShowSuccessModal(section, message) {
         $scope.successModal = {};
