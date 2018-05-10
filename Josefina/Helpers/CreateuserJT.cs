@@ -17,7 +17,7 @@ namespace Josefina
         public UserJT()
         {
             // api nastaveni
-            this.apiUrl = "http://junktown.eu/wp-json/wp/v2";
+            this.apiUrl = "https://junktown.eu/wp-json/wp/v2";
             this.apiLogin = "rest_api";
             this.apiPassword = "&*UhI(99WYqLWgfiyZSJIYJ4";
  }

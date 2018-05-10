@@ -119,6 +119,20 @@
 
     };
 
+    $scope.recreateAllUsersJT = function () {
+
+
+        $http.get('/api/project/tickets/RecreateAllUsersJT')
+            .success(function (data) {
+                if (data.IsAuthorized) {
+                    ShowSuccessModal('recreate', 'ok');
+                } else {
+                    $state.go('unauthorized');
+                }
+            });
+
+    };
+
     function ShowSuccessModal(section, message) {
         $scope.successModal = {};
         switch (section) {
