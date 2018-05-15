@@ -463,6 +463,89 @@ namespace Josefina.Controllers
             }
         }
 
+        //NEW JT SHIT
+        [HttpGet]
+        [Route("RecreateExportUsersJT/{exportID:int}")]
+        [ResponseType(typeof(OrderViewModel))]
+        public CreateUsersJTViewModel RecreateExportUsersJT(int exportID)
+        {
+            CreateUsersJTViewModel viewModel = new CreateUsersJTViewModel();
+            try
+            {
+                using (ApplicationDbContext context = new ApplicationDbContext())
+                {
+                    TicketExport ticketExport = context.TicketExports.FirstOrDefault(te => te.TicketExportID == exportID);
+
+                    if (ticketExport == null)
+                    {
+                        viewModel.IsValid = false;
+                        return viewModel;
+                    }
+
+                    Project project = context.Projects.SingleOrDefault(p => p.ProjectID == ticketExport.ProjectID);
+                    if (project != null && (project.ProjectID == 21 || project.ProjectID == 1002))
+                    {
+                        viewModel.IsValid = true;
+                        if (IsAuthorized(project, context))
+                        {
+                            viewModel.IsAuthorized = true;
+                            viewModel.Title = "Export | " + project.Name;
+
+                            viewModel.CreatedUsers = new List<CreatedUserModel>();
+
+                            foreach (TicketExportItem ticketExportItem in ticketExport.TicketExportItems) {
+                                if (ticketExportItem.Email != null && ticketExportItem.Email != "" && ticketExportItem.Paid) {
+                                    var user = new UserJT().createUserInWordpress(ticketExportItem.Email);
+                                    if (!user.isValidUser())
+                                    {
+                                        CreatedUserModel createdUserModel = new CreatedUserModel()
+                                        {
+                                            Username = user.email,
+                                            Error = true,
+                                            ErrorText = user.message
+                                        };
+
+                                        viewModel.CreatedUsers.Add(createdUserModel);
+                                        viewModel.IsValid = false;
+                                    }
+                                    else
+                                    {
+                                        CreatedUserModel createdUserModel = new CreatedUserModel()
+                                        {
+                                            Username = user.email,
+                                            Password = user.password,
+                                            Error = false
+
+                                        };
+
+                                        viewModel.CreatedUsers.Add(createdUserModel);
+                                    }
+                                }
+                            }
+
+                        }
+                        else
+                        {
+                            viewModel.IsAuthorized = false;
+                        }
+                    }
+                    else
+                    {
+                        viewModel.IsAuthorized = false;
+                    }
+                }
+
+                return viewModel;
+            }
+            catch (Exception e)
+            {
+                viewModel.IsValid = false;
+                return viewModel;
+                System.Diagnostics.Debug.WriteLine(e.Message);
+                throw;
+            }
+        }
+
         /*
         //NEW JT SHIT
         [HttpGet]
@@ -532,6 +615,7 @@ namespace Josefina.Controllers
                             viewModel.Price = ticketExport.Price;
                             viewModel.Capacity = ticketExport.Capacity;
                             viewModel.TicketExportID = ticketExport.TicketExportID;
+                            viewModel.ProjectID = project.ProjectID;
 
                             viewModel.TicketExportItems = new List<TicketExportGridItem>();
 
@@ -1541,7 +1625,6 @@ namespace Josefina.Controllers
 
         private List<CategoryGridRow> GetProjectCategoriesGridRows(Project project, ApplicationDbContext context)
         {
-            //ner
             context.Entry(project).Collection(p => p.TicketCategories).Load();
             context.Entry(project).Collection(p => p.TicketExports).Load();
 
@@ -1560,6 +1643,7 @@ namespace Josefina.Controllers
                 context.Entry(ticketExport).Collection(te => te.TicketExportItems).Load();
 
                 ticketGridRow.Paid = ticketExport.TicketExportItems.Where(tco => tco.Paid).Count();
+                ticketGridRow.ReallyPaid = ticketExport.TicketExportItems.Where(tco => tco.Paid).Count();
                 ticketGridRow.Unpaid = ticketExport.TicketExportItems.Where(tco => !tco.Paid).Count();
 
                 ticketGridRow.PaidTotal = ticketGridRow.Paid * ticketGridRow.TicketPrice;

@@ -44,8 +44,9 @@
             <div>
                 <div>
                     <div ng-show="showExportUpdateBtn">
-                        <div class="row">
+                        <div class="row" style="padding-top:20px">
                             <button type="submit" class="btn btn-primary btn-success" ng-click="submitExportUpdate()">Uložit změny</button>
+                            <button ng-show="exportModel.ProjectID === 21 || exportModel.ProjectID === 1002" type="button" class="btn btn-primary" ng-click="recreateExportUsers()">Znovu vytvořit uživatele</button>
                         </div>
                     </div>
                     <div ng-show="showExportUpdateMsg">
