@@ -255,6 +255,8 @@ namespace Josefina.ApiModels.Tickets
 
         public string Name { get; set; }
 
+        public int ProjectID { get; set; }
+
         public List<TicketExportGridItem> TicketExportItems { get; set; }
     }
 
