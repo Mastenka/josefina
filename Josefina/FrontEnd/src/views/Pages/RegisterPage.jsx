@@ -8,9 +8,9 @@ import Checkbox from "@material-ui/core/Checkbox";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 
 // @material-ui/icons
-import Timeline from "@material-ui/icons/Timeline";
-import Code from "@material-ui/icons/Code";
-import Group from "@material-ui/icons/Group";
+import SwapHoriz from "@material-ui/icons/SwapHoriz";
+import SwapVert from "@material-ui/icons/SwapVert";
+import OpenWith from "@material-ui/icons/OpenWith";
 import Face from "@material-ui/icons/Face";
 import Email from "@material-ui/icons/Email";
 import LockOutline from "@material-ui/icons/LockOutline";
@@ -34,7 +34,9 @@ class RegisterPage extends React.Component {
       checked: []
     };
     this.handleToggle = this.handleToggle.bind(this);
+    // this.registerClick = this.registerClick.bind(this);
   }
+
   handleToggle(value) {
     const { checked } = this.state;
     const currentIndex = checked.indexOf(value);
@@ -50,6 +52,18 @@ class RegisterPage extends React.Component {
       checked: newChecked
     });
   }
+
+  registerClickHandler = () => {
+
+    console.log('neco');
+
+    //validate input
+    //sent form to server side
+
+    //MOCK
+    //Show validation confirmation
+  }
+
   render() {
     const { classes } = this.props;
     return (
@@ -57,31 +71,33 @@ class RegisterPage extends React.Component {
         <GridContainer justify="center">
           <GridItem xs={12} sm={12} md={10}>
             <Card className={classes.cardSignup}>
-              <h2 className={classes.cardTitle}>Register</h2>
+              <h2 className={classes.cardTitle}>Registrace</h2>
               <CardBody>
                 <GridContainer justify="center">
                   <GridItem xs={12} sm={12} md={5}>
                     <InfoArea
-                      title="Marketing"
-                      description="We've created the marketing campaign of the website. It was a very interesting collaboration."
-                      icon={Timeline}
+                      title="Nákup vstupenek"
+                      description="Možnost koupě vstupenky přímo od pořadatele. Historie zakoupených vstupenek a možnost jejich editace."
+                      icon={SwapHoriz}
                       iconColor="rose"
                     />
                     <InfoArea
-                      title="Fully Coded in HTML5"
-                      description="We've developed the website with HTML5 and CSS3. The client has access to the code using GitHub."
-                      icon={Code}
+                      title="Prodej vstupenek"
+                      description="Prodej vstupenky na svoji událost svobodně a přesně podle tebe."
+                      icon={SwapVert}
                       iconColor="primary"
                     />
                     <InfoArea
-                      title="Built Audience"
-                      description="There is also a Fully Customizable CMS Admin Dashboard for this product."
-                      icon={Group}
+                      title="Komplexnost"
+                      description="Sledování stavu objednávky ze strany pořadatele i návštěvníka. Exporty vstupenek, podpora prodeje na pokladnách, mobilní aplikace na kotrolu vstupenek."
+                      icon={OpenWith}
                       iconColor="info"
                     />
                   </GridItem>
                   <GridItem xs={12} sm={8} md={5}>
-                    <div className={classes.center}>
+
+                    {/*Registrace pomocí socialní sítě*/}
+                    {/*<div className={classes.center}>
                       <Button justIcon round color="twitter">
                         <i className="fab fa-twitter" />
                       </Button>
@@ -95,7 +111,7 @@ class RegisterPage extends React.Component {
                       </Button>
                       {` `}
                       <h4 className={classes.socialTitle}>or be classical</h4>
-                    </div>
+                    </div>*/}
                     <form className={classes.form}>
                       <CustomInput
                         formControlProps={{
@@ -111,7 +127,7 @@ class RegisterPage extends React.Component {
                               <Face className={classes.inputAdornmentIcon} />
                             </InputAdornment>
                           ),
-                          placeholder: "First Name..."
+                          placeholder: "Uživatelské jméno..."
                         }}
                       />
                       <CustomInput
@@ -147,7 +163,7 @@ class RegisterPage extends React.Component {
                               />
                             </InputAdornment>
                           ),
-                          placeholder: "Password..."
+                          placeholder: "Heslo..."
                         }}
                       />
                       <FormControlLabel
@@ -170,14 +186,15 @@ class RegisterPage extends React.Component {
                         }
                         label={
                           <span>
-                            I agree to the{" "}
-                            <a href="#pablo">terms and conditions</a>.
-                          </span>
+                            Souhlasím s {" "}
+                            <a href="#pablo">Licenčními podmínkami</a>.
+                          </span> 
                         }
                       />
                       <div className={classes.center}>
-                        <Button round color="primary">
-                          Get started
+                        <Button onClick={this.registerClickHandler}
+                          round color="primary">
+                          Registrovat
                         </Button>
                       </div>
                     </form>

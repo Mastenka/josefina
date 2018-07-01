@@ -15,17 +15,17 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 
 // @material-ui/icons
-import Dashboard from "@material-ui/icons/Dashboard";
+// import Dashboard from "@material-ui/icons/Dashboard";
 import Menu from "@material-ui/icons/Menu";
 
 // core components
 import Button from "components/CustomButtons/Button";
 
-import pagesRoutes from "routes/pages.jsx";
+import visitorRoutes from "routes/visitor.jsx";
 
 import pagesHeaderStyle from "assets/jss/material-dashboard-pro-react/components/pagesHeaderStyle.jsx";
 
-class PagesHeader extends React.Component {
+class VisitorHeader extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -51,7 +51,7 @@ class PagesHeader extends React.Component {
     });
     var list = (
       <List className={classes.list}>
-        <ListItem className={classes.listItem}>
+        {/* <ListItem className={classes.listItem}>
           <NavLink to={"/dashboard"} className={classes.navLink}>
             <ListItemIcon className={classes.listItemIcon}>
               <Dashboard />
@@ -62,8 +62,8 @@ class PagesHeader extends React.Component {
               className={classes.listItemText}
             />
           </NavLink>
-        </ListItem>
-        {pagesRoutes.map((prop, key) => {
+        </ListItem> */}
+        {visitorRoutes.map((prop, key) => {
           if (prop.redirect) {
             return null;
           }
@@ -95,7 +95,7 @@ class PagesHeader extends React.Component {
           <Hidden smDown implementation="css">
             <div className={classes.flex}>
               <Button href="#" className={classes.title} color="transparent">
-                Material Dashboard Pro React
+                Pepicka ticket management system
               </Button>
             </div>
           </Hidden>
@@ -144,9 +144,9 @@ class PagesHeader extends React.Component {
   }
 }
 
-PagesHeader.propTypes = {
+VisitorHeader.propTypes = {
   classes: PropTypes.object.isRequired,
   color: PropTypes.oneOf(["primary", "info", "success", "warning", "danger"])
 };
 
-export default withStyles(pagesHeaderStyle)(PagesHeader);
+export default withStyles(pagesHeaderStyle)(VisitorHeader);

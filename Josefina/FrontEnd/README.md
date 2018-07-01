@@ -132,7 +132,7 @@ material-dashboard-pro-react
     │   ├── Header
     │   │   ├── Header.jsx
     │   │   ├── HeaderLinks.jsx
-    │   │   └── PagesHeader.jsx
+    │   │   └── VisitorHeader.jsx
     │   ├── Heading
     │   │   └── Heading.jsx
     │   ├── InfoArea

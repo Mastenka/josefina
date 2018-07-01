@@ -1387,6 +1387,7 @@
     <Folder Include="Content\Icons\TreeView\Budget\" />
     <Folder Include="Content\Icons\TreeView\Tickets\" />
     <Folder Include="Content\jstree\" />
+    <Folder Include="FrontEnd\" />
     <Folder Include="Views\Folder\" />
   </ItemGroup>
   <ItemGroup>
