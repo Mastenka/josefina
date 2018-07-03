@@ -1,4 +1,4 @@
-// import PricingPage from "views/Pages/PricingPage.jsx";
+import InfoPage from "views/Pages/InfoPage.jsx";
 import LoginPage from "views/Pages/LoginPage.jsx";
 import RegisterPage from "views/Pages/RegisterPage.jsx";
 import LockScreenPage from "views/Pages/LockScreenPage.jsx";
@@ -6,10 +6,18 @@ import LockScreenPage from "views/Pages/LockScreenPage.jsx";
 // @material-ui/icons
 import PersonAdd from "@material-ui/icons/PersonAdd";
 import Fingerprint from "@material-ui/icons/Fingerprint";
-// import MonetizationOn from "@material-ui/icons/MonetizationOn";
+import Info from "@material-ui/icons/Info";
 import LockOpen from "@material-ui/icons/LockOpen";
 
 const visitorRoutes = [
+   {
+    path: "/visitor/info",
+    name: "Info",
+    short: "Info",
+    mini: "PP",
+    icon: Info,
+    component: InfoPage
+  },
   {
     path: "/visitor/register",
     name: "Registrace",
@@ -26,14 +34,6 @@ const visitorRoutes = [
     icon: Fingerprint,
     component: LoginPage
   },
-  // {
-  //   path: "/pages/pricing-page",
-  //   name: "Pricing Page",
-  //   short: "Pricing",
-  //   mini: "PP",
-  //   icon: MonetizationOn,
-  //   component: PricingPage
-  // },
   // {
   //   path: "/pages/lock-screen-page",
   //   name: "Lock Screen Page",

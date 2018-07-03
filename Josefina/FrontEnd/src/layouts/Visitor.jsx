@@ -23,6 +23,7 @@ class Visitor extends React.Component {
     return (
       <div>
         <VisitorHeader {...rest} />
+        
         <div className={classes.wrapper} ref="wrapper">
           <div className={classes.fullPage}>
             <Switch>
