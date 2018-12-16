@@ -1,4 +1,5 @@
 import Dashboard from "views/Dashboard/Dashboard.jsx";
+import PresaleEvents from "views/Presale/Events.jsx";
 import Buttons from "views/Components/Buttons.jsx";
 import GridSystem from "views/Components/GridSystem.jsx";
 import Panels from "views/Components/Panels.jsx";
@@ -35,6 +36,7 @@ import Place from "@material-ui/icons/Place";
 import WidgetsIcon from "@material-ui/icons/Widgets";
 import Timeline from "@material-ui/icons/Timeline";
 import DateRange from "@material-ui/icons/DateRange";
+import OpenWithIcon from "@material-ui/icons/OpenWith";
 
 var pages = [
   {
@@ -45,7 +47,7 @@ var pages = [
   },
   {
     path: "/user-page",
-    name: "User Profile",
+    name: "User Profile13",
     mini: "UP",
     component: UserProfile
   },
@@ -60,9 +62,15 @@ var pages = [
 var dashRoutes = [
   {
     path: "/dashboard",
-    name: "Dashboard",
+    name: "Přehled",
     icon: DashboardIcon,
     component: Dashboard
+  },
+  {
+    path: "/dashboard/events",
+    name: "Události",
+    icon: OpenWithIcon,
+    component: PresaleEvents
   },
   {
     collapse: true,
@@ -203,6 +211,6 @@ var dashRoutes = [
   { path: "/widgets", name: "Widgets", icon: WidgetsIcon, component: Widgets },
   { path: "/charts", name: "Charts", icon: Timeline, component: Charts },
   { path: "/calendar", name: "Calendar", icon: DateRange, component: Calendar },
-  { redirect: true, path: "/", pathTo: "/dashboard", name: "Dashboard" }
+  // { redirect: true, path: "/", pathTo: "/dashboard", name: "Dashboard" }
 ];
 export default dashRoutes;

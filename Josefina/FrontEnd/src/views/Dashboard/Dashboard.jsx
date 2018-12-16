@@ -87,13 +87,13 @@ class Dashboard extends React.Component {
         <GridContainer>
           <GridItem xs={12} sm={6} md={6} lg={3}>
             <Card>
-              <CardHeader color="warning" stats icon>
-                <CardIcon color="warning">
+              <CardHeader color="success" stats icon>
+                <CardIcon color="success">
                   <ContentCopy />
                 </CardIcon>
-                <p className={classes.cardCategory}>Used Space</p>
+                <p className={classes.cardCategory}>Prodáno</p>
                 <h3 className={classes.cardTitle}>
-                  49/50 <small>GB</small>
+                  1010/2350 <small>vstupenek</small>
                 </h3>
               </CardHeader>
               <CardFooter stats>

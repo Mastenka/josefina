@@ -95,7 +95,7 @@ class VisitorHeader extends React.Component {
           <Hidden smDown implementation="css">
             <div className={classes.flex}>
               <Button href="#" className={classes.title} color="transparent">
-                Pepicka ticket management system
+                Brána do světal kultury a dalších věcí
               </Button>
             </div>
           </Hidden>
