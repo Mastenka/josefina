@@ -5,11 +5,13 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormLabel from "@material-ui/core/FormLabel";
 import Checkbox from "@material-ui/core/Checkbox";
+import InputAdornment from "@material-ui/core/InputAdornment";
 
 // material ui icons
 import MailOutline from "@material-ui/icons/MailOutline";
 import Contacts from "@material-ui/icons/Contacts";
 import Check from "@material-ui/icons/Check";
+import Close from "@material-ui/icons/Close";
 
 // core components
 import GridContainer from "components/Grid/GridContainer.jsx";
@@ -137,7 +139,7 @@ class ValidationForms extends React.Component {
         break;
       case "checkbox":
         if (event.target.checked) {
-          this.setState({ [stateName + "State"]: "" });
+          this.setState({ [stateName + "State"]: "success" });
         } else {
           this.setState({ [stateName + "State"]: "error" });
         }
@@ -345,7 +347,8 @@ class ValidationForms extends React.Component {
                       checkedIcon={<Check className={classes.checkedIcon} />}
                       icon={<Check className={classes.uncheckedIcon} />}
                       classes={{
-                        checked: classes.checked
+                        checked: classes.checked,
+                        root: classes.checkRoot
                       }}
                     />
                   }
@@ -445,7 +448,15 @@ class ValidationForms extends React.Component {
                       inputProps={{
                         onChange: event =>
                           this.change(event, "required", "length", 0),
-                        type: "text"
+                        type: "text",
+                        endAdornment:
+                          this.state.requiredState === "error" ? (
+                            <InputAdornment position="end">
+                              <Close className={classes.danger} />
+                            </InputAdornment>
+                          ) : (
+                            undefined
+                          )
                       }}
                     />
                   </GridItem>
@@ -472,7 +483,15 @@ class ValidationForms extends React.Component {
                       inputProps={{
                         onChange: event =>
                           this.change(event, "typeEmail", "email"),
-                        type: "email"
+                        type: "email",
+                        endAdornment:
+                          this.state.typeEmailState === "error" ? (
+                            <InputAdornment position="end">
+                              <Close className={classes.danger} />
+                            </InputAdornment>
+                          ) : (
+                            undefined
+                          )
                       }}
                     />
                   </GridItem>
@@ -499,7 +518,15 @@ class ValidationForms extends React.Component {
                       inputProps={{
                         onChange: event =>
                           this.change(event, "number", "number"),
-                        type: "number"
+                        type: "number",
+                        endAdornment:
+                          this.state.numberState === "error" ? (
+                            <InputAdornment position="end">
+                              <Close className={classes.danger} />
+                            </InputAdornment>
+                          ) : (
+                            undefined
+                          )
                       }}
                     />
                   </GridItem>
@@ -525,7 +552,15 @@ class ValidationForms extends React.Component {
                       }}
                       inputProps={{
                         onChange: event => this.change(event, "url", "url"),
-                        type: "text"
+                        type: "text",
+                        endAdornment:
+                          this.state.urlState === "error" ? (
+                            <InputAdornment position="end">
+                              <Close className={classes.danger} />
+                            </InputAdornment>
+                          ) : (
+                            undefined
+                          )
                       }}
                     />
                   </GridItem>
@@ -551,7 +586,15 @@ class ValidationForms extends React.Component {
                       }}
                       inputProps={{
                         onChange: event => this.change(event, "whichEqualTo"),
-                        type: "text"
+                        type: "text",
+                        endAdornment:
+                          this.state.equalToState === "error" ? (
+                            <InputAdornment position="end">
+                              <Close className={classes.danger} />
+                            </InputAdornment>
+                          ) : (
+                            undefined
+                          )
                       }}
                     />
                   </GridItem>
@@ -571,7 +614,15 @@ class ValidationForms extends React.Component {
                             "equalTo",
                             "whichEqualTo"
                           ),
-                        type: "text"
+                        type: "text",
+                        endAdornment:
+                          this.state.equalToState === "error" ? (
+                            <InputAdornment position="end">
+                              <Close className={classes.danger} />
+                            </InputAdornment>
+                          ) : (
+                            undefined
+                          )
                       }}
                     />
                   </GridItem>
@@ -616,7 +667,15 @@ class ValidationForms extends React.Component {
                       inputProps={{
                         onChange: event =>
                           this.change(event, "minLength", "length", 5),
-                        type: "text"
+                        type: "text",
+                        endAdornment:
+                          this.state.minLengthState === "error" ? (
+                            <InputAdornment position="end">
+                              <Close className={classes.danger} />
+                            </InputAdornment>
+                          ) : (
+                            undefined
+                          )
                       }}
                     />
                   </GridItem>
@@ -641,7 +700,15 @@ class ValidationForms extends React.Component {
                       inputProps={{
                         onChange: event =>
                           this.change(event, "maxLength", "max-length", 5),
-                        type: "text"
+                        type: "text",
+                        endAdornment:
+                          this.state.maxLengthState === "error" ? (
+                            <InputAdornment position="end">
+                              <Close className={classes.danger} />
+                            </InputAdornment>
+                          ) : (
+                            undefined
+                          )
                       }}
                     />
                   </GridItem>
@@ -666,7 +733,15 @@ class ValidationForms extends React.Component {
                       inputProps={{
                         onChange: event =>
                           this.change(event, "range", "range", 6, 10),
-                        type: "text"
+                        type: "text",
+                        endAdornment:
+                          this.state.rangeState === "error" ? (
+                            <InputAdornment position="end">
+                              <Close className={classes.danger} />
+                            </InputAdornment>
+                          ) : (
+                            undefined
+                          )
                       }}
                     />
                   </GridItem>
@@ -691,7 +766,15 @@ class ValidationForms extends React.Component {
                       inputProps={{
                         onChange: event =>
                           this.change(event, "minValue", "min-value", 6),
-                        type: "text"
+                        type: "text",
+                        endAdornment:
+                          this.state.minValueState === "error" ? (
+                            <InputAdornment position="end">
+                              <Close className={classes.danger} />
+                            </InputAdornment>
+                          ) : (
+                            undefined
+                          )
                       }}
                     />
                   </GridItem>
@@ -716,7 +799,15 @@ class ValidationForms extends React.Component {
                       inputProps={{
                         onChange: event =>
                           this.change(event, "maxValue", "max-value", 6),
-                        type: "text"
+                        type: "text",
+                        endAdornment:
+                          this.state.maxValueState === "error" ? (
+                            <InputAdornment position="end">
+                              <Close className={classes.danger} />
+                            </InputAdornment>
+                          ) : (
+                            undefined
+                          )
                       }}
                     />
                   </GridItem>

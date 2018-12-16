@@ -37,12 +37,14 @@ const cardHeaderStyle = {
       height: "36px",
       margin: "10px 10px 4px"
     },
-    "&$cardHeaderStats i": {
+    "&$cardHeaderStats .fab,&$cardHeaderStats .fas,&$cardHeaderStats .far,&$cardHeaderStats .fal,&$cardHeaderStats .material-icons": {
       fontSize: "36px",
       lineHeight: "56px",
       width: "56px",
       height: "56px",
-      textAlign: "center"
+      textAlign: "center",
+      overflow: "unset",
+      marginBottom: "1px"
     },
     "&$cardHeaderStats$cardHeaderIcon": {
       textAlign: "right"
@@ -104,7 +106,7 @@ const cardHeaderStyle = {
       background: "transparent",
       boxShadow: "none"
     },
-    "& i": {
+    "& .fab,& .fas,& .far,& .fal,& .material-icons": {
       width: "33px",
       height: "33px",
       textAlign: "center",

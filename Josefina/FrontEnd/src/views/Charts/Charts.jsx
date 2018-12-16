@@ -62,7 +62,7 @@ class Charts extends React.Component {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                full documentation of react-cahrtist
+                full documentation of react-chartist
               </a>.
             </span>
           }
@@ -70,7 +70,7 @@ class Charts extends React.Component {
         <GridContainer>
           <GridItem xs={12} sm={12} md={4}>
             <Card chart>
-              <CardHeader color="warning">
+              <CardHeader color="rose">
                 <ChartistGraph
                   className="ct-chart-white-colors"
                   data={roundedLineChart.data}

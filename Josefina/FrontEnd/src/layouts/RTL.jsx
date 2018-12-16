@@ -55,8 +55,8 @@ class RTL extends React.Component {
   componentDidUpdate(e) {
     if (e.history.location.pathname !== e.location.pathname) {
       this.refs.mainPanel.scrollTop = 0;
-      if(this.state.mobileOpen){
-        this.setState({mobileOpen: false})
+      if (this.state.mobileOpen) {
+        this.setState({ mobileOpen: false });
       }
     }
   }

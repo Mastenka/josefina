@@ -20,7 +20,7 @@ import buttonStyle from "assets/jss/material-dashboard-pro-react/components/butt
 
 import { events } from "variables/general.jsx";
 
-BigCalendar.setLocalizer(BigCalendar.momentLocalizer(moment));
+const localizer = BigCalendar.momentLocalizer(moment);
 
 class Calendar extends React.Component {
   constructor(props) {
@@ -113,6 +113,7 @@ class Calendar extends React.Component {
               <CardBody calendar>
                 <BigCalendar
                   selectable
+                  localizer={localizer}
                   events={this.state.events}
                   defaultView="month"
                   scrollToTime={new Date(1970, 1, 1, 6)}

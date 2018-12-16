@@ -2,23 +2,24 @@
 // // // LockScreenPage view styles
 // #############################
 
-import { cardTitle } from "assets/jss/material-dashboard-pro-react.jsx";
-
-const lockScreenPageStyle = {
+import {
   cardTitle,
-  content: {
-    paddingTop: "18vh",
-    minHeight: "calc(100vh - 80px)",
-    position: "relative",
-    zIndex: "4"
+  container
+} from "assets/jss/material-dashboard-pro-react.jsx";
+
+const lockScreenPageStyle = theme => ({
+  cardTitle,
+  container: {
+    ...container,
+    zIndex: "4",
+    [theme.breakpoints.down("sm")]: {
+      paddingBottom: "100px"
+    }
   },
   customCardClass: {
     width: "240px",
     margin: "60px auto 0",
     color: "#FFFFFF",
-    position: "absolute",
-    left: "0",
-    right: "0",
     display: "block",
     transform: "translate3d(0, 0, 0)",
     transition: "all 300ms linear"
@@ -39,6 +40,6 @@ const lockScreenPageStyle = {
   justifyContentCenter: {
     justifyContent: "center !important"
   }
-};
+});
 
 export default lockScreenPageStyle;

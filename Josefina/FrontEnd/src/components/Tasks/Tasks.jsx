@@ -52,7 +52,8 @@ class Tasks extends React.Component {
                   checkedIcon={<Check className={classes.checkedIcon} />}
                   icon={<Check className={classes.uncheckedIcon} />}
                   classes={{
-                    checked: classes.checked
+                    checked: classes.checked,
+                    root: classes.checkRoot
                   }}
                 />
               </TableCell>

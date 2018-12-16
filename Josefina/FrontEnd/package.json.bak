@@ -1,6 +1,6 @@
 {
-  "name": "lupen-react-front-end",
-  "version": "1.0.0",
+  "name": "material-dashboard-pro-react",
+  "version": "1.4.0",
   "private": true,
   "dependencies": {
     "@material-ui/core": "3.1.1",

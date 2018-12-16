@@ -69,7 +69,7 @@ const tableStyle = theme => ({
     position: "relative",
     [theme.breakpoints.down("sm")]: {
       minHeight: "24px",
-      minWidth: "32px",
+      minWidth: "32px"
     }
   },
   tableCellTotal: {

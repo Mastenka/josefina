@@ -1,16 +1,65 @@
-// ##############################
-// // // CustomDropdown component styles
-// #############################
-
 import {
   defaultFont,
   primaryColor,
-  primaryBoxShadow
+  primaryBoxShadow,
+  infoColor,
+  infoBoxShadow,
+  successColor,
+  successBoxShadow,
+  warningColor,
+  warningBoxShadow,
+  dangerColor,
+  dangerBoxShadow,
+  roseColor,
+  roseBoxShadow
 } from "assets/jss/material-dashboard-pro-react.jsx";
 
 const customDropdownStyle = theme => ({
   popperClose: {
-    pointerEvents: "none"
+    pointerEvents: "none",
+    display: "none !important"
+  },
+  pooperNav: {
+    [theme.breakpoints.down("sm")]: {
+      position: "static !important",
+      left: "unset !important",
+      top: "unset !important",
+      transform: "none !important",
+      willChange: "none !important",
+      "& > div": {
+        boxShadow: "none !important",
+        marginLeft: "1.5rem",
+        marginRight: "1.5rem",
+        transition: "none !important",
+        marginTop: "0px !important",
+        marginBottom: "5px !important",
+        padding: "0px !important"
+      }
+    }
+  },
+  manager: {
+    "& > div > button:first-child > span:first-child, & > div > a:first-child > span:first-child": {
+      width: "100%"
+    }
+  },
+  innerManager: {
+    "& > div > button,& > div > a": {
+      margin: "0px !important",
+      color: "inherit !important",
+      padding: "10px 20px !important",
+      "& > span:first-child": {
+        width: "100%",
+        justifyContent: "flex-start"
+      }
+    }
+  },
+  target: {
+    "& > button:first-child > span:first-child, & > a:first-child > span:first-child": {
+      display: "inline-block"
+    },
+    "& $caret": {
+      marginLeft: "0px"
+    }
   },
   dropdown: {
     borderRadius: "3px",
@@ -31,7 +80,7 @@ const customDropdownStyle = theme => ({
     padding: "0"
   },
   pooperResponsive: {
-    zIndex: "2",
+    zIndex: "1200",
     [theme.breakpoints.down("sm")]: {
       zIndex: "1640",
       position: "static",
@@ -55,11 +104,11 @@ const customDropdownStyle = theme => ({
     display: "block",
     clear: "both",
     fontWeight: "400",
-    height: "fit-content",
+    height: "100%",
     color: "#333",
     whiteSpace: "nowrap"
   },
-  blackHover: {
+  darkHover: {
     "&:hover": {
       boxShadow:
         "0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(33, 33, 33, 0.4)",
@@ -72,6 +121,41 @@ const customDropdownStyle = theme => ({
       backgroundColor: primaryColor,
       color: "#FFFFFF",
       ...primaryBoxShadow
+    }
+  },
+  infoHover: {
+    "&:hover": {
+      backgroundColor: infoColor,
+      color: "#FFFFFF",
+      ...infoBoxShadow
+    }
+  },
+  successHover: {
+    "&:hover": {
+      backgroundColor: successColor,
+      color: "#FFFFFF",
+      ...successBoxShadow
+    }
+  },
+  warningHover: {
+    "&:hover": {
+      backgroundColor: warningColor,
+      color: "#FFFFFF",
+      ...warningBoxShadow
+    }
+  },
+  dangerHover: {
+    "&:hover": {
+      backgroundColor: dangerColor,
+      color: "#FFFFFF",
+      ...dangerBoxShadow
+    }
+  },
+  roseHover: {
+    "&:hover": {
+      backgroundColor: roseColor,
+      color: "#FFFFFF",
+      ...roseBoxShadow
     }
   },
   dropdownItemRTL: {
@@ -120,6 +204,9 @@ const customDropdownStyle = theme => ({
       backgroundColor: "transparent",
       cursor: "auto"
     }
+  },
+  noLiPadding: {
+    padding: "0"
   }
 });
 

@@ -36,7 +36,11 @@ function Header({ ...props }) {
       }
       return null;
     });
-    return name;
+    if(name){
+      return name;
+    } else {
+      return "Default Brand Name";
+    }
   }
   const { classes, color, rtlActive } = props;
   const appBarClasses = cx({
@@ -51,7 +55,7 @@ function Header({ ...props }) {
   return (
     <AppBar className={classes.appBar + appBarClasses}>
       <Toolbar className={classes.container}>
-        <Hidden smDown>
+        <Hidden smDown implementation="css">
           <div className={sidebarMinimize}>
             {props.miniActive ? (
               <Button
@@ -83,7 +87,7 @@ function Header({ ...props }) {
         <Hidden smDown implementation="css">
           <HeaderLinks rtlActive={rtlActive} />
         </Hidden>
-        <Hidden mdUp>
+        <Hidden mdUp implementation="css">
           <Button
             className={classes.appResponsive}
             color="transparent"

@@ -185,7 +185,7 @@ const pagesHeaderStyle = theme => ({
   },
   sidebarButton: {
     "&,&:hover,&:focus": {
-      color: "#FFFFFF",
+      color: "#FFFFFF"
     },
     top: "-2px"
   }

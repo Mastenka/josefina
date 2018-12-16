@@ -12,7 +12,10 @@ const customTabsStyle = {
     display: "none !important"
   },
   tabsRoot: {
-    minHeight: "unset !important"
+    minHeight: "unset !important",
+    "& $tabRootButton": {
+      fontSize: "0.875rem"
+    }
   },
   tabRootButton: {
     minHeight: "unset !important",
@@ -50,7 +53,7 @@ const customTabsStyle = {
     height: "unset !important",
     maxWidth: "unset !important",
     maxHeight: "unset !important",
-    "& > svg": {
+    "& > svg,& > .fab,& > .fas,& > .far,& > .fal,& > .material-icons": {
       verticalAlign: "middle",
       margin: "-1px 5px 0 0"
     }

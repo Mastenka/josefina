@@ -34,6 +34,14 @@ const cardFooterStyle = {
       marginLeft: "3px",
       width: "16px",
       height: "16px"
+    },
+    "& .fab,& .fas,& .far,& .fal,& .material-icons": {
+      position: "relative",
+      top: "4px",
+      marginRight: "3px",
+      marginLeft: "3px",
+      fontSize: "16px",
+      lineHeight: "16px"
     }
   },
   cardFooterChart: {

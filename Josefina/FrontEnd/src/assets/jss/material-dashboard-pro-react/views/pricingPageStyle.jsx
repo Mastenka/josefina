@@ -9,19 +9,18 @@ import {
   roseColor
 } from "assets/jss/material-dashboard-pro-react.jsx";
 
-const pricingPageStyle = {
-  content: {
-    minHeight: "calc(100vh - 80px)",
-    position: "relative",
-    zIndex: "4"
-  },
+const pricingPageStyle = theme => ({
   container: {
-    ...container
+    ...container,
+    zIndex: "4",
+    [theme.breakpoints.down("sm")]: {
+      paddingBottom: "100px"
+    }
   },
   title: {
     ...defaultFont,
     color: "#FFFFFF",
-    marginTop: "13vh",
+    marginTop: "5vh",
     marginBottom: "30px",
     textAlign: "center"
   },
@@ -53,6 +52,10 @@ const pricingPageStyle = {
     "& svg": {
       width: "55px",
       height: "55px"
+    },
+    "& .fab,& .fas,& .far,& .fal,& .material-icons": {
+      width: "55px",
+      fontSize: "55px"
     }
   },
   iconWhite: {
@@ -64,6 +67,6 @@ const pricingPageStyle = {
   marginTop30: {
     marginTop: "30px"
   }
-};
+});
 
 export default pricingPageStyle;

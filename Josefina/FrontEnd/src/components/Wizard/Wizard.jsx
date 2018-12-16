@@ -48,7 +48,7 @@ class Wizard extends React.Component {
     this.previousButtonClick = this.previousButtonClick.bind(this);
     this.previousButtonClick = this.previousButtonClick.bind(this);
     this.finishButtonClick = this.finishButtonClick.bind(this);
-    this.updateWidth = this.updateWidth.bind(this)
+    this.updateWidth = this.updateWidth.bind(this);
   }
   componentDidMount() {
     this.refreshAnimation(0);
@@ -61,7 +61,6 @@ class Wizard extends React.Component {
     this.refreshAnimation(this.state.currentStep);
   }
   navigationStepChange(key) {
-    console.log(this.state.allStates);
     if (this.props.steps) {
       var validationState = true;
       if (key > this.state.currentStep) {

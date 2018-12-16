@@ -24,14 +24,14 @@ const customSelectStyle = {
     }
   },
   selectFormControl: {
-    margin: "7px 1px 10px 0px !important",
+    margin: "10px 1px 10px 0px !important",
     "& > div": {
       "&:before": {
-        borderColor: "#D2D2D2 !important",
-        borderWidth: "1px !important"
+        borderBottomWidth: "1px !important",
+        borderBottomColor: "#D2D2D2 !important"
       },
       "&:after": {
-        borderColor: primaryColor
+        borderBottomColor: primaryColor + "!important"
       }
     }
   },
@@ -57,6 +57,9 @@ const customSelectStyle = {
       backgroundColor: "#fff",
       backgroundClip: "padding-box"
     },
+    "& $selectPaper $selectMenuItemSelectedMultiple": {
+      backgroundColor: "inherit"
+    },
     "& > div + div": {
       maxHeight: "266px !important"
     }
@@ -73,6 +76,7 @@ const customSelectStyle = {
     lineHeight: "2",
     whiteSpace: "nowrap",
     color: "#333",
+    paddingRight: "30px",
     "&:hover": {
       backgroundColor: primaryColor,
       color: "#FFFFFF",
@@ -82,6 +86,31 @@ const customSelectStyle = {
   selectMenuItemSelected: {
     backgroundColor: primaryColor + "!important",
     color: "#FFFFFF"
+  },
+  selectMenuItemSelectedMultiple: {
+    backgroundColor: "transparent !important",
+    "&:hover": {
+      backgroundColor: primaryColor + "!important",
+      color: "#FFFFFF",
+      ...primaryBoxShadow,
+      "&:after": {
+        color: "#FFFFFF"
+      }
+    },
+    "&:after": {
+      top: "16px",
+      right: "12px",
+      width: "12px",
+      height: "5px",
+      borderLeft: "2px solid currentColor",
+      transform: "rotate(-45deg)",
+      opacity: "1",
+      color: "#3c4858",
+      position: "absolute",
+      content: "''",
+      borderBottom: "2px solid currentColor",
+      transition: "opacity 90ms cubic-bezier(0,0,.2,.1)"
+    }
   },
   selectPaper: {
     boxSizing: "borderBox",

@@ -6,7 +6,7 @@ import { Switch, Route, Redirect } from "react-router-dom";
 import withStyles from "@material-ui/core/styles/withStyles";
 
 // core components
-import VisitorHeader from "components/Header/VisitorHeader.jsx";
+import PagesHeader from "components/Header/PagesHeader.jsx";
 import Footer from "components/Footer/Footer.jsx";
 
 import pagesRoutes from "routes/pages.jsx";
@@ -15,16 +15,20 @@ import pagesStyle from "assets/jss/material-dashboard-pro-react/layouts/pagesSty
 
 import bgImage from "assets/img/register.jpeg";
 
-// var ps;
-
 class Pages extends React.Component {
+  componentDidMount() {
+    document.body.style.overflow = "unset";
+  }
   render() {
     const { classes, ...rest } = this.props;
     return (
       <div>
-        <VisitorHeader {...rest} />
+        <PagesHeader {...rest} />
         <div className={classes.wrapper} ref="wrapper">
-          <div className={classes.fullPage}>
+          <div
+            className={classes.fullPage}
+            style={{ backgroundImage: "url(" + bgImage + ")" }}
+          >
             <Switch>
               {pagesRoutes.map((prop, key) => {
                 if (prop.collapse) {
@@ -45,10 +49,6 @@ class Pages extends React.Component {
               })}
             </Switch>
             <Footer white />
-            <div
-              className={classes.fullPageBackground}
-              style={{ backgroundImage: "url(" + bgImage + ")" }}
-            />
           </div>
         </div>
       </div>

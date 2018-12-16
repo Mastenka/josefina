@@ -30,7 +30,7 @@ import pagesRoutes from "./pages.jsx";
 import DashboardIcon from "@material-ui/icons/Dashboard";
 import Image from "@material-ui/icons/Image";
 import Apps from "@material-ui/icons/Apps";
-import ContentPaste from "@material-ui/icons/ContentPaste";
+// import ContentPaste from "@material-ui/icons/ContentPaste";
 import GridOn from "@material-ui/icons/GridOn";
 import Place from "@material-ui/icons/Place";
 import WidgetsIcon from "@material-ui/icons/Widgets";
@@ -131,7 +131,7 @@ var dashRoutes = [
     path: "/forms",
     name: "Forms",
     state: "openForms",
-    icon: ContentPaste,
+    icon: GridOn,
     views: [
       {
         path: "/forms/regular-forms",

@@ -1,8 +1,9 @@
 import React from "react";
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
+import Icon from "@material-ui/core/Icon";
 // @material-ui/icons
-import Weekend from "@material-ui/icons/Weekend";
+// import Weekend from "@material-ui/icons/Weekend";
 import Home from "@material-ui/icons/Home";
 import BugReport from "@material-ui/icons/BugReport";
 import Code from "@material-ui/icons/Code";
@@ -59,6 +60,10 @@ const styles = {
     "& svg": {
       width: "55px",
       height: "55px"
+    },
+    "& .fab,& .fas,& .far,& .fal,& .material-icons": {
+      width: "55px",
+      fontSize: "55px"
     }
   },
   iconRose: {
@@ -183,7 +188,7 @@ class Widgets extends React.Component {
                   <CardBody pricing plain>
                     <h6 className={classes.cardCategory}>Freelancer</h6>
                     <div className={classes.icon}>
-                      <Weekend className={classes.iconWhite} />
+                      <Icon className={classes.iconWhite}>weekend</Icon>
                     </div>
                     <h3
                       className={`${classes.cardTitle} ${classes.marginTop30}`}

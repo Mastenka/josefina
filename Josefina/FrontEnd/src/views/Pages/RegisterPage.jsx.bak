@@ -6,17 +6,15 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import Checkbox from "@material-ui/core/Checkbox";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Icon from "@material-ui/core/Icon";
 
 // @material-ui/icons
-import Timeline from "@material-ui/icons/Timeline";
-import Code from "@material-ui/icons/Code";
-import Group from "@material-ui/icons/Group";
+import SwapHoriz from "@material-ui/icons/SwapHoriz";
+import SwapVert from "@material-ui/icons/SwapVert";
+import OpenWith from "@material-ui/icons/OpenWith";
 import Face from "@material-ui/icons/Face";
 import Email from "@material-ui/icons/Email";
-// import LockOutline from "@material-ui/icons/LockOutline";
+import LockOutline from "@material-ui/icons/LockOutline";
 import Check from "@material-ui/icons/Check";
-import OpenWith from "@material-ui/icons/OpenWith";
 
 // core components
 import GridContainer from "components/Grid/GridContainer.jsx";
@@ -36,7 +34,9 @@ class RegisterPage extends React.Component {
       checked: []
     };
     this.handleToggle = this.handleToggle.bind(this);
+    // this.registerClick = this.registerClick.bind(this);
   }
+
   handleToggle(value) {
     const { checked } = this.state;
     const currentIndex = checked.indexOf(value);
@@ -52,6 +52,18 @@ class RegisterPage extends React.Component {
       checked: newChecked
     });
   }
+
+  registerClickHandler = () => {
+
+    console.log('neco');
+
+    //validate input
+    //sent form to server side
+
+    //MOCK
+    //Show validation confirmation
+  }
+
   render() {
     const { classes } = this.props;
     return (
@@ -66,13 +78,13 @@ class RegisterPage extends React.Component {
                     <InfoArea
                       title="Nákup vstupenek"
                       description="Možnost koupě vstupenky přímo od pořadatele. Historie zakoupených vstupenek a možnost jejich editace."
-                      icon={Timeline}
+                      icon={SwapHoriz}
                       iconColor="rose"
                     />
                     <InfoArea
                       title="Prodej vstupenek"
                       description="Prodej vstupenky na svoji událost svobodně a přesně podle tebe."
-                      icon={Code}
+                      icon={SwapVert}
                       iconColor="primary"
                     />
                     <InfoArea
@@ -146,9 +158,9 @@ class RegisterPage extends React.Component {
                               position="start"
                               className={classes.inputAdornment}
                             >
-                              <Icon className={classes.inputAdornmentIcon}>
-                                lock_outline
-                              </Icon>
+                              <LockOutline
+                                className={classes.inputAdornmentIcon}
+                              />
                             </InputAdornment>
                           ),
                           placeholder: "Heslo..."
@@ -168,8 +180,7 @@ class RegisterPage extends React.Component {
                             }
                             icon={<Check className={classes.uncheckedIcon} />}
                             classes={{
-                              checked: classes.checked,
-                              root: classes.checkRoot
+                              checked: classes.checked
                             }}
                           />
                         }

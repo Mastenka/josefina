@@ -8,12 +8,11 @@ import { VectorMap } from "react-jvectormap";
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
 import Tooltip from "@material-ui/core/Tooltip";
-import Icon from "@material-ui/core/Icon";
 
 // @material-ui/icons
-// import ContentCopy from "@material-ui/icons/ContentCopy";
+import ContentCopy from "@material-ui/icons/ContentCopy";
 import Store from "@material-ui/icons/Store";
-// import InfoOutline from "@material-ui/icons/InfoOutline";
+import InfoOutline from "@material-ui/icons/InfoOutline";
 import Warning from "@material-ui/icons/Warning";
 import DateRange from "@material-ui/icons/DateRange";
 import LocalOffer from "@material-ui/icons/LocalOffer";
@@ -90,7 +89,7 @@ class Dashboard extends React.Component {
             <Card>
               <CardHeader color="success" stats icon>
                 <CardIcon color="success">
-                  <Icon>content_copy</Icon>
+                  <ContentCopy />
                 </CardIcon>
                 <p className={classes.cardCategory}>Prodáno</p>
                 <h3 className={classes.cardTitle}>
@@ -130,7 +129,7 @@ class Dashboard extends React.Component {
             <Card>
               <CardHeader color="danger" stats icon>
                 <CardIcon color="danger">
-                  <Icon>info_outline</Icon>
+                  <InfoOutline />
                 </CardIcon>
                 <p className={classes.cardCategory}>Fixed Issues</p>
                 <h3 className={classes.cardTitle}>75</h3>

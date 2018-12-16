@@ -7,20 +7,20 @@ import {
   cardTitle
 } from "assets/jss/material-dashboard-pro-react.jsx";
 
-const loginPageStyle = {
-  container,
+const loginPageStyle = theme => ({
+  container: {
+    ...container,
+    zIndex: "4",
+    [theme.breakpoints.down("sm")]: {
+      paddingBottom: "100px"
+    }
+  },
   cardTitle: {
     ...cardTitle,
     color: "#FFFFFF"
   },
   textCenter: {
     textAlign: "center"
-  },
-  content: {
-    paddingTop: "18vh",
-    minHeight: "calc(100vh - 80px)",
-    position: "relative",
-    zIndex: "4"
   },
   justifyContentCenter: {
     justifyContent: "center !important"
@@ -48,6 +48,6 @@ const loginPageStyle = {
   socialLine: {
     padding: "0.9375rem 0"
   }
-};
+});
 
 export default loginPageStyle;

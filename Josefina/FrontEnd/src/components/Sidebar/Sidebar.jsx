@@ -14,6 +14,7 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import Hidden from "@material-ui/core/Hidden";
 import Collapse from "@material-ui/core/Collapse";
+import Icon from "@material-ui/core/Icon";
 
 // core components
 import HeaderLinks from "components/Header/HeaderLinks.jsx";
@@ -274,7 +275,11 @@ class Sidebar extends React.Component {
                   onClick={() => this.openCollapse(prop.state)}
                 >
                   <ListItemIcon className={itemIcon}>
-                    <prop.icon />
+                    {typeof prop.icon === "string" ? (
+                      <Icon>{prop.icon}</Icon>
+                    ) : (
+                      <prop.icon />
+                    )}
                   </ListItemIcon>
                   <ListItemText
                     primary={prop.name}
@@ -355,7 +360,11 @@ class Sidebar extends React.Component {
             <ListItem key={key} className={classes.item}>
               <NavLink to={prop.path} className={navLinkClasses}>
                 <ListItemIcon className={itemIcon}>
-                  <prop.icon />
+                  {typeof prop.icon === "string" ? (
+                    <Icon>{prop.icon}</Icon>
+                  ) : (
+                    <prop.icon />
+                  )}
                 </ListItemIcon>
                 <ListItemText
                   primary={prop.name}
@@ -420,7 +429,7 @@ class Sidebar extends React.Component {
       });
     return (
       <div ref="mainPanel">
-        <Hidden mdUp>
+        <Hidden mdUp implementation="css">
           <Drawer
             variant="temporary"
             anchor={rtlActive ? "left" : "right"}
@@ -448,7 +457,7 @@ class Sidebar extends React.Component {
             ) : null}
           </Drawer>
         </Hidden>
-        <Hidden smDown>
+        <Hidden smDown implementation="css">
           <Drawer
             onMouseOver={() => this.setState({ miniActive: false })}
             onMouseOut={() => this.setState({ miniActive: true })}

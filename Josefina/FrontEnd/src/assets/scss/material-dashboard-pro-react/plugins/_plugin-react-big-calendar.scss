@@ -216,7 +216,7 @@ button.rbc-input::-moz-focus-inner {
           flex-direction: row;
 }
 .rbc-row-segment {
-  padding: 0 1px 1px 1px;
+  padding: 2px 6px 1px;
 }
 .rbc-selected-cell {
   background-color: rgba(0, 0, 0, 0.1);
@@ -625,17 +625,19 @@ button.rbc-input::-moz-focus-inner {
   pointer-events: none;
 }
 .rbc-event {
-  margin: 2px 5px 0;
-  padding: 0 1px;
+  width: 100%;
   position: relative; /* for resize handle and other inner positioning */
   display: block; /* make the <a> tag block */
   font-size: .85em;
-  line-height: 1.3;
   border-radius: 2px;
+  padding: 0;
   background-color: $brand-success; /* default BACKGROUND color */
   // @include shadow-big-color($brand-success);
   font-weight: normal; /* undo jqui's ui-widget-header bold */
   text-align: right;
+  border: none;
+  padding-bottom: 1px;
+  line-height: 1.2;
 
   &.event-azure{
     background-color: $brand-info;
@@ -670,4 +672,9 @@ button.rbc-input::-moz-focus-inner {
     color: #fff;
     padding: 0 5px;
   }
+}
+.rbc-day-slot .rbc-event {
+     display: block !important;
+     height: unset !important;
+     max-height: unset !important;
 }

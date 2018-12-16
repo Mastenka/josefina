@@ -1,7 +1,7 @@
 /*!
 
  =========================================================
- * Material Dashboard PRO React - v1.2.0 based on Material Dashboard PRO - v1.2.1
+ * Material Dashboard PRO React - v1.4.0 based on Material Dashboard PRO - v1.2.1
  =========================================================
 
  * Product Page: https://www.creative-tim.com/product/material-dashboard-react

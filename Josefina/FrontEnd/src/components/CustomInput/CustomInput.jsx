@@ -1,14 +1,14 @@
 import React from "react";
-import withStyles from "@material-ui/core/styles/withStyles";
-import FormControl from "@material-ui/core/FormControl";
-import InputLabel from "@material-ui/core/InputLabel";
-import Input from "@material-ui/core/Input";
-import Check from "@material-ui/icons/Check";
-import Clear from "@material-ui/icons/Clear";
 // nodejs library to set properties for components
 import PropTypes from "prop-types";
 // nodejs library that concatenates classes
 import classNames from "classnames";
+// @material-ui/core components
+import withStyles from "@material-ui/core/styles/withStyles";
+import FormControl from "@material-ui/core/FormControl";
+import InputLabel from "@material-ui/core/InputLabel";
+import FormHelperText from "@material-ui/core/FormHelperText";
+import Input from "@material-ui/core/Input";
 
 import customInputStyle from "assets/jss/material-dashboard-pro-react/components/customInputStyle.jsx";
 
@@ -23,7 +23,8 @@ function CustomInput({ ...props }) {
     error,
     white,
     inputRootCustomClasses,
-    success
+    success,
+    helpText
   } = props;
 
   const labelClasses = classNames({
@@ -52,12 +53,10 @@ function CustomInput({ ...props }) {
   } else {
     formControlClasses = classes.formControl;
   }
-  var feedbackClasses = classes.feedback;
-  if (inputProps !== undefined) {
-    if (inputProps.endAdornment !== undefined) {
-      feedbackClasses = feedbackClasses + " " + classes.feedbackRight;
-    }
-  }
+  var helpTextClasses = classNames({
+    [classes.labelRootError]: error,
+    [classes.labelRootSuccess]: success && !error
+  });
   return (
     <FormControl {...formControlProps} className={formControlClasses}>
       {labelText !== undefined ? (
@@ -79,10 +78,10 @@ function CustomInput({ ...props }) {
         id={id}
         {...inputProps}
       />
-      {error ? (
-        <Clear className={feedbackClasses + " " + classes.labelRootError} />
-      ) : success ? (
-        <Check className={feedbackClasses + " " + classes.labelRootSuccess} />
+      {helpText !== undefined ? (
+        <FormHelperText id={id + "-text"} className={helpTextClasses}>
+          {helpText}
+        </FormHelperText>
       ) : null}
     </FormControl>
   );
@@ -98,7 +97,8 @@ CustomInput.propTypes = {
   inputRootCustomClasses: PropTypes.string,
   error: PropTypes.bool,
   success: PropTypes.bool,
-  white: PropTypes.bool
+  white: PropTypes.bool,
+  helpText: PropTypes.node
 };
 
 export default withStyles(customInputStyle)(CustomInput);

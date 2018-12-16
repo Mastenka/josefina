@@ -23,6 +23,12 @@ const extendedFormsStyle = {
     lineHeight: "1.428571429",
     fontWeight: "400",
     display: "inline-flex"
+  },
+  mrAuto: {
+    marginRight: "auto"
+  },
+  mlAuto: {
+    marginLeft: "auto"
   }
 };
 

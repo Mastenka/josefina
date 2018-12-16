@@ -4,12 +4,14 @@ import React from "react";
 import withStyles from "@material-ui/core/styles/withStyles";
 import FormLabel from "@material-ui/core/FormLabel";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
+import InputAdornment from "@material-ui/core/InputAdornment";
 import Radio from "@material-ui/core/Radio";
 import Checkbox from "@material-ui/core/Checkbox";
 
 // @material-ui/icons
 import MailOutline from "@material-ui/icons/MailOutline";
 import Check from "@material-ui/icons/Check";
+import Clear from "@material-ui/icons/Clear";
 import Contacts from "@material-ui/icons/Contacts";
 import FiberManualRecord from "@material-ui/icons/FiberManualRecord";
 
@@ -101,7 +103,8 @@ class RegularForms extends React.Component {
                         checkedIcon={<Check className={classes.checkedIcon} />}
                         icon={<Check className={classes.uncheckedIcon} />}
                         classes={{
-                          checked: classes.checked
+                          checked: classes.checked,
+                          root: classes.checkRoot
                         }}
                       />
                     }
@@ -175,7 +178,8 @@ class RegularForms extends React.Component {
                             }
                             icon={<Check className={classes.uncheckedIcon} />}
                             classes={{
-                              checked: classes.checked
+                              checked: classes.checked,
+                              root: classes.checkRoot
                             }}
                           />
                         }
@@ -323,7 +327,8 @@ class RegularForms extends React.Component {
                             }
                             icon={<Check className={classes.uncheckedIcon} />}
                             classes={{
-                              checked: classes.checked
+                              checked: classes.checked,
+                              root: classes.checkRoot
                             }}
                           />
                         }
@@ -350,7 +355,8 @@ class RegularForms extends React.Component {
                             }
                             icon={<Check className={classes.uncheckedIcon} />}
                             classes={{
-                              checked: classes.checked
+                              checked: classes.checked,
+                              root: classes.checkRoot
                             }}
                           />
                         }
@@ -386,7 +392,8 @@ class RegularForms extends React.Component {
                               />
                             }
                             classes={{
-                              checked: classes.radio
+                              checked: classes.radio,
+                              root: classes.radioRoot
                             }}
                           />
                         }
@@ -422,7 +429,8 @@ class RegularForms extends React.Component {
                               />
                             }
                             classes={{
-                              checked: classes.radio
+                              checked: classes.radio,
+                              root: classes.radioRoot
                             }}
                           />
                         }
@@ -458,7 +466,8 @@ class RegularForms extends React.Component {
                             }
                             icon={<Check className={classes.uncheckedIcon} />}
                             classes={{
-                              checked: classes.checked
+                              checked: classes.checked,
+                              root: classes.checkRoot
                             }}
                           />
                         }
@@ -477,7 +486,8 @@ class RegularForms extends React.Component {
                             }
                             icon={<Check className={classes.uncheckedIcon} />}
                             classes={{
-                              checked: classes.checked
+                              checked: classes.checked,
+                              root: classes.checkRoot
                             }}
                           />
                         }
@@ -496,7 +506,8 @@ class RegularForms extends React.Component {
                             }
                             icon={<Check className={classes.uncheckedIcon} />}
                             classes={{
-                              checked: classes.checked
+                              checked: classes.checked,
+                              root: classes.checkRoot
                             }}
                           />
                         }
@@ -551,7 +562,8 @@ class RegularForms extends React.Component {
                             }
                             icon={<Check className={classes.uncheckedIcon} />}
                             classes={{
-                              checked: classes.checked
+                              checked: classes.checked,
+                              root: classes.checkRoot
                             }}
                           />
                         }
@@ -583,7 +595,8 @@ class RegularForms extends React.Component {
                             }
                             icon={<Check className={classes.uncheckedIcon} />}
                             classes={{
-                              checked: classes.checked
+                              checked: classes.checked,
+                              root: classes.checkRoot
                             }}
                           />
                         }
@@ -610,7 +623,8 @@ class RegularForms extends React.Component {
                             }
                             icon={<Check className={classes.uncheckedIcon} />}
                             classes={{
-                              checked: classes.checked
+                              checked: classes.checked,
+                              root: classes.checkRoot
                             }}
                           />
                         }
@@ -643,7 +657,8 @@ class RegularForms extends React.Component {
                             }
                             icon={<Check className={classes.uncheckedIcon} />}
                             classes={{
-                              checked: classes.checked
+                              checked: classes.checked,
+                              root: classes.checkRoot
                             }}
                           />
                         }
@@ -682,7 +697,8 @@ class RegularForms extends React.Component {
                               />
                             }
                             classes={{
-                              checked: classes.radio
+                              checked: classes.radio,
+                              root: classes.radioRoot
                             }}
                           />
                         }
@@ -718,7 +734,8 @@ class RegularForms extends React.Component {
                               />
                             }
                             classes={{
-                              checked: classes.radio
+                              checked: classes.radio,
+                              root: classes.radioRoot
                             }}
                           />
                         }
@@ -755,7 +772,8 @@ class RegularForms extends React.Component {
                             }
                             classes={{
                               checked: classes.radio,
-                              disabled: classes.disabledCheckboxAndRadio
+                              disabled: classes.disabledCheckboxAndRadio,
+                              root: classes.radioRoot
                             }}
                           />
                         }
@@ -792,7 +810,8 @@ class RegularForms extends React.Component {
                             }
                             classes={{
                               checked: classes.radio,
-                              disabled: classes.disabledCheckboxAndRadio
+                              disabled: classes.disabledCheckboxAndRadio,
+                              root: classes.radioRoot
                             }}
                           />
                         }
@@ -817,6 +836,18 @@ class RegularForms extends React.Component {
                       formControlProps={{
                         fullWidth: true
                       }}
+                      inputProps={{
+                        endAdornment: (
+                          <InputAdornment
+                            position="end"
+                            className={classes.inputAdornment}
+                          >
+                            <Check
+                              className={classes.inputAdornmentIconSuccess}
+                            />
+                          </InputAdornment>
+                        )
+                      }}
                       success
                     />
                   </GridItem>
@@ -833,6 +864,18 @@ class RegularForms extends React.Component {
                       labelText="Error"
                       formControlProps={{
                         fullWidth: true
+                      }}
+                      inputProps={{
+                        endAdornment: (
+                          <InputAdornment
+                            position="end"
+                            className={classes.inputAdornment}
+                          >
+                            <Clear
+                              className={classes.inputAdornmentIconError}
+                            />
+                          </InputAdornment>
+                        )
                       }}
                       error
                     />

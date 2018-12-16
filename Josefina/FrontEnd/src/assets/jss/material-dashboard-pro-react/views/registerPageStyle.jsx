@@ -18,8 +18,8 @@ const registerPageStyle = {
   container: {
     ...container,
     position: "relative",
-    zIndex: "3",
-    paddingTop: "23vh",
+    zIndex: "3"
+    // paddingTop: "23vh"
   },
   cardSignup: {
     borderRadius: "6px",

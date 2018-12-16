@@ -2,7 +2,10 @@
 // // // ValidationForms view styles
 // #############################
 
-import { cardTitle } from "assets/jss/material-dashboard-pro-react.jsx";
+import {
+  cardTitle,
+  dangerColor
+} from "assets/jss/material-dashboard-pro-react.jsx";
 import customCheckboxRadioSwitch from "assets/jss/material-dashboard-pro-react/customCheckboxRadioSwitch.jsx";
 
 const validationFormsStyle = {
@@ -30,6 +33,9 @@ const validationFormsStyle = {
   },
   registerButton: {
     float: "right"
+  },
+  danger: {
+    color: dangerColor + "!important"
   }
 };
 

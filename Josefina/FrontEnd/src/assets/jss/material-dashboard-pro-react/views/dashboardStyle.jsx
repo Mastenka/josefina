@@ -53,7 +53,7 @@ const dashboardStyle = {
       height: "16px",
       marginRight: "3px"
     },
-    "& i": {
+    "& .fab,& .fas,& .far,& .fal,& .material-icons": {
       position: "relative",
       top: "4px",
       fontSize: "16px",

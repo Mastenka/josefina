@@ -199,7 +199,8 @@ class ExtendedTables extends React.Component {
                       checkedIcon={<Check className={classes.checkedIcon} />}
                       icon={<Check className={classes.uncheckedIcon} />}
                       classes={{
-                        checked: classes.checked
+                        checked: classes.checked,
+                        root: classes.checkRoot
                       }}
                     />,
                     "Moleskine Agenda",
@@ -217,7 +218,8 @@ class ExtendedTables extends React.Component {
                       checkedIcon={<Check className={classes.checkedIcon} />}
                       icon={<Check className={classes.uncheckedIcon} />}
                       classes={{
-                        checked: classes.checked
+                        checked: classes.checked,
+                        root: classes.checkRoot
                       }}
                     />,
                     "Stabilo Pen",
@@ -235,7 +237,8 @@ class ExtendedTables extends React.Component {
                       checkedIcon={<Check className={classes.checkedIcon} />}
                       icon={<Check className={classes.uncheckedIcon} />}
                       classes={{
-                        checked: classes.checked
+                        checked: classes.checked,
+                        root: classes.checkRoot
                       }}
                     />,
                     "A4 Paper Pack",
@@ -253,7 +256,8 @@ class ExtendedTables extends React.Component {
                       checkedIcon={<Check className={classes.checkedIcon} />}
                       icon={<Check className={classes.uncheckedIcon} />}
                       classes={{
-                        checked: classes.checked
+                        checked: classes.checked,
+                        root: classes.checkRoot
                       }}
                     />,
                     "Apple iPad",
@@ -271,7 +275,8 @@ class ExtendedTables extends React.Component {
                       checkedIcon={<Check className={classes.checkedIcon} />}
                       icon={<Check className={classes.uncheckedIcon} />}
                       classes={{
-                        checked: classes.checked
+                        checked: classes.checked,
+                        root: classes.checkRoot
                       }}
                     />,
                     "Apple iPhone",

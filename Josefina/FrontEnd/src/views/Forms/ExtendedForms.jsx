@@ -3,8 +3,8 @@ import React from "react";
 import Datetime from "react-datetime";
 // react component plugin for creating beatiful tags on an input
 import TagsInput from "react-tagsinput";
-// react plugin that creates slider
-import Nouislider from "react-nouislider";
+// plugin that creates slider
+import nouislider from "nouislider";
 
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
@@ -44,6 +44,20 @@ class ExtendedForms extends React.Component {
       tags: ["pizza", "pasta", "parmesan"]
     };
     this.handleTags = this.handleTags.bind(this);
+  }
+  componentDidMount() {
+    nouislider.create(this.refs.slider1, {
+      start: [40],
+      connect: [true, false],
+      step: 1,
+      range: { min: 0, max: 100 }
+    });
+    nouislider.create(this.refs.slider2, {
+      start: [20, 60],
+      connect: [false, true, false],
+      step: 1,
+      range: { min: 0, max: 100 }
+    });
   }
   handleSimple = event => {
     this.setState({ [event.target.name]: event.target.value });
@@ -412,7 +426,7 @@ class ExtendedForms extends React.Component {
                             <MenuItem
                               classes={{
                                 root: classes.selectMenuItem,
-                                selected: classes.selectMenuItemSelected
+                                selected: classes.selectMenuItemSelectedMultiple
                               }}
                               value="2"
                             >
@@ -421,7 +435,7 @@ class ExtendedForms extends React.Component {
                             <MenuItem
                               classes={{
                                 root: classes.selectMenuItem,
-                                selected: classes.selectMenuItemSelected
+                                selected: classes.selectMenuItemSelectedMultiple
                               }}
                               value="3"
                             >
@@ -430,7 +444,7 @@ class ExtendedForms extends React.Component {
                             <MenuItem
                               classes={{
                                 root: classes.selectMenuItem,
-                                selected: classes.selectMenuItemSelected
+                                selected: classes.selectMenuItemSelectedMultiple
                               }}
                               value="4"
                             >
@@ -439,7 +453,7 @@ class ExtendedForms extends React.Component {
                             <MenuItem
                               classes={{
                                 root: classes.selectMenuItem,
-                                selected: classes.selectMenuItemSelected
+                                selected: classes.selectMenuItemSelectedMultiple
                               }}
                               value="5"
                             >
@@ -448,7 +462,7 @@ class ExtendedForms extends React.Component {
                             <MenuItem
                               classes={{
                                 root: classes.selectMenuItem,
-                                selected: classes.selectMenuItemSelected
+                                selected: classes.selectMenuItemSelectedMultiple
                               }}
                               value="6"
                             >
@@ -457,7 +471,7 @@ class ExtendedForms extends React.Component {
                             <MenuItem
                               classes={{
                                 root: classes.selectMenuItem,
-                                selected: classes.selectMenuItemSelected
+                                selected: classes.selectMenuItemSelectedMultiple
                               }}
                               value="7"
                             >
@@ -466,7 +480,7 @@ class ExtendedForms extends React.Component {
                             <MenuItem
                               classes={{
                                 root: classes.selectMenuItem,
-                                selected: classes.selectMenuItemSelected
+                                selected: classes.selectMenuItemSelectedMultiple
                               }}
                               value="8"
                             >
@@ -475,7 +489,7 @@ class ExtendedForms extends React.Component {
                             <MenuItem
                               classes={{
                                 root: classes.selectMenuItem,
-                                selected: classes.selectMenuItemSelected
+                                selected: classes.selectMenuItemSelectedMultiple
                               }}
                               value="9"
                             >
@@ -484,7 +498,7 @@ class ExtendedForms extends React.Component {
                             <MenuItem
                               classes={{
                                 root: classes.selectMenuItem,
-                                selected: classes.selectMenuItemSelected
+                                selected: classes.selectMenuItemSelectedMultiple
                               }}
                               value="10"
                             >
@@ -493,7 +507,7 @@ class ExtendedForms extends React.Component {
                             <MenuItem
                               classes={{
                                 root: classes.selectMenuItem,
-                                selected: classes.selectMenuItemSelected
+                                selected: classes.selectMenuItemSelectedMultiple
                               }}
                               value="11"
                             >
@@ -502,7 +516,7 @@ class ExtendedForms extends React.Component {
                             <MenuItem
                               classes={{
                                 root: classes.selectMenuItem,
-                                selected: classes.selectMenuItemSelected
+                                selected: classes.selectMenuItemSelectedMultiple
                               }}
                               value="12"
                             >
@@ -511,7 +525,7 @@ class ExtendedForms extends React.Component {
                             <MenuItem
                               classes={{
                                 root: classes.selectMenuItem,
-                                selected: classes.selectMenuItemSelected
+                                selected: classes.selectMenuItemSelectedMultiple
                               }}
                               value="13"
                             >
@@ -520,7 +534,7 @@ class ExtendedForms extends React.Component {
                             <MenuItem
                               classes={{
                                 root: classes.selectMenuItem,
-                                selected: classes.selectMenuItemSelected
+                                selected: classes.selectMenuItemSelectedMultiple
                               }}
                               value="14"
                             >
@@ -529,7 +543,7 @@ class ExtendedForms extends React.Component {
                             <MenuItem
                               classes={{
                                 root: classes.selectMenuItem,
-                                selected: classes.selectMenuItemSelected
+                                selected: classes.selectMenuItemSelectedMultiple
                               }}
                               value="15"
                             >
@@ -538,7 +552,7 @@ class ExtendedForms extends React.Component {
                             <MenuItem
                               classes={{
                                 root: classes.selectMenuItem,
-                                selected: classes.selectMenuItemSelected
+                                selected: classes.selectMenuItemSelectedMultiple
                               }}
                               value="16"
                             >
@@ -547,7 +561,7 @@ class ExtendedForms extends React.Component {
                             <MenuItem
                               classes={{
                                 root: classes.selectMenuItem,
-                                selected: classes.selectMenuItemSelected
+                                selected: classes.selectMenuItemSelectedMultiple
                               }}
                               value="17"
                             >
@@ -556,7 +570,7 @@ class ExtendedForms extends React.Component {
                             <MenuItem
                               classes={{
                                 root: classes.selectMenuItem,
-                                selected: classes.selectMenuItemSelected
+                                selected: classes.selectMenuItemSelectedMultiple
                               }}
                               value="18"
                             >
@@ -565,7 +579,7 @@ class ExtendedForms extends React.Component {
                             <MenuItem
                               classes={{
                                 root: classes.selectMenuItem,
-                                selected: classes.selectMenuItemSelected
+                                selected: classes.selectMenuItemSelectedMultiple
                               }}
                               value="19"
                             >
@@ -591,8 +605,68 @@ class ExtendedForms extends React.Component {
                   <GridItem xs={12} sm={12} md={6}>
                     <legend>Dropdown & Dropup</legend>
                     <GridContainer>
-                      <GridItem xs={12} sm={6} md={5} lg={4}>
+                      <GridItem xs={12} sm={6} md={6} lg={6}>
                         <CustomDropdown
+                          buttonText="Multilevel Dropdown"
+                          hoverColor="info"
+                          buttonProps={{
+                            round: true,
+                            block: true,
+                            color: "info"
+                          }}
+                          dropPlacement="bottom"
+                          dropdownList={[
+                            "Action",
+                            "Another action",
+                            <CustomDropdown
+                              ref="multi"
+                              innerDropDown
+                              buttonText="Submenu"
+                              hoverColor="info"
+                              buttonProps={{
+                                simple: true,
+                                block: true
+                              }}
+                              dropPlacement="right-start"
+                              dropdownList={[
+                                "Submenu action",
+                                "Submenu action",
+                                <CustomDropdown
+                                  ref="multi"
+                                  innerDropDown
+                                  hoverColor="info"
+                                  buttonText="Subsubmenu"
+                                  buttonProps={{
+                                    simple: true
+                                  }}
+                                  dropPlacement="right-start"
+                                  dropdownList={[
+                                    "Subsubmenu action 1",
+                                    "Subsubmenu action 2"
+                                  ]}
+                                />,
+                                <CustomDropdown
+                                  ref="multi"
+                                  innerDropDown
+                                  hoverColor="info"
+                                  buttonText="Second Subsubmenu"
+                                  buttonProps={{
+                                    simple: true
+                                  }}
+                                  dropPlacement="right-start"
+                                  dropdownList={[
+                                    "Second Subsubmenu action 1",
+                                    "Second Subsubmenu action 2"
+                                  ]}
+                                />
+                              ]}
+                            />
+                          ]}
+                        />
+                      </GridItem>
+                      <GridItem xs={12} sm={6} md={6} lg={6}>
+                        <CustomDropdown
+                          hoverColor="info"
                           buttonText="Dropdown"
                           buttonProps={{
                             round: true,
@@ -612,10 +686,17 @@ class ExtendedForms extends React.Component {
                           ]}
                         />
                       </GridItem>
-                      <GridItem xs={12} sm={6} md={5} lg={4}>
+                      <GridItem
+                        xs={12}
+                        sm={6}
+                        md={6}
+                        lg={6}
+                        className={`${classes.mrAuto} ${classes.mlAuto}`}
+                      >
                         <CustomDropdown
                           dropup
                           buttonText="Dropup"
+                          hoverColor="info"
                           buttonProps={{
                             round: true,
                             fullWidth: true,
@@ -673,21 +754,9 @@ class ExtendedForms extends React.Component {
                   </GridItem>
                   <GridItem xs={12} sm={12} md={6}>
                     <legend>Sliders</legend>
-                    <Nouislider
-                      start={[40]}
-                      connect={[true, false]}
-                      step={1}
-                      range={{ min: 0, max: 100 }}
-                    />
+                    <div className="slider-primary" ref="slider1" />
                     <br />
-                    <div className="slider slider-info">
-                      <Nouislider
-                        start={[20, 60]}
-                        connect={[false, true, false]}
-                        step={1}
-                        range={{ min: 0, max: 100 }}
-                      />
-                    </div>
+                    <div className="slider-info" ref="slider2" />
                   </GridItem>
                 </GridContainer>
                 <GridContainer>

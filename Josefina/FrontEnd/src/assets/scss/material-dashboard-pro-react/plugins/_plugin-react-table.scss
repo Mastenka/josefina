@@ -221,7 +221,7 @@
   -webkit-box-flex:1;
   -ms-flex:1 0 0px;
   flex:1 0 0;
-  white-space:nowrap;
+  // white-space:nowrap;
   text-overflow:ellipsis;
   padding:7px 5px;
   overflow:hidden;
@@ -405,7 +405,7 @@
 .ReactTable .-pagination .-pageInfo{
   display:inline-block;
   margin:3px 10px;
-  white-space:nowrap
+  // white-space:nowrap
 }
 .ReactTable .-pagination .-pageJump{
   display:inline-block;

@@ -33,7 +33,7 @@ function Icons({ ...props }) {
         />
         <Card plain>
           <CardBody plain>
-            <Hidden only={["sm", "xs"]}>
+            <Hidden only={["sm", "xs"]} implementation="css">
               <iframe
                 className={props.classes.iframe}
                 src="https://material.io/icons/"
@@ -42,7 +42,7 @@ function Icons({ ...props }) {
                 <p>Your browser does not support iframes.</p>
               </iframe>
             </Hidden>
-            <Hidden only={["lg", "md"]}>
+            <Hidden only={["lg", "md"]} implementation="css">
               <GridItem xs={12} sm={12} md={6}>
                 <h5>
                   The icons are visible on Desktop mode inside an iframe. Since

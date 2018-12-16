@@ -17,7 +17,7 @@ const extendedTablesStyle = {
   actionButton: {
     margin: "0 0 0 5px",
     padding: "5px",
-    "& svg": {
+    "& svg,& .fab,& .fas,& .far,& .fal,& .material-icons": {
       marginRight: "0px"
     }
   },

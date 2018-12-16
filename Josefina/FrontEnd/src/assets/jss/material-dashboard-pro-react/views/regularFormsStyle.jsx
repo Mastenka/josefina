@@ -2,7 +2,11 @@
 // // // RegularForms view styles
 // #############################
 
-import { cardTitle } from "assets/jss/material-dashboard-pro-react.jsx";
+import {
+  cardTitle,
+  successColor,
+  dangerColor
+} from "assets/jss/material-dashboard-pro-react.jsx";
 import customCheckboxRadioSwitch from "assets/jss/material-dashboard-pro-react/customCheckboxRadioSwitch.jsx";
 
 const regularFormsStyle = {
@@ -31,6 +35,16 @@ const regularFormsStyle = {
     paddingTop: "8px",
     paddingBottom: "8px",
     minHeight: "34px"
+  },
+  inputAdornment: {
+    marginRight: "8px",
+    position: "relative"
+  },
+  inputAdornmentIconSuccess: {
+    color: successColor + "!important"
+  },
+  inputAdornmentIconError: {
+    color: dangerColor + "!important"
   }
 };
 

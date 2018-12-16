@@ -90,7 +90,7 @@ const cardStyle = {
       top: "-17px",
       fontSize: "26px"
     },
-    "& ul li svg": {
+    "& ul li svg, & ul li .fab,& ul li .fas,& ul li .far,& ul li .fal,& ul li .material-icons": {
       position: "relative",
       top: "7px"
     }
@@ -99,7 +99,7 @@ const cardStyle = {
     "& ul li": {
       color: "#fff",
       borderColor: "rgba(255,255,255,0.3)",
-      "& b, & svg": {
+      "& b, & svg,& .fab,& .fas,& .far,& .fal,& .material-icons": {
         color: "#fff",
         fontWeight: "700"
       }

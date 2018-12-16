@@ -4,16 +4,17 @@
 
 import {
   defaultFont,
-  dangerColor,
-  primaryColor,
-  primaryBoxShadow
+  dangerColor
 } from "assets/jss/material-dashboard-pro-react.jsx";
 
+import customDropdownStyle from "assets/jss/material-dashboard-pro-react/components/customDropdownStyle.jsx";
+
 const headerLinksStyle = theme => ({
-  popperClose: {
-    pointerEvents: "none"
-  },
+  ...customDropdownStyle(theme),
   search: {
+    margin: "0",
+    paddingTop: "7px",
+    paddingBottom: "7px",
     [theme.breakpoints.down("sm")]: {
       margin: "10px 15px",
       float: "none !important",
@@ -50,6 +51,13 @@ const headerLinksStyle = theme => ({
       "& svg": {
         width: "30px",
         height: "24px",
+        marginRight: "19px",
+        marginLeft: "3px"
+      },
+      "& .fab,& .fas,& .far,& .fal,& .material-icons": {
+        width: "30px",
+        fontSize: "24px",
+        lineHeight: "30px",
         marginRight: "19px",
         marginLeft: "3px"
       }
@@ -106,57 +114,6 @@ const headerLinksStyle = theme => ({
       fontSize: "14px",
       marginRight: "8px"
     }
-  },
-  dropdown: {
-    borderRadius: "3px",
-    border: "0",
-    boxShadow: "0 2px 5px 0 rgba(0, 0, 0, 0.26)",
-    top: "100%",
-    zIndex: "1000",
-    minWidth: "160px",
-    padding: "5px 0",
-    margin: "2px 0 0",
-    fontSize: "14px",
-    textAlign: "left",
-    listStyle: "none",
-    backgroundColor: "#fff",
-    backgroundClip: "padding-box"
-  },
-  pooperResponsive: {
-    [theme.breakpoints.down("sm")]: {
-      zIndex: "1640",
-      position: "static",
-      float: "none",
-      width: "auto",
-      marginTop: "0",
-      backgroundColor: "transparent",
-      border: "0",
-      boxShadow: "none",
-      color: "black"
-    }
-  },
-  dropdownItem: {
-    ...defaultFont,
-    fontSize: "13px",
-    padding: "10px 20px",
-    margin: "0 5px",
-    borderRadius: "2px",
-    position: "relative",
-    transition: "all 150ms linear",
-    display: "block",
-    clear: "both",
-    fontWeight: "400",
-    height: "fit-content",
-    color: "#333",
-    whiteSpace: "nowrap",
-    "&:hover": {
-      backgroundColor: primaryColor,
-      color: "#FFFFFF",
-      ...primaryBoxShadow
-    }
-  },
-  dropdownItemRTL: {
-    textAlign: "right !important"
   },
   wrapperRTL: {
     [theme.breakpoints.up("md")]: {

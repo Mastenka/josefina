@@ -6,6 +6,12 @@ import {
 } from "assets/jss/material-dashboard-pro-react.jsx";
 
 const customCheckboxRadioSwitch = {
+  checkRoot: {
+    padding: "14px"
+  },
+  radioRoot: {
+    padding: "16px"
+  },
   checkboxAndRadio: {
     position: "relative",
     display: "block",
@@ -109,6 +115,8 @@ const customCheckboxRadioSwitch = {
     height: "116px",
     width: "116px",
     color: grayColor,
+    padding: "0",
+    margin: "0 auto 20px",
     "& > span:first-child": {
       borderWidth: "4px",
       borderStyle: "solid",
@@ -117,7 +125,6 @@ const customCheckboxRadioSwitch = {
       verticalAlign: "middle",
       borderRadius: "50%",
       color: "inherit",
-      margin: "0 auto 20px",
       transition: "all 0.2s"
     },
     "&:hover": {

@@ -74,14 +74,10 @@ const snackbarContentStyle = {
   },
   iconButton: {
     width: "24px",
-    height: "24px"
+    height: "24px",
+    padding: "0"
   },
   icon: {
-    // display: "block",
-    // left: "15px",
-    // position: "absolute",
-    // top: "50%",
-    // marginTop: "-15px",
     width: "38px",
     height: "38px",
     display: "block",
