@@ -31,7 +31,7 @@ const styles = {
 };
 
 //List of events Org-Projects
-class ReactTables extends React.Component {
+class Projects extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -140,15 +140,15 @@ class ReactTables extends React.Component {
                 filterable
                 columns={[
                   {
-                    Header: "Name",
+                    Header: "Událost",
                     accessor: "name"
                   },
                   {
-                    Header: "Position",
+                    Header: "Datum",
                     accessor: "position"
                   },
                   {
-                    Header: "Office",
+                    Header: "Zbívajícíh vstupenek",
                     accessor: "office"
                   },
                   {
@@ -175,4 +175,4 @@ class ReactTables extends React.Component {
   }
 }
 
-export default withStyles(styles)(ReactTables);
+export default withStyles(styles)(Projects);

@@ -1,5 +1,5 @@
 import Dashboard from "views/Dashboard/Dashboard.jsx";
-import PresaleEvents from "views/Presale/Events.jsx";
+import Projects from "views/Presale/Projects.jsx";
 import Buttons from "views/Components/Buttons.jsx";
 import GridSystem from "views/Components/GridSystem.jsx";
 import Panels from "views/Components/Panels.jsx";
@@ -64,13 +64,13 @@ var dashRoutes = [
     path: "/dashboard",
     name: "Přehled",
     icon: DashboardIcon,
-    component: Dashboard
+    component: Projects
   },
   {
     path: "/dashboard/events",
     name: "Události",
     icon: OpenWithIcon,
-    component: PresaleEvents
+    component: Projects
   },
   {
     collapse: true,
@@ -211,6 +211,6 @@ var dashRoutes = [
   { path: "/widgets", name: "Widgets", icon: WidgetsIcon, component: Widgets },
   { path: "/charts", name: "Charts", icon: Timeline, component: Charts },
   { path: "/calendar", name: "Calendar", icon: DateRange, component: Calendar },
-  // { redirect: true, path: "/", pathTo: "/dashboard", name: "Dashboard" }
+  { redirect: true, path: "/", pathTo: "/dashboard", name: "Dashboard" }
 ];
 export default dashRoutes;

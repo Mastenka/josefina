@@ -5,6 +5,26 @@
   "version": "0.2.0",
   "configurations": [    
     {
+      "name": "Launch Chrome against localhost, with sourcemaps",
+      "type": "chrome",
+      "request": "launch",
+      "url": "http://localhost:3000",
+      // "sourceMaps": true,
+      "webRoot": "${workspaceRoot}"
+  },
+    {
+      "type": "node",
+      "request": "attach",
+      "name": "Attach",
+      "port": 3000
+    },
+    {
+      "type": "node",
+      "request": "attach",
+      "name": "Attach by Process ID",
+      "processId": "${command:PickProcess}"
+    },
+    {
       "type": "node",
       "request": "launch",
       "name": "Launch Program",
